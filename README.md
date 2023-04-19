@@ -1,0 +1,1 @@
+This is a repository for a ClashOfClans-Api interface
