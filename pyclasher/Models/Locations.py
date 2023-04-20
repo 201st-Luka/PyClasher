@@ -1,5 +1,5 @@
-from clashofclansApi.apiInterface import Interface
-from clashofclansApi.Exceptions import  ClientError, NoneArgument, RequestNotDone
+from pyclasher.apiInterface import Interface
+from pyclasher.Exceptions import  ClientError, NoneArgument, RequestNotDone
 
 
 class Location:

@@ -1,7 +1,7 @@
-from clashofclansApi.Exceptions import RequestNotDone
-from clashofclansApi.apiInterface import RequestModel
-from clashofclansApi.Models.Clan.ClanWarLogSubModels.ClanWar import ClanWar
-from clashofclansApi.Models.Clan.ClanWarLogSubModels.Paging import Paging
+from pyclasher.Exceptions import RequestNotDone
+from pyclasher.apiInterface import RequestModel
+from pyclasher.Models.Clan.ClanWarLogSubModels.ClanWar import ClanWar
+from pyclasher.Models.Clan.ClanWarLogSubModels.Paging import Paging
 
 
 class FullClanWarLog(RequestModel):

@@ -1,4 +1,2 @@
-/exclude/test2.py
-/exclude/test.py
-/exclude/secrets.py
-/exclude/helper_script.py
+.idea
+exclude

@@ -1,4 +1,4 @@
-from clashofclansApi.Models.IconUrls import IconUrls
+from pyclasher.Models.IconUrls import IconUrls
 
 
 class Label:

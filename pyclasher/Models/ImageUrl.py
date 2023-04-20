@@ -1,4 +1,4 @@
-from clashofclansApi.apiInterface import Interface
+from pyclasher.apiInterface import Interface
 
 
 class ImageUrl:

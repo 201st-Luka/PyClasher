@@ -5,7 +5,7 @@ from urllib.parse import quote, urlencode
 from aiohttp import ClientSession
 from time import perf_counter
 
-from clashofclansApi.Exceptions import ClientError, NoneToken, NoneArgument
+from pyclasher.Exceptions import ClientError, NoneToken, NoneArgument
 
 
 class Interface:

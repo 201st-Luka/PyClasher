@@ -1,6 +1,6 @@
-from clashofclansApi.Exceptions import RequestNotDone
-from clashofclansApi.Models.Leagues import PlayerLeague
-from clashofclansApi.Models.Clan.ClanSubModels.MemberSubModels.PlayerHouse import PlayerHouse
+from pyclasher.Exceptions import RequestNotDone
+from pyclasher.Models.Leagues import PlayerLeague
+from pyclasher.Models.Clan.ClanSubModels.MemberSubModels.PlayerHouse import PlayerHouse
 
 
 class Member:

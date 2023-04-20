@@ -1,4 +1,4 @@
-from clashofclansApi.Models.ImageUrl import ImageUrl
+from pyclasher.Models.ImageUrl import ImageUrl
 
 
 class IconUrl(ImageUrl):

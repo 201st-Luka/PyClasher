@@ -1,5 +1,5 @@
-from clashofclansApi.apiInterface import RequestModel
-from clashofclansApi.Models.Clan.ClanCurrentWarSubModels.CurrentWarClans import CurrentWarClan
+from pyclasher.apiInterface import RequestModel
+from pyclasher.Models.Clan.ClanCurrentWarSubModels.CurrentWarClans import CurrentWarClan
 
 
 class ClanCurrentWar(RequestModel):

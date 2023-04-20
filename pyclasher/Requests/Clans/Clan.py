@@ -1,16 +1,16 @@
-from clashofclansApi.apiInterface import RequestModel
-from clashofclansApi.Models.Clan.ClanCurrentWar import ClanCurrentWar
-from clashofclansApi.Models.Clan.ClanCurrentWarSubModels.CurrentWarClans import CurrentWarClan
-from clashofclansApi.Models.Clan.ClanWarLogSubModels.ClanWar import WarClan, WarOpponent
-from clashofclansApi.Models.Clan.ClanWarLog import ClanWarLog, ClanWarLeagueLog, FullClanWarLog
-from clashofclansApi.Exceptions import RequestNotDone
-from clashofclansApi.Models.Leagues import CapitalLeague, WarLeague
-from clashofclansApi.Models.Clan.ClanSubModels.BadgeUrls import BadgeUrls
-from clashofclansApi.Models.Clan.ClanSubModels.ChatLanguage import ChatLanguage
-from clashofclansApi.Models.Clan.ClanSubModels.ClanCapital import ClanCapital
-from clashofclansApi.Models.Clan.ClanSubModels.Members import MemberList
-from clashofclansApi.Models.Labels import Label
-from clashofclansApi.Models.Locations import Location
+from pyclasher.apiInterface import RequestModel
+from pyclasher.Exceptions import RequestNotDone
+from pyclasher.Models.Clan.ClanCurrentWar import ClanCurrentWar
+from pyclasher.Models.Clan.ClanCurrentWarSubModels.CurrentWarClans import CurrentWarClan
+from pyclasher.Models.Clan.ClanSubModels.BadgeUrls import BadgeUrls
+from pyclasher.Models.Clan.ClanSubModels.ChatLanguage import ChatLanguage
+from pyclasher.Models.Clan.ClanSubModels.ClanCapital import ClanCapital
+from pyclasher.Models.Clan.ClanSubModels.Members import MemberList
+from pyclasher.Models.Clan.ClanWarLog import ClanWarLog, ClanWarLeagueLog, FullClanWarLog
+from pyclasher.Models.Clan.ClanWarLogSubModels.ClanWar import WarClan, WarOpponent
+from pyclasher.Models.Labels import Label
+from pyclasher.Models.Leagues import CapitalLeague, WarLeague
+from pyclasher.Models.Locations import Location
 
 
 class Clan(RequestModel):

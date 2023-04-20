@@ -1,4 +1,4 @@
-import clashofclansApi.Models.Clan
+import pyclasher.Models.Clan
 from .IconUrls import *
 from .ImageUrl import *
 from .Labels import *

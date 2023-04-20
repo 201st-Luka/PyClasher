@@ -1,5 +1,5 @@
-from clashofclansApi.Exceptions import RequestNotDone
-from clashofclansApi.Models.IconUrls import IconUrls
+from pyclasher.Exceptions import RequestNotDone
+from pyclasher.Models.IconUrls import IconUrls
 
 
 class __League:

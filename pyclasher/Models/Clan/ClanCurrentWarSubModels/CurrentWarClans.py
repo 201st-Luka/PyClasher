@@ -1,5 +1,5 @@
-from clashofclansApi.Models.Clan.ClanCurrentWarSubModels.CurrentWarMembers import CurrentWarMemberList
-from clashofclansApi.Models.Clan.ClanSubModels.BadgeUrls import BadgeUrls
+from pyclasher.Models.Clan.ClanCurrentWarSubModels.CurrentWarMembers import CurrentWarMemberList
+from pyclasher.Models.Clan.ClanSubModels.BadgeUrls import BadgeUrls
 
 
 class CurrentWarClan:

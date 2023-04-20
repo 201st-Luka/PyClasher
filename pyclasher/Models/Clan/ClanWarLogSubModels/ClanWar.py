@@ -1,4 +1,4 @@
-from clashofclansApi.Models.Clan.ClanSubModels.BadgeUrls import BadgeUrls
+from pyclasher.Models.Clan.ClanSubModels.BadgeUrls import BadgeUrls
 
 
 class WarClan:

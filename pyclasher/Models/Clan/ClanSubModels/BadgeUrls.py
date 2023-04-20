@@ -1,5 +1,5 @@
-from clashofclansApi.Exceptions import RequestNotDone
-from clashofclansApi.Models.ImageUrl import ImageUrl
+from pyclasher.Exceptions import RequestNotDone
+from pyclasher.Models.ImageUrl import ImageUrl
 
 
 class BadgeUrl(ImageUrl):
