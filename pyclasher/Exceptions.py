@@ -1,53 +1,87 @@
-from aiohttp import ClientResponse
-
-
-ClientCodes = {
-    200: "Successful response",
-    400: "Client provided incorrect parameters for the request.",
-    403: "Access denied, either because of missing/incorrect credentials or used API token does not grant access to the requested resource.",
-    404: "Resource was not found.",
-    429: "Request was throttled, because amount of requests was above the threshold defined for the used API token.",
-    500: "Unknown error happened when handling the request.",
-    503: "Service is temporarily unavailable because of maintenance."
-}
-
-
-class ClientError(Exception):
+class ApiException(Exception):
     """
     exception class to handle ClashOfClans API client errors
     """
 
-    def __init__(self, response: ClientResponse, response_json: ClientResponse.json) -> None:
-        self.__response = response
-        self.__response_json = response_json
+    def __init__(self, code: int, description: str, response_json: dict = None):
+        self.code = code
+        self.description = description
+        self.response_json = response_json
         return
 
-    @property
-    def status_code(self) -> int:
-        return self.__response.status
+    def dict_to_str(self) -> str:
+        return "\n".join((f" - {key}: {val}" for key, val in self.response_json.items()))
 
     def __str__(self) -> str:
-        return_str = ["ClashOfClans API Client Error:",
-                      f"Code: {self.status_code} {ClientCodes[self.status_code]}",
-                      f"Reason: {self.__response_json['reason']}" if 'reason' in self.__response_json else None,
-                      f"Message: {self.__response_json['message']}" if 'message' in self.__response_json else None,
-                      f"Type: {self.__response_json['type']}" if 'type' in self.__response_json else None,
-                      f"Detail: {self.__response_json['detail']}" if 'detail' in self.__response_json else None
-                      ]
-        return "\n".join(string for string in return_str if string is not None)
+        if self.response_json is None:
+            return f"ApiException({self.code})"
+        return f"ApiException:\n - Code: {self.code}\n - Description: {self.description}\n{self.dict_to_str()}"
+
+    def __repr__(self) -> str:
+        return f"ApiException(code={self.code}, description={self.description})"
 
 
 class NoneArgument(Exception):
     def __str__(self):
-        return "an argument is None"
+        return "An argument is None."
 
 
 class RequestNotDone(Exception):
     def __str__(self):
-        return "the request was not done"
+        return "The request was not done."
 
 
 class NoneToken(Exception):
     def __str__(self):
-        return "the token must be set globally using clashofclansApi.init(<your token>)"
+        return "The token must be passed to the client. " \
+               "You can do this in the initialisation process or pass the tokens to the start function."
 
+
+class InvalidLoginData(Exception):
+    def __str__(self):
+        return "The login data is invalid."
+
+
+class InvalidType(Exception):
+    def __init__(self, element, allowed_types: type | tuple[type, ...]):
+        self.element = element
+        self.types = allowed_types
+        return
+
+    def __str__(self):
+        return f"{self.element} is of invalid type\nallowed types are {self.types}."
+
+
+class LoginNotDone(Exception):
+    def __str__(self) -> str:
+        return "The login was not done. You need to login first."
+
+
+class ClientIsRunning(Exception):
+    def __str__(self) -> str:
+        return "The client is already running."
+
+
+class ClientIsNotRunning(Exception):
+    def __str__(self) -> str:
+        return "The client is not running."
+
+
+class ClientAlreadyInitialised(Exception):
+    def __str__(self) -> str:
+        return "The PyClasherClient has already been initialised."
+
+
+class NoClient(Exception):
+    def __str__(self) -> str:
+        return "No client has been initialised."
+
+
+class InvalidTimeString(Exception):
+    def __str__(self) -> str:
+        return "The time string is not valid"
+
+
+class ClientRunning(Exception):
+    def __str__(self) -> str:
+        return "You cannot overwrite the parameter of a running client."

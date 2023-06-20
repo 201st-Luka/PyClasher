@@ -1,15 +1,8 @@
-import pyclasher.Models
-import pyclasher.Requests
-from .apiInterface import *
-from .Exceptions import *
+from .client import RequestMethods, Status, Auth, Developer, Login, Consumer, PyClasherClient
 
-INTERFACE: Interface | None = None
+from .Exceptions import ApiException, ClientIsRunning, ClientIsNotRunning, ClientAlreadyInitialised, NoClient, \
+    InvalidType, InvalidLoginData, LoginNotDone, NoneToken, NoneArgument, RequestNotDone, InvalidTimeString
 
+from .logger import PyClasherLogger
 
-def init(bearer_token: Iterable[str] | str, requests_per_second: int = 1):
-    global INTERFACE
-    Interface.tokens = bearer_token
-    INTERFACE = Interface(requests_per_second)
-    INTERFACE.start()
-    pyclasher.RequestModel.api_interface = INTERFACE
-    return
+from .requests import *
