@@ -1,4 +1,4 @@
-from .BaseModels import BaseModel, IconUrls, IterBaseModel, BaseLeague
+from .BaseModels import BaseModel, IconUrls, IterBaseModel, BaseLeague, RequestEntryPointBaseModel
 
 
 class League(BaseLeague):

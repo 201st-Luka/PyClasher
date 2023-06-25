@@ -77,7 +77,7 @@ class NoClient(Exception):
         return "No client has been initialised."
 
 
-class InvalidTimeString(Exception):
+class InvalidTimeFormat(Exception):
     def __str__(self) -> str:
         return "The time string is not valid"
 
@@ -85,3 +85,8 @@ class InvalidTimeString(Exception):
 class ClientRunning(Exception):
     def __str__(self) -> str:
         return "You cannot overwrite the parameter of a running client."
+
+
+class InvalidSeasonFormat(Exception):
+    def __str__(self) -> str:
+        return "The season string is not valid. It must be follow the following format: <yyyy-mm> where <yyyy> is the year and <mm> is the month."

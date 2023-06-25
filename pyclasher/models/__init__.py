@@ -8,6 +8,8 @@ from .Enums import ApiExceptions, ClanType, WarFrequency, Locations, Leagues, Ca
     BuilderBaseLeagues, WarLeagues, Labels, Languages, ClanWarState, ClanWarLeagueGroupState, \
     ClanWarResult, WarPreference, PlayerHouseElementType, Village, TokenStatus
 
+from .Season import Season
+
 
 # clan models
 from .Clan import ClanDistrictData, ClanDistrictDataList, ClanCapital, Clan

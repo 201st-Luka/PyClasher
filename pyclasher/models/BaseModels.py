@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Self
 
-from ..Exceptions import RequestNotDone, InvalidTimeString
+from ..Exceptions import RequestNotDone, InvalidTimeFormat
 
 
 class BaseModel:
@@ -310,7 +310,7 @@ class Time:
         """
 
         if len(time) != 20:
-            raise InvalidTimeString
+            raise InvalidTimeFormat
 
         dt = datetime.strptime(time, "%Y%m%dT%H%M%S.%fZ")
 
@@ -397,9 +397,9 @@ class BaseClanMember(BaseModel):
 
 
 class BaseLeague(BaseModel):
-    def __init__(self, data: dict):
+    def __init__(self, data: dict | None):
         super().__init__(data)
-        self._main_attribute = self.id
+        self._main_attribute = self.id if data is not None else None
         return
 
     @property
