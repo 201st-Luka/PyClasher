@@ -96,5 +96,3 @@ class WarClan(BaseClan):
     @property
     def members(self) -> ClanWarMemberList:
         return ClanWarMemberList(self._get_data('members'))
-
-

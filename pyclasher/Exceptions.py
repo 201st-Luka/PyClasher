@@ -1,29 +1,44 @@
+class Missing:
+    def __call__(self, *args, **kwargs):
+        return self
+
+    def __getitem__(self, item):
+        return self
+
+    def __getattr__(self, item):
+        return self
+
+    def __str__(self):
+        return "MISSING"
+
+    def __repr__(self):
+        return "Missing()"
+
+
+MISSING = Missing()
+
+
 class ApiException(Exception):
     """
     exception class to handle ClashOfClans API client errors
     """
 
-    def __init__(self, code: int, description: str, response_json: dict = None):
+    def __init__(self, code, description, response_json = None):
         self.code = code
         self.description = description
         self.response_json = response_json
         return
 
-    def dict_to_str(self) -> str:
+    def _dict_to_str(self) -> str:
         return "\n".join((f" - {key}: {val}" for key, val in self.response_json.items()))
 
     def __str__(self) -> str:
         if self.response_json is None:
             return f"ApiException({self.code})"
-        return f"ApiException:\n - Code: {self.code}\n - Description: {self.description}\n{self.dict_to_str()}"
+        return f"ApiException:\n - Code: {self.code}\n - Description: {self.description}\n{self._dict_to_str()}"
 
     def __repr__(self) -> str:
-        return f"ApiException(code={self.code}, description={self.description})"
-
-
-class NoneArgument(Exception):
-    def __str__(self):
-        return "An argument is None."
+        return f"ApiException(code={self.code})"
 
 
 class RequestNotDone(Exception):
@@ -44,6 +59,7 @@ class InvalidLoginData(Exception):
 
 class InvalidType(Exception):
     def __init__(self, element, allowed_types: type | tuple[type, ...]):
+        super().__init__()
         self.element = element
         self.types = allowed_types
         return
@@ -78,11 +94,17 @@ class NoClient(Exception):
 
 
 class InvalidTimeFormat(Exception):
+    def __init__(self, value, time_format):
+        super().__init__()
+        self.value = value
+        self.time_format = time_format
+        return
+
     def __str__(self) -> str:
-        return "The time string is not valid"
+        return f"The time {self.value} does not match the format '{self.time_format}'."
 
 
-class ClientRunning(Exception):
+class ClientRunningOverwrite(Exception):
     def __str__(self) -> str:
         return "You cannot overwrite the parameter of a running client."
 

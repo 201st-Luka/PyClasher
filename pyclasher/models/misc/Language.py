@@ -8,19 +8,13 @@ class Language(BaseModel):
         return
 
     @property
-    def name(self) -> str:
+    def name(self):
         return self._get_data('name')
 
     @property
-    def id(self) -> int:
+    def id(self):
         return self._get_data('id')
 
     @property
-    def language_code(self) -> str:
+    def language_code(self):
         return self._get_data('languageCode')
-
-
-
-
-
-

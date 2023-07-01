@@ -1,4 +1,4 @@
-from .BaseModels import BaseModel, IterBaseModel, BaseClan, RequestEntryPointBaseModel
+from .BaseModels import BaseModel, IterBaseModel, BaseClan
 from .Enums import WarFrequency, ClanType
 from .Leagues import WarLeague, CapitalLeague
 from .misc import Language
@@ -51,7 +51,7 @@ class ClanCapital(BaseModel):
         return ClanDistrictDataList(self._get_data('districts'))
 
 
-class Clan(BaseClan, RequestEntryPointBaseModel):
+class Clan(BaseClan):
     @property
     def war_league(self) -> WarLeague:
         return WarLeague(self._get_data('warLeague'))

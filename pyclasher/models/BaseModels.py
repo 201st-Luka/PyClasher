@@ -1,31 +1,44 @@
 from datetime import datetime
 from typing import Any, Self
 
-from ..Exceptions import RequestNotDone, InvalidTimeFormat
+from ..Exceptions import RequestNotDone, InvalidTimeFormat, MISSING, Missing
 
 
 class BaseModel:
-    _main_attribute: Any | list[Any, ...] | tuple[Any, ...] = None
-    _data: dict
+    _main_attribute = None
+    _data = MISSING
 
-    def __init__(self, data: dict | None):
-        self._data = data
+    def __new__(cls, data):
+        if data is MISSING:
+            return MISSING
+        return super().__new__(cls)
+
+    def __init__(self, data):
+        if data is not None:
+            self.__data = data
         return
 
-    def to_dict(self) -> dict | None:
-        return self._data
+    def to_dict(self):
+        return self.__data
 
-    def _get_properties(self) -> dict:
-        return {name: prop.__get__(self) for name, prop in vars(type(self)).items() if isinstance(prop, property)}
+    def _get_properties(self):
+        if isinstance(self.__data, dict):
+            return {
+                name: prop.__get__(self) for name, prop in vars(type(self)).items() if isinstance(prop, property)
+            }
+        return self.__data
 
-    def _get_data(self, item: str) -> dict | list | int | str | float | bool | None:
-        if self._data is None:
+    def _get_data(self, item):
+        if self.__data is None:
+            return None
+        if self.__data is MISSING:
             raise RequestNotDone
-        if item in self._data:
-            return self._data[item]
-        return None
+        if item in self.__data:
+            return self.__data[item]
+        else:
+            return MISSING
 
-    def __str__(self) -> str:
+    def __str__(self):
         try:
             main_attr = ",".join((str(attr) for attr in self._main_attribute)) if isinstance(self._main_attribute, (list, tuple)) else \
                 str(self._main_attribute) if self._main_attribute is not None else ""
@@ -33,39 +46,39 @@ class BaseModel:
             main_attr = "RequestNotDone"
         return f"{self.__class__.__name__}({main_attr})"
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"{self.__class__.__name__}({', '.join(('='.join((key, str(value))) for key, value in self._get_properties().items()))})"
 
 
 class IterBaseModel:
-    _len: int = None
-    _main_attribute: Any = None
-    _iter_rtype: Any = Any
+    _len = None
+    _main_attribute = None
+    _iter_rtype = Any
 
-    def __init__(self, data: list[dict] | None):
-        self._data = data
-        if self._data is not None:
-            self._len = len(self._data)
+    def __init__(self, data):
+        self.__data = data
+        if self.__data is not None:
+            self._len = len(self.__data)
         self._main_attribute = self._len
         return
 
-    def to_dict(self) -> dict | None:
-        return self._data
+    def to_dict_list(self):
+        return self.__data
 
-    def __len__(self) -> int:
+    def __len__(self):
         return self._len
 
-    def __getitem__(self, item: int) -> _iter_rtype:
-        return self._iter_rtype(self._data[item])
+    def __getitem__(self, item):
+        return self._iter_rtype(self.__data[item])
 
     def __iter__(self):
-        self._iter = iter(self._data)
+        self._iter = iter(self.__data)
         return self
 
     def __next__(self):
         return self._iter_rtype(next(self._iter))
 
-    def __contains__(self, item) -> bool:
+    def __contains__(self, item):
         if isinstance(item, (self._iter_rtype, str)):
             for s_item in self:
                 if s_item == item:
@@ -73,78 +86,55 @@ class IterBaseModel:
             return False
         return NotImplemented
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"{self.__class__.__name__}({self._main_attribute})"
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"{self.__class__.__name__}(len={self._len}, type={self._iter_rtype.__name__})"
 
 
-class RequestEntryPointBaseModel(BaseModel):
-    def _get_data(self, item: str) -> dict | list | int | str | float | bool | None | RequestNotDone:
-        if self._data is None:
-            return RequestNotDone
-        if item in self._data:
-            return self._data[item]
-        return None
-
-
 class ImageUrl:
-    """
-    Holds an image url and can return the content
-    """
+    __url = None
 
-    __url: str = None
-
-    def __init__(self, url: str):
+    def __init__(self, url):
         self.__url = url
         return
 
     async def get_image(self):
-        ...
+        raise NotImplementedError
 
     @property
-    def url(self) -> str:
+    def url(self):
         return self.__url
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"{self.__class__.__name__}(url={self.__url})"
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"{self.__class__.__name__}({self.__url})"
 
 
 class IconUrl(ImageUrl):
-    """
-    Holds an icon url
-    """
+    pass
 
 
 class IconUrls(BaseModel):
-    """
-    Holds icon urls
-    """
-
-    def __init__(self, data: dict) -> None:
+    def __init__(self, data: dict):
         super().__init__(data)
         self._main_attribute = self.small
         return
 
     @property
-    def tiny(self) -> IconUrl | None:
-        if 'tiny' in self._data:
-            return IconUrl(self._data['tiny'])
-        return None
+    def tiny(self):
+        return IconUrl(self._get_data('tiny'))
 
     @property
-    def small(self) -> IconUrl:
+    def small(self):
         return IconUrl(self._get_data('small'))
 
     @property
-    def medium(self) -> IconUrl | None:
-        if 'medium' in self._data:
-            return IconUrl(self._get_data('medium'))
-        return None
+    def medium(self):
+        return IconUrl(self._get_data('medium'))
 
 
 class After:
@@ -152,120 +142,80 @@ class After:
     Holds the after string
     """
 
-    def __init__(self, after: str):
-        self.__response = after
+    def __init__(self, after):
+        self.__data = after
         return
 
     @property
-    def value(self) -> str:
-        return self.__response
+    def value(self):
+        return self.__data
 
-    def __repr__(self) -> str:
-        return "After()"
-
-    def __str__(self) -> str:
+    def __repr__(self):
         return f"After(value={self.value})"
+
+    def __str__(self):
+        return f"After({self.value})"
 
 
 class Before:
-    """
-    Holds the before string
-    """
-
-    def __init__(self, before: str):
+    def __init__(self, before):
         self.__response = before
         return
 
     @property
-    def value(self) -> str:
+    def value(self):
         return self.__response
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return "Before()"
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"Before(value={self.value})"
 
 
-class Cursor:
-    """
-    Holds information about the cursor on the war log pages
-    """
-
-    def __init__(self, cursor: dict) -> None:
-        self.__response = cursor
-        return
+class Cursor(BaseModel):
+    @property
+    def after(self):
+        return After(self._get_data('after'))
 
     @property
-    def after(self) -> After | None:
-        return After(self.__response['after']) if 'after' in self.__response else None
-
-    @property
-    def before(self) -> Before | None:
-        return Before(self.__response['before']) if 'before' in self.__response else None
-
-    def __repr__(self) -> str:
-        return "Cursor"
-
-    def __str__(self) -> str:
-        return f"Cursor({self.after}, {self.before})"
+    def before(self):
+        return Before(self._get_data('before'))
 
 
-class Paging:
-    """
-    Holds information about the paging of the clan war log
-    """
-
-    def __init__(self, paging: dict) -> None:
-        self.__response = paging
-        return
-
+class Paging(BaseModel):
     @property
     def cursor(self) -> Cursor:
-        return Cursor(self.__response['cursors'])
-
-    def __repr__(self) -> str:
-        return "Paging()"
-
-    def __str__(self) -> str:
-        return f"Paging({self.cursor})"
+        return Cursor(self._get_data('cursors'))
 
 
 class BadgeUrl(ImageUrl):
-    """
-    class to hold a url for one badge
-    """
-
-    def __init__(self, badge_url: str):
-        super().__init__(badge_url)
-        return
+    pass
 
 
 class BadgeUrls(BaseModel):
-    """
-    class to hold data of a clan badge
-    """
-
-    def __init__(self, data: dict):
+    def __init__(self, data):
         super().__init__(data)
         self._main_attribute = self.medium
         return
 
     @property
-    def small(self) -> BadgeUrl:
+    def small(self):
         return BadgeUrl(self._get_data('small'))
 
     @property
-    def medium(self) -> BadgeUrl:
+    def medium(self):
         return BadgeUrl(self._get_data('medium'))
 
     @property
-    def large(self) -> BadgeUrl:
+    def large(self):
         return BadgeUrl(self._get_data('large'))
 
 
 class Time:
-    def __init__(self, year: int, month: int, day: int, hour: int, minute: int, second: int, microsecond: int):
+    time_format = "%Y%m%dT%H%M%S.%fZ"
+
+    def __init__(self, year, month, day, hour, minute, second, microsecond):
         self._year = year
         self._month = month
         self._day = day
@@ -276,47 +226,43 @@ class Time:
         return
 
     @property
-    def year(self) -> int:
+    def year(self):
         return self._year
 
     @property
-    def month(self) -> int:
+    def month(self):
         return self._month
 
     @property
-    def day(self) -> int:
+    def day(self):
         return self._day
 
     @property
-    def hour(self) -> int:
+    def hour(self):
         return self._hour
 
     @property
-    def minute(self) -> int:
+    def minute(self):
         return self._minute
 
     @property
-    def second(self) -> int:
+    def second(self):
         return self._second
 
     @property
-    def microsecond(self) -> int:
+    def microsecond(self):
         return self._microsecond
 
     @classmethod
-    def from_str(cls, time: str) -> Self:
-        """
-        converts a string with the format yyyymmddThhmmss.000Z
-        """
-
-        if len(time) != 20:
-            raise InvalidTimeFormat
-
-        dt = datetime.strptime(time, "%Y%m%dT%H%M%S.%fZ")
+    def from_str(cls, time):
+        try:
+            dt = datetime.strptime(time, cls.time_format)
+        except ValueError:
+            raise InvalidTimeFormat(time, cls.time_format)
 
         return cls(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, dt.microsecond)
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other):
         if isinstance(other, Time):
             return self._year == other._year and self._month == other._month and self._day == other._day and \
                 self._hour == other._hour and self._minute == other._minute and self._second == other._second
@@ -328,7 +274,7 @@ class Time:
     def __ne__(self, other):
         return not self == other
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other):
         if isinstance(other, (Time, datetime)):
             if self._year < other.year:
                 return True
@@ -359,14 +305,14 @@ class Time:
     def __ge__(self, other):
         return not self < other
 
-    def __str__(self) -> str:
-        return f"Time({self._year}.{self._month}.{self._day}:{self._hour}.{self._minute}.{self._second}. {self._microsecond})"
+    def __str__(self):
+        return f"Time({self._year}.{self._month}.{self._day}:{self._hour}.{self._minute}.{self._second}.{self._microsecond})"
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"Time(year={self._year}, month={self._month}, day={self._day}, hour={self._hour}, minute={self._minute}, " \
                f"second={self._second}, microsecond={self._microsecond})"
 
-    def __add__(self, other) -> Self:
+    def __add__(self, other):
         if isinstance(other, (Time, datetime)):
             return Time(self._year + other.year, self._month + other.month, self._day + other.day,
                         self._hour + other.hour, self._minute + other.minute, self._second + other.second,
@@ -388,26 +334,26 @@ class BaseClanMember(BaseModel):
         return
 
     @property
-    def tag(self) -> str:
+    def tag(self):
         return self._get_data('tag')
 
     @property
-    def name(self) -> str:
+    def name(self):
         return self._get_data('name')
 
 
 class BaseLeague(BaseModel):
-    def __init__(self, data: dict | None):
+    def __init__(self, data):
         super().__init__(data)
         self._main_attribute = self.id if data is not None else None
         return
 
     @property
-    def id(self) -> int:
+    def id(self):
         return self._get_data('id')
 
     @property
-    def name(self) -> int:
+    def name(self):
         return self._get_data('name')
 
 
@@ -418,14 +364,13 @@ class BaseClan(BaseModel):
         return
 
     @property
-    def tag(self) -> str:
+    def tag(self):
         return self._get_data('tag')
 
     @property
-    def name(self) -> str:
+    def name(self):
         return self._get_data('name')
 
     @property
-    def badge_urls(self) -> BadgeUrls:
+    def badge_urls(self):
         return BadgeUrls(self._get_data('badgeUrls'))
-

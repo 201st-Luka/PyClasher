@@ -21,4 +21,3 @@ class Season:
         year = int(season[0])
         month = int(season[1])
         return cls(year, month)
-

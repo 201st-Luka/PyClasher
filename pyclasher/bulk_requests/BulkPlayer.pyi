@@ -19,6 +19,7 @@ class PlayerBulkRequest(BulkRequestModel):
         :param tags:    Iterable of tags
         :type tags:     Iterable
         """
+        self._tags: Iterable = tags
         ...
 
     @property
@@ -59,6 +60,17 @@ class PlayerBulkRequest(BulkRequestModel):
         """
         ...
 
-    def __getitem__(self, item: int) -> _request_model: ...
+    def __getitem__(self, item: int) -> _request_model:
+        """
+        getter for a player of the bulk request
 
-    def __next__(self) -> _request_model: ...
+        :param item:    (int) the index of the player
+        :type item:     int
+        """
+        ...
+
+    def __next__(self) -> _request_model:
+        """
+        returns the next player of the bulk request if an iterator is used
+        """
+        ...

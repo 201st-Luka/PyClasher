@@ -1,6 +1,10 @@
+"""
+ClashOfClans API models
+"""
+
 # base models, miscellaneous models and enums
 from .BaseModels import BaseModel, IterBaseModel, ImageUrl, IconUrl, IconUrls, After, Before, \
-    Cursor, Paging, BadgeUrl, BadgeUrls, Time, BaseClanMember, BaseClan, BaseLeague, RequestEntryPointBaseModel
+    Cursor, Paging, BadgeUrl, BadgeUrls, Time, BaseClanMember, BaseClan, BaseLeague
 
 from .misc import *
 
@@ -49,7 +53,7 @@ from .ClanBuilderBaseRankingList import ClanBuilderBaseRanking, ClanBuilderBaseR
 from .ClanCapitalRankingList import ClanCapitalRanking, ClanCapitalRankingList
 
 
-# goldpass season
+# gold pass season
 from .GoldPassSeason import GoldPassSeason
 
 

@@ -7,9 +7,8 @@ from urllib.parse import urlparse
 from aiohttp import ClientSession, request
 
 from .Exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
-    NoneToken
+    NoneToken, MISSING
 from .models.BaseModels import BaseModel
-from .logger import PyClasherLogger
 from .models import ApiExceptions
 
 
@@ -22,170 +21,161 @@ class Status(BaseModel):
     """
     class representing the status of the ClashOfClans API login
     """
-    def __init__(self, data: dict) -> None:
+
+    def __init__(self, data):
         super().__init__(data)
         self._main_attribute = self.code
         return
 
     @property
-    def code(self) -> int:
-        return self._data['code']
+    def code(self):
+        return self._get_data('code')
 
     @property
-    def message(self) -> str:
-        return self._data['message']
+    def message(self):
+        return self._get_data('message')
 
     @property
     def detail(self):
-        return self._data['detail']
+        return self._get_data('detail')
 
 
 class Auth(BaseModel):
-    """
-    class representing the authentication of the ClashOfClans API login
-    """
-    def __init__(self, data: dict) -> None:
+    def __init__(self, data):
         super().__init__(data)
         self._main_attribute = self.uid
         return
 
     @property
-    def uid(self) -> str:
-        return self._data['uid']
+    def uid(self):
+        return self._get_data('uid')
 
     @property
-    def token(self) -> str:
-        return self._data['token']
+    def token(self):
+        return self._get_data('token')
 
     @property
     def ua(self):
-        return self._data['ua']
+        return self._get_data('ua')
 
     @property
     def ip(self):
-        return self._data['ip']
+        return self._get_data('ip')
 
 
 class Developer(BaseModel):
-    """
-    class representing the developer that logged in via the ClashOfClans login API
-    """
-    def __init__(self, data: dict) -> None:
+    def __init__(self, data):
         super().__init__(data)
         self._main_attribute = self.email
         return
 
     @property
-    def id(self) -> str:
-        return self._data['id']
+    def id(self):
+        return self._get_data('id')
 
     @property
-    def name(self) -> str:
-        return self._data['name']
+    def name(self):
+        return self._get_data('name')
 
     @property
-    def game(self) -> str:
-        return self._data['game']
+    def game(self):
+        return self._get_data('game')
 
     @property
-    def email(self) -> str:
-        return self._data['email']
+    def email(self):
+        return self._get_data('email')
 
     @property
-    def tier(self) -> str:
-        return self._data['tier']
+    def tier(self):
+        return self._get_data('tier')
 
     @property
     def allowed_scopes(self):
-        return self._data['allowedScopes']
+        return self._get_data('allowedScopes')
 
     @property
     def max_cidrs(self):
-        return self._data['maxCidrs']
+        return self._get_data('maxCidrs')
 
     @property
-    def prev_login_ts(self) -> str:
-        return self._data['prevLoginTs']
+    def prev_login_ts(self):
+        return self._get_data('prevLoginTs')
 
     @property
-    def prev_login_ip(self) -> str:
-        return self._data['prevLoginIp']
+    def prev_login_ip(self):
+        return self._get_data('prevLoginIp')
 
     @property
-    def prev_login_ua(self) -> str:
-        return self._data['prevLoginUa']
+    def prev_login_ua(self):
+        return self._get_data('prevLoginUa')
 
 
 class Login:
-    """
-    class to log in via the ClashOfClans login API
-    """
-
     login_url = "https://developer.clashofclans.com/api/login"
-    __response: dict
+    __response = None
 
-    def __init__(self, email: str, password: str) -> None:
+    def __init__(self, email, password):
         self.email = email
         self.__password = password
 
         return
 
     @property
-    def status(self) -> Status:
+    def status(self):
         if self.__response is None:
             raise LoginNotDone
         return Status(self.__response['status'])
 
     @property
-    def session_expires_in_seconds(self) -> int:
+    def session_expires_in_seconds(self):
         return self.__response['sessionExpiresInSeconds']
 
     @property
-    def auth(self) -> Auth:
+    def auth(self):
         return Auth(self.__response['auth'])
 
     @property
-    def developer(self) -> Developer:
+    def developer(self):
         return Developer(self.__response['developer'])
 
     @property
-    def temporary_api_token(self) -> str:
+    def temporary_api_token(self):
         return self.__response['temporaryAPIToken']
 
     @property
-    def swagger_url(self) -> str:
+    def swagger_url(self):
         return self.__response['swaggerUrl']
 
-    async def __async_login(self):
-        async with request("post", self.login_url, json={
-            "email": self.email,
-            "password": self.__password
-        }) as response:
-            if response.status == 200:
-                self.__response = await response.json()
-                return self
-            else:
-                raise InvalidLoginData
+    def login(self):
+        async def async_login():
+            async with request("post", self.login_url, json={
+                "email": self.email,
+                "password": self.__password
+            }) as response:
+                if response.status == 200:
+                    self.__response = await response.json()
+                    return self
+                else:
+                    raise InvalidLoginData
 
-    def login(self) -> Self | Coroutine[Any, Any, Self]:
         try:
             get_running_loop()
         except RuntimeError:
-            return run(self.__async_login())
+            return run(async_login())
         else:
-            return self.__async_login()
+            return async_login()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"Login(email={self.email}, password={'*' * len(self.__password)}, " \
                f"status={self.status}, session_expires_in_seconds={self.session_expires_in_seconds}, auth={self.auth}, " \
                f"developer={self.developer}, temporary_api_token={self.temporary_api_token}, swagger_url={self.swagger_url})"
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"Login({self.email})"
 
 
 class Consumer:
-    def __init__(self, queue: Queue, token: str, requests_per_s: int, url: str):
+    def __init__(self, queue, token, requests_per_s, url):
         self.queue = queue
         self.header = {
             'Authorization': f'Bearer {token}'
@@ -199,7 +189,7 @@ class Consumer:
         )
         return
 
-    async def _request(self, future: Future, url: str, method: str, body: dict | None) -> None:
+    async def _request(self, future, url, method, body):
         async with self.session.request(method=method, url=url, data=None if body is None else dumps(body)) as response:
             response_json = await response.json()
             future.set_result(response_json if response.status == 200 else ApiExceptions.from_exception(response.status, response_json).value)
@@ -221,23 +211,19 @@ class Consumer:
 
 
 class PyClasherClient:
-    """
-    This is the class for the ClashOfClans API client
-    """
+    __instance = None
 
-    __instance: Self = None
-
-    base_url: str = "https://api.clashofclans.com"
-    endpoint: str = "/v1"
-    queue: Queue
+    base_url = "https://api.clashofclans.com"
+    endpoint = "/v1"
+    queue = None
     requests_per_second = 5
-    logger: PyClasherLogger = None
-    initialised: bool = False
-    __consumers: list[Consumer] = None
+    logger = MISSING
+    initialised = False
+    __consumers = None
     __consume_tasks = None
-    __temporary_session: bool = False
-    __tokens: list[str] | None = None
-    __client_running: bool = False
+    __temporary_session = False
+    __tokens = None
+    __client_running = False
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -245,34 +231,16 @@ class PyClasherClient:
         return cls.__instance
 
     def __init__(
-        self,
-        tokens: str | Iterable[str] = None,
-        requests_per_second: int = None,
-        logger: Logger = None,
-        swagger_url: str = None
-    ) -> None:
-        """
-        initialisation method for the client
-        :param tokens:                  the Bearer tokens for the authentication of the ClashOfClans API
-        :type tokens:                   str | list[str] | None
-        :param requests_per_second:     This integer limits the number of requests done per second (per token).
-                                        This value is important to bypass the rate limit of the ClashOfClans API.
-                                        More tokens allow more requests per second because each token can do
-                                        as many requests per second as specified.
-                                        Defaults to None.
-        :type requests_per_second:      int
-        :param logger:                  logger for detailed logging
-                                        Defaults to None
-        :type logger:                   Logger
-        :param swagger_url:             swagger url for requests
-                                        Defaults to None
-        :type swagger_url:              str
-        :return:                        initialises the class
-        :rtype:                         None
-        """
-
+            self,
+            tokens=None,
+            requests_per_second=None,
+            logger=MISSING,
+            swagger_url=None
+    ):
         if not PyClasherClient.initialised:
-            self.logger = PyClasherLogger(logger)
+            if logger is None:
+                logger = MISSING
+            self.logger = logger
             self.logger.info("initialising pyclasher client")
             if tokens is not None:
                 if isinstance(tokens, str):
@@ -297,19 +265,17 @@ class PyClasherClient:
         return
 
     @classmethod
-    def from_login(cls, email: str, password: str, requests_per_second: int = 5, logger: Logger = None, login_count: int = 1):
-        """
-        login via the ClashOfClans login API to retrieve a temporary session (usually 1 hour)
-        """
+    def from_login(cls, email, password, requests_per_second=5, logger=MISSING, login_count=1):
+        if logger is None:
+            logger = MISSING
 
         async def from_async_login():
             logins = [await Login(email, password).login() for _ in range(login_count)]
-            pc_logger = PyClasherLogger(logger)
 
-            pc_logger.info("initialising pyclasher client via login")
+            logger.info("initialising pyclasher client via login")
 
             self = cls([login.temporary_api_token for login in logins], requests_per_second, swagger_url=logins[0].swagger_url)
-            self.logger = pc_logger
+            self.logger = logger
             self.__temporary_session = True
             return self
 
@@ -324,12 +290,7 @@ class PyClasherClient:
     def is_running(self) -> bool:
         return self.__client_running
 
-    def start(self, tokens: str | Iterable[str] = None):
-        """
-        start the client
-        :param tokens:                  the Bearer tokens for the authentication of the ClashOfClans API
-        :type tokens:                   str | list[str] | None
-        """
+    def start(self, tokens=None):
         if tokens is not None:
             if isinstance(tokens, str):
                 self.__tokens = [tokens]
@@ -353,10 +314,6 @@ class PyClasherClient:
         return self
 
     def close(self):
-        """
-        close the client
-        """
-
         async def async_close():
             self.logger.info("closing pyclasher client")
             if not self.__client_running or self.__consume_tasks is None:
@@ -370,7 +327,7 @@ class PyClasherClient:
             for consumer in self.__consumers:
                 await consumer.close()
             self.logger.debug("pyclasher client closed")
-            return
+            return self
 
         try:
             get_running_loop()

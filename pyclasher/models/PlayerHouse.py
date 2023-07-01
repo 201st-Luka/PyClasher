@@ -31,5 +31,3 @@ class PlayerHouse(BaseModel):
     @property
     def elements(self) -> PlayerHouseElementList:
         return PlayerHouseElementList(self._get_data('elements'))
-
-

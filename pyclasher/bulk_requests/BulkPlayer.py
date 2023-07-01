@@ -9,23 +9,23 @@ from .BulkRequestModel import BulkRequestModel
 class PlayerBulkRequest(BulkRequestModel):
     _request_model = PlayerRequest
 
-    def __init__(self, tags: Iterable):
+    def __init__(self, tags):
         self._tags = tags
         self._requests = list(self._request_model(tag) for tag in self.tags)
         self._main_attribute = self.tags
         return
 
     @property
-    def tags(self) -> Iterable:
+    def tags(self):
         return self._tags
 
     @classmethod
-    async def _async_from_clan(cls, clan: BaseClan | str) -> Self:
+    async def _async_from_clan(cls, clan):
         members = await ClanMembersRequest(clan.tag).request() if isinstance(clan, BaseClan) else await ClanMembersRequest(clan).request()
         return cls.from_member_list(members)
 
     @classmethod
-    def from_clan(cls, clan: BaseClan | str) -> Self:
+    def from_clan(cls, clan):
         try:
             get_running_loop()
         except RuntimeError:
@@ -34,6 +34,6 @@ class PlayerBulkRequest(BulkRequestModel):
             return cls._async_from_clan(clan)
 
     @classmethod
-    def from_member_list(cls, member_list: ClanMemberList | ClanWarMemberList | ClanWarLeagueClanMemberList | ClanCapitalRaidSeasonMemberList | ClanMembersRequest) -> Self:
+    def from_member_list(cls, member_list):
         return cls((member.tag for member in member_list))
 

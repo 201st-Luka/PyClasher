@@ -261,6 +261,3 @@ class Player(BaseModel):
     @property
     def player_house(self) -> PlayerHouse:
         return PlayerHouse(self._get_data('playerHouse'))
-
-
-

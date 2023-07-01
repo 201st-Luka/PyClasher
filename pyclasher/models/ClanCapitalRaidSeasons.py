@@ -1,5 +1,4 @@
 from .BaseModels import BaseModel, BadgeUrls, IterBaseModel, BaseClanMember
-from .Enums import PlayerHouseElementType
 
 
 class ClanCapitalRaidSeasonClanInfo(BaseModel):
@@ -273,4 +272,3 @@ class ClanCapitalRaidSeasons(IterBaseModel):
 
     def __next__(self) -> _iter_rtype:
         return super().__next__()
-
