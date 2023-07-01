@@ -1,4 +1,4 @@
-from typing import Self, Iterable
+from typing import Iterable
 
 from ..requests import PlayerRequest, ClanMembersRequest
 from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList
@@ -32,10 +32,16 @@ class PlayerBulkRequest(BulkRequestModel):
         ...
 
     @classmethod
-    async def _async_from_clan(cls, clan: BaseClan | str) -> Self: ...
+    async def _async_from_clan(cls, clan: BaseClan | str) -> PlayerBulkRequest:
+        """
+        protected asynchronous method used to create a PlayerBulkRequest instance
+        :param clan:
+        :return:
+        """
+        ...
 
     @classmethod
-    def from_clan(cls, clan: BaseClan | str) -> Self:
+    def from_clan(cls, clan: BaseClan | str) -> PlayerBulkRequest:
         """
         class method to create an instance using a clan or a clan tag
 
@@ -49,7 +55,7 @@ class PlayerBulkRequest(BulkRequestModel):
     def from_member_list(
             cls,
             member_list: ClanMemberList | ClanWarMemberList | ClanWarLeagueClanMemberList | ClanCapitalRaidSeasonMemberList | ClanMembersRequest
-    ) -> Self:
+    ) -> PlayerBulkRequest:
         """
         class method to create an instance using a clan member list
 

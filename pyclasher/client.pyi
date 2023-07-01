@@ -494,7 +494,7 @@ class PyClasherClient:
         close the client
 
         this method can be used in an asynchronous context using the ``await`` keyword
-        but can also be used in non asynchronous context without awaiting the method
+        but can also be used in non-asynchronous context without awaiting the method
 
         :return:    the instance of the client
         :rtype:     PyClasherClient | Coroutine[Any, Any, PyClasherClient]
