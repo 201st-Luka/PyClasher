@@ -1,9 +1,9 @@
-from .BaseModels import BaseModel, Time, RequestEntryPointBaseModel
+from .BaseModels import BaseModel, Time
 from .Enums import ClanWarState
 from .WarClan import WarClan
 
 
-class ClanWar(RequestEntryPointBaseModel):
+class ClanWar(BaseModel):
     @property
     def clan(self) -> WarClan:
         return WarClan(self._get_data('clan'))
@@ -35,5 +35,3 @@ class ClanWar(RequestEntryPointBaseModel):
     @property
     def preparation_start_time(self) -> Time:
         return Time.from_str(self._get_data('preparationStartTime'))
-
-

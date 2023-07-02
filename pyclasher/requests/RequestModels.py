@@ -2,7 +2,7 @@ from asyncio import run, Future, get_running_loop
 from typing import Any, Self, Coroutine
 from urllib.parse import quote, urlencode
 
-from ..Exceptions import NoClient, ClientIsNotRunning, RequestNotDone, ApiException
+from ..Exceptions import NoClient, ClientIsNotRunning, RequestNotDone, ApiException, MISSING, Missing
 from ..models import Paging
 from ..client import PyClasherClient, RequestMethods
 
@@ -15,7 +15,7 @@ class RequestModel:
     class for requesting
     """
 
-    _data: dict = None
+    _data: dict = MISSING
     _main_attribute: Any = None
     _url: str = None
     _url_kwargs: dict | None = None
@@ -45,8 +45,8 @@ class RequestModel:
             return
         raise NoClient
 
-    def to_dict(self) -> dict:
-        if self._data is None:
+    def to_dict(self) -> dict | Missing | None:
+        if self._data is MISSING:
             raise RequestNotDone
         return self._data
 

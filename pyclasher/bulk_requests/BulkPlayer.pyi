@@ -1,4 +1,4 @@
-from typing import Self, Iterable
+from typing import Iterable
 
 from ..requests import PlayerRequest, ClanMembersRequest
 from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList
@@ -19,6 +19,7 @@ class PlayerBulkRequest(BulkRequestModel):
         :param tags:    Iterable of tags
         :type tags:     Iterable
         """
+        self._tags: Iterable = tags
         ...
 
     @property
@@ -31,10 +32,16 @@ class PlayerBulkRequest(BulkRequestModel):
         ...
 
     @classmethod
-    async def _async_from_clan(cls, clan: BaseClan | str) -> Self: ...
+    async def _async_from_clan(cls, clan: BaseClan | str) -> PlayerBulkRequest:
+        """
+        protected asynchronous method used to create a PlayerBulkRequest instance
+        :param clan:
+        :return:
+        """
+        ...
 
     @classmethod
-    def from_clan(cls, clan: BaseClan | str) -> Self:
+    def from_clan(cls, clan: BaseClan | str) -> PlayerBulkRequest:
         """
         class method to create an instance using a clan or a clan tag
 
@@ -48,7 +55,7 @@ class PlayerBulkRequest(BulkRequestModel):
     def from_member_list(
             cls,
             member_list: ClanMemberList | ClanWarMemberList | ClanWarLeagueClanMemberList | ClanCapitalRaidSeasonMemberList | ClanMembersRequest
-    ) -> Self:
+    ) -> PlayerBulkRequest:
         """
         class method to create an instance using a clan member list
 
@@ -59,6 +66,17 @@ class PlayerBulkRequest(BulkRequestModel):
         """
         ...
 
-    def __getitem__(self, item: int) -> _request_model: ...
+    def __getitem__(self, item: int) -> _request_model:
+        """
+        getter for a player of the bulk request
 
-    def __next__(self) -> _request_model: ...
+        :param item:    (int) the index of the player
+        :type item:     int
+        """
+        ...
+
+    def __next__(self) -> _request_model:
+        """
+        returns the next player of the bulk request if an iterator is used
+        """
+        ...

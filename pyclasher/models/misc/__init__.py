@@ -1,3 +1,7 @@
+"""
+ClashOfClans API miscellaneous models
+"""
+
 from .Api import ClientError, Replay, ServiceVersion
 from .Language import Language
 from .Posts import VerifyTokenRequest, DeepLinkCreationRequest

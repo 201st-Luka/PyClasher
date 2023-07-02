@@ -48,5 +48,3 @@ class ClanRankingList(IterBaseModel):
 
     def __next__(self) -> _iter_rtype:
         return super().__next__()
-
-

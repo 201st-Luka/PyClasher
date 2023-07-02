@@ -84,5 +84,3 @@ class ClanWarLeagueGroup(BaseModel):
     @property
     def rounds(self) -> ClanWarLeagueRoundList:
         return ClanWarLeagueRoundList(self._get_data('rounds'))
-
-
