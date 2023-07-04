@@ -29,8 +29,9 @@ class BaseModel:
         """
         initialisation of the base model
 
-        :return:    None
-        :rtype:     None
+        :param  data:   the data dictionary, None or MISSING
+        :return:        None
+        :rtype:         None
         """
         self.__data = data
 

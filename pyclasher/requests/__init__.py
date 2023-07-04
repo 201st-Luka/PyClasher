@@ -1,3 +1,7 @@
+"""
+requests that can be used
+"""
+
 from .RequestModels import RequestModel, IterRequestModel, request_id
 
 # clan
