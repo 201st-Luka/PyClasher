@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Any, Self
+from typing import Any
 
-from ..Exceptions import RequestNotDone, InvalidTimeFormat, MISSING, Missing
+from ..Exceptions import RequestNotDone, InvalidTimeFormat, MISSING
 
 
 class BaseModel:
