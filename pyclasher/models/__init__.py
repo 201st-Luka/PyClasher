@@ -8,7 +8,7 @@ from .BaseModels import BaseModel, IterBaseModel, ImageUrl, IconUrl, IconUrls, A
 
 from .misc import *
 
-from .Enums import ApiExceptions, ClanType, WarFrequency, Locations, Leagues, CapitalLeagues, \
+from .Enums import ApiCodes, ClanType, WarFrequency, Locations, Leagues, CapitalLeagues, \
     BuilderBaseLeagues, WarLeagues, Labels, Languages, ClanWarState, ClanWarLeagueGroupState, \
     ClanWarResult, WarPreference, PlayerHouseElementType, Village, TokenStatus
 

@@ -17,17 +17,33 @@ class ApiCodes(Enum):
     MAINTENANCE = ApiCode(503, "Service is temporarily unavailable because of maintenance.")
 
     @classmethod
-    def from_code(cls, code):
-        for exception in cls:
-            if exception.value.code == code:
-                return exception
-        raise ValueError
+    def from_code(cls, code: int) -> ApiCodes:
+        """
+        class method that allows to initialise ApiCodes with the error code
+        
+        :param code:    error or success code
+        :type code:     int 
+        :return:        the corresponding ApiCode
+        :rtype:         ApiCodes
+        """
+        ...
 
     @classmethod
-    def from_exception(cls, code, response_json):
-        self = cls.from_code(code)
-        self.value.response_json = response_json
-        return self
+    def from_exception(cls,
+                       code: int,
+                       response_json: dict
+                       ) -> ApiCode:
+        """
+        class method that allows to initialise ApiCodes with a failed request response
+
+        :param  code:           error code
+        :type   code:           int
+        :param  response_json:  failed request response json
+        :type response_json:    dict
+        :return:                the corresponding ApiCode
+        :rtype:                 ApiCodes
+        """
+        ...
 
 
 class ClanType(Enum):
@@ -577,6 +593,10 @@ class Labels(Enum):
 
 
 class Languages(Enum):
+    """
+    not implemented yet
+    """
+
     pass
 
 
