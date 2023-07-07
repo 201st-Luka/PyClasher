@@ -6,49 +6,45 @@ from .PlayerHouse import PlayerHouse
 
 class ClanMember(BaseClanMember):
     @property
-    def league(self) -> League:
+    def league(self):
         return League(self._get_data('league'))
 
     @property
-    def builder_base_league(self) -> BuilderBaseLeague:
+    def builder_base_league(self):
         return BuilderBaseLeague(self._get_data('builderBaseLeague'))
 
     @property
-    def versus_trophies(self) -> int:
-        return self._get_data('versusTrophies')
-
-    @property
-    def role(self) -> ClanRole:
+    def role(self):
         return ClanRole(self._get_data('role'))
 
     @property
-    def exp_level(self) -> int:
+    def exp_level(self):
         return self._get_data('expLevel')
 
     @property
-    def clan_rank(self) -> int:
+    def clan_rank(self):
         return self._get_data('clanRank')
 
     @property
-    def previous_clan_rank(self) -> int:
+    def previous_clan_rank(self):
         return self._get_data('previousClanRank')
 
     @property
-    def donations(self) -> int:
+    def donations(self):
         return self._get_data('donations')
 
     @property
-    def donations_received(self) -> int:
+    def donations_received(self):
         return self._get_data('donationsReceived')
 
     @property
-    def trophies(self) -> int:
+    def trophies(self):
         return self._get_data('trophies')
 
     @property
-    def builder_base_trophies(self) -> int:
+    def builder_base_trophies(self):
         return self._get_data('builderBaseTrophies')
 
     @property
-    def player_house(self) -> PlayerHouse:
+    def player_house(self):
         return PlayerHouse(self._get_data('playerHouse'))
