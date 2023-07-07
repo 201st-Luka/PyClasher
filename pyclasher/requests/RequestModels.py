@@ -2,7 +2,7 @@ from asyncio import run, Future, get_running_loop
 from typing import Any, Self, Coroutine
 from urllib.parse import quote, urlencode
 
-from ..Exceptions import NoClient, ClientIsNotRunning, RequestNotDone, ApiException, MISSING, Missing
+from ..Exceptions import NoClient, ClientIsNotRunning, RequestNotDone, ApiCode, MISSING, Missing
 from ..models import Paging
 from ..client import PyClasherClient, RequestMethods
 
@@ -15,7 +15,7 @@ class RequestModel:
     class for requesting
     """
 
-    _data: dict = MISSING
+    __data: dict = MISSING
     _main_attribute: Any = None
     _url: str = None
     _url_kwargs: dict | None = None
@@ -46,9 +46,9 @@ class RequestModel:
         raise NoClient
 
     def to_dict(self) -> dict | Missing | None:
-        if self._data is MISSING:
+        if self.__data is MISSING:
             raise RequestNotDone
-        return self._data
+        return self.__data
 
     def __make_request_url(self) -> str:
         """
@@ -82,10 +82,10 @@ class RequestModel:
 
         await self.client.queue.put((future, self.__make_request_url(), self.request_method.value, None))
 
-        self._data = await future
+        self.__data = await future
 
-        if isinstance(self._data, ApiException):
-            raise self._data
+        if isinstance(self.__data, ApiCode):
+            raise self.__data
 
         self.client.logger.debug(f"request {self._request_id} done")
         return self
@@ -95,13 +95,13 @@ class RequestModel:
 
     @property
     def _response(self) -> dict:
-        if self._data is None:
+        if self.__data is None:
             raise RequestNotDone
-        return self._data
+        return self.__data
 
     @_response.setter
     def _response(self, data: dict):
-        self._data = data
+        self.__data = data
 
     def request(self) -> Self | Coroutine[Any, Any, Self]:
         try:

@@ -3,7 +3,7 @@ from typing import Coroutine, Any
 from urllib.parse import quote
 
 from .RequestModels import RequestModel
-from .. import ClientIsNotRunning, RequestMethods, ApiException
+from .. import ClientIsNotRunning, RequestMethods, ApiCode
 from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
 
 
@@ -34,7 +34,7 @@ class PlayerRequest(RequestModel, Player):
 
         data = await future
 
-        if isinstance(data, ApiException):
+        if isinstance(data, ApiCode):
             raise data
 
         self.client.logger.debug(f"post {self._request_id} done")

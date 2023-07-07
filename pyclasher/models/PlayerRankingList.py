@@ -1,6 +1,6 @@
-from .PlayerRankingClan import PlayerRankingClan
-from .Leagues import League
 from .BaseModels import BaseModel, IterBaseModel
+from .Leagues import League
+from .PlayerRankingClan import PlayerRankingClan
 
 
 class PlayerRanking(BaseModel):

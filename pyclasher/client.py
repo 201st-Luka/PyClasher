@@ -1,15 +1,14 @@
 from json import dumps
-from asyncio import run, Queue, sleep, Future, create_task, get_running_loop
+from asyncio import run, Queue, sleep, create_task, get_running_loop
 from enum import Enum
-from logging import Logger
-from typing import Iterable, Self, Coroutine, Any
+from typing import Iterable
 from urllib.parse import urlparse
 from aiohttp import ClientSession, request
 
 from .Exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
     NoneToken, MISSING
 from .models.BaseModels import BaseModel
-from .models import ApiExceptions
+from .models import ApiCodes
 
 
 class RequestMethods(Enum):
@@ -192,7 +191,7 @@ class Consumer:
     async def _request(self, future, url, method, body):
         async with self.session.request(method=method, url=url, data=None if body is None else dumps(body)) as response:
             response_json = await response.json()
-            future.set_result(response_json if response.status == 200 else ApiExceptions.from_exception(response.status, response_json).value)
+            future.set_result(response_json if response.status == 200 else ApiCodes.from_exception(response.status, response_json).value)
             return
 
     async def consume(self):
