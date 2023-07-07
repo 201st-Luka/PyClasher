@@ -4,47 +4,47 @@ from .Location import Location
 
 class ClanRanking(BaseModel):
     @property
-    def clan_level(self) -> int:
+    def clan_level(self):
         return self._get_data('clanLevel')
 
     @property
-    def clan_points(self) -> int:
+    def clan_points(self):
         return self._get_data('clanPoints')
 
     @property
-    def location(self) -> Location:
+    def location(self):
         return Location(self._get_data('location'))
 
     @property
-    def members(self) -> int:
+    def members(self):
         return self._get_data('members')
 
     @property
-    def tag(self) -> str:
+    def tag(self):
         return self._get_data('tag')
 
     @property
-    def name(self) -> str:
+    def name(self):
         return self._get_data('name')
 
     @property
-    def rank(self) -> int:
+    def rank(self):
         return self._get_data('rank')
 
     @property
-    def previous_rank(self) -> int:
+    def previous_rank(self):
         return self._get_data('previousRank')
 
     @property
-    def badge_urls(self) -> BadgeUrls:
+    def badge_urls(self):
         return BadgeUrls(self._get_data('badgeUrls'))
 
 
 class ClanRankingList(IterBaseModel):
     _iter_rtype = ClanRanking
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item):
         return super().__getitem__(item)
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self):
         return super().__next__()
