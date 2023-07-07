@@ -4,12 +4,13 @@ clan models and sub models
 
 
 from .BaseModels import BaseModel, IterBaseModel, BaseClan
-from .Enums import WarFrequency, ClanType
-from .Leagues import WarLeague, CapitalLeague
-from .misc import Language
-from .Labels import LabelList
-from .Location import Location
 from .ClanMemberList import ClanMemberList
+from .Enums import WarFrequency, ClanType
+from .Labels import LabelList
+from .Leagues import WarLeague, CapitalLeague
+from .Location import Location
+from .misc import Language
+from ..Exceptions import Missing
 
 
 class ClanDistrictData(BaseModel):
@@ -116,7 +117,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def member_list(self) -> ClanMemberList:
+    def member_list(self) -> ClanMemberList | Missing:
         """
         clan's member list
 

@@ -1,10 +1,10 @@
 from .BaseModels import BaseModel, IterBaseModel, BaseClan
-from .Enums import WarFrequency, ClanType
-from .Leagues import WarLeague, CapitalLeague
-from .misc import Language
-from .Labels import LabelList
-from .Location import Location
 from .ClanMemberList import ClanMemberList
+from .Enums import WarFrequency, ClanType
+from .Labels import LabelList
+from .Leagues import WarLeague, CapitalLeague
+from .Location import Location
+from .misc import Language
 
 
 class ClanDistrictData(BaseModel):
