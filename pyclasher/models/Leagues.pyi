@@ -2,7 +2,6 @@
 models concerning the leagues
 """
 
-
 from .BaseModels import BaseModel, IconUrls, IterBaseModel, BaseLeague
 
 

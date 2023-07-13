@@ -53,5 +53,3 @@ class PlayerRankingList(IterBaseModel):
 
     def __next__(self) -> _iter_rtype:
         ...
-
-

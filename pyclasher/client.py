@@ -1,14 +1,15 @@
-from json import dumps
 from asyncio import run, Queue, sleep, create_task, get_running_loop
 from enum import Enum
+from json import dumps
 from typing import Iterable
 from urllib.parse import urlparse
+
 from aiohttp import ClientSession, request
 
 from .Exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
     NoneToken, MISSING
-from .models.BaseModels import BaseModel
 from .models import ApiCodes
+from .models.BaseModels import BaseModel
 
 
 class RequestMethods(Enum):

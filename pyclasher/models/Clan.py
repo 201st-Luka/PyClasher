@@ -141,5 +141,3 @@ class Clan(BaseClan):
     @property
     def clan_capital(self):
         return ClanCapital(self._get_data('clanCapital'))
-
-

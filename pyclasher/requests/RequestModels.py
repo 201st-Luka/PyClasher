@@ -1,13 +1,12 @@
 from asyncio import run, Future, get_running_loop
-from typing import Any, Self, Coroutine
+from typing import Any
 from urllib.parse import quote, urlencode
 
-from ..Exceptions import NoClient, ClientIsNotRunning, RequestNotDone, ApiCode, MISSING, Missing
-from ..models import Paging
+from ..Exceptions import NoClient, ClientIsNotRunning, RequestNotDone, ApiCode, MISSING
 from ..client import PyClasherClient, RequestMethods
+from ..models import Paging
 
-
-request_id: int = 0
+request_id = 0
 
 
 class RequestModel:
@@ -15,13 +14,13 @@ class RequestModel:
     class for requesting
     """
 
-    __data: dict = MISSING
-    _main_attribute: Any = None
-    _url: str = None
-    _url_kwargs: dict | None = None
-    _len: int = None
+    _data = MISSING
+    _main_attribute = None
+    _url = None
+    _url_kwargs = None
+    _len = None
 
-    def __init__(self, raw_url: str, kwargs: dict = None, request_method: RequestMethods = RequestMethods.REQUEST, **url_kwargs) -> None:
+    def __init__(self, raw_url, kwargs=None, request_method=RequestMethods.REQUEST, **url_kwargs):
         """
         sets up all parameters for a request
         :param raw_url:         the url of the request
@@ -45,12 +44,12 @@ class RequestModel:
             return
         raise NoClient
 
-    def to_dict(self) -> dict | Missing | None:
-        if self.__data is MISSING:
+    def to_dict(self):
+        if self._data is MISSING:
             raise RequestNotDone
-        return self.__data
+        return self._data
 
-    def __make_request_url(self) -> str:
+    def __make_request_url(self):
         """
         method that returns the request url
         :return request_url:    full request url
@@ -68,7 +67,7 @@ class RequestModel:
         self.client.logger.debug(f"url for request {self._request_id} is {request_url}")
         return request_url
 
-    async def _async_request(self) -> Self:
+    async def _async_request(self):
         """
         makes a request with the ClashOfClans API
         """
@@ -82,28 +81,28 @@ class RequestModel:
 
         await self.client.queue.put((future, self.__make_request_url(), self.request_method.value, None))
 
-        self.__data = await future
+        self._data = await future
 
-        if isinstance(self.__data, ApiCode):
-            raise self.__data
+        if isinstance(self._data, ApiCode):
+            raise self._data
 
         self.client.logger.debug(f"request {self._request_id} done")
         return self
 
-    def __get_properties(self) -> dict:
+    def __get_properties(self):
         return {name: prop.__get__(self) for name, prop in vars(self.__class__).items() if isinstance(prop, property)}
 
     @property
-    def _response(self) -> dict:
-        if self.__data is None:
+    def _response(self):
+        if self._data is None:
             raise RequestNotDone
-        return self.__data
+        return self._data
 
     @_response.setter
-    def _response(self, data: dict):
-        self.__data = data
+    def _response(self, data):
+        self._data = data
 
-    def request(self) -> Self | Coroutine[Any, Any, Self]:
+    def request(self):
         try:
             get_running_loop()
         except RuntimeError:
@@ -114,22 +113,22 @@ class RequestModel:
     async def __aenter__(self):
         return await self._async_request()
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
         return
 
     def __enter__(self):
         return self.request()
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    def __exit__(self, exc_type, exc_val, exc_tb):
         return
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         if self.__class__.__name__ == "RequestModel":
             return f"RequestModel(url={self._url}, url_kwargs={self._url_kwargs})"
         else:
             return f"{self.__class__.__name__}({', '.join(('='.join((key, str(value))) for key, value in self.__get_properties().items()))})"
 
-    def __str__(self) -> str:
+    def __str__(self):
         if self.__class__.__name__ == "RequestModel":
             return f"RequestModel({self.__make_request_url()})"
         else:
@@ -142,31 +141,32 @@ class IterRequestModel(RequestModel):
     _list_rtype: Any = ...
     _len = None
 
-    async def _async_request(self) -> Self:
+    async def _async_request(self):
         await super()._async_request()
         self._len = len(self._response['items'])
+        self._main_attribute = self._len
         return self
 
     @property
-    def items(self) -> _list_rtype:
+    def items(self):
         return self._list_rtype(self._response['items'])
 
     @property
-    def paging(self) -> Paging:
+    def paging(self):
         return Paging(self._response['paging'])
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item):
         return self._iter_rtype(self._response['items'][item])
 
-    def __iter__(self) -> Self:
+    def __iter__(self):
         self._iter = iter(self._response['items'])
         return self
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self):
         return self._iter_rtype(next(self._iter))
 
-    def __contains__(self, item: _iter_rtype) -> bool:
+    def __contains__(self, item):
         raise NotImplementedError
 
-    def __len__(self) -> int:
+    def __len__(self):
         return self._len

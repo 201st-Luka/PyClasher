@@ -2,41 +2,35 @@
 requests that can be used
 """
 
-from .RequestModels import RequestModel, IterRequestModel, request_id
-
+from .BuilderBaseLeague import BuilderBaseLeagueRequest
+from .BuilderBaseLeagues import BuilderBaseLeaguesRequest
+from .CapitalLeague import CapitalLeagueRequest
+from .CapitalLeagueSeasons import CapitalLeaguesRequest
 # clan
 from .Clan import ClanRequest
-from .ClanWarLog import ClanWarLogRequest
-from .ClanSearch import ClanSearchRequest
-from .ClanCurrentWar import ClanCurrentWarRequest
-from .ClanMembers import ClanMembersRequest
+from .ClanBuilderBaseRankings import ClanBuilderBaseRankingsRequest
 from .ClanCapitalRaidSeasons import ClanCapitalRaidSeasonsRequest
-
-# player
-from .Player import PlayerRequest
-
+from .ClanCurrentWar import ClanCurrentWarRequest
+from .ClanLabels import ClanLabelsRequest
+from .ClanMembers import ClanMembersRequest
+from .ClanRankings import ClanRankingsRequest
+from .ClanSearch import ClanSearchRequest
+from .ClanWarLog import ClanWarLogRequest
+# goldpass
+from .GoldPass import GoldPassRequest
+from .League import LeagueRequest
 # leagues
 from .LeagueSeason import LeagueSeasonRequest
 from .Leagues import LeaguesRequest
-from .League import LeagueRequest
-from .CapitalLeagueSeasons import CapitalLeaguesRequest
-from .CapitalLeague import CapitalLeagueRequest
-from .BuilderBaseLeagues import BuilderBaseLeaguesRequest
-from .BuilderBaseLeague import BuilderBaseLeagueRequest
-from .WarLeagues import WarLeaguesRequest
-from .WarLeague import WarLeagueRequest
-
+from .Location import LocationRequest
 # locations
 from .Locations import LocationsRequest
-from .Location import LocationRequest
-from .ClanRankings import ClanRankingsRequest
-from .PlayerRankings import PlayerRankingsRequest
+# player
+from .Player import PlayerRequest
 from .PlayerBuilderBaseRankings import PlayerBuilderBaseRankingsRequest
-from .ClanBuilderBaseRankings import ClanBuilderBaseRankingsRequest
-
-# goldpass
-from .GoldPass import GoldPassRequest
-
 # labels
 from .PlayerLabels import PlayerLabelsRequest
-from .ClanLabels import ClanLabelsRequest
+from .PlayerRankings import PlayerRankingsRequest
+from .RequestModels import RequestModel, IterRequestModel, request_id
+from .WarLeague import WarLeagueRequest
+from .WarLeagues import WarLeaguesRequest

@@ -1,9 +1,8 @@
 from asyncio import get_running_loop, run
-from typing import Self, Iterable
 
-from ..requests import PlayerRequest, ClanMembersRequest
-from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList
 from .BulkRequestModel import BulkRequestModel
+from ..models import BaseClan
+from ..requests import PlayerRequest, ClanMembersRequest
 
 
 class PlayerBulkRequest(BulkRequestModel):
@@ -36,4 +35,3 @@ class PlayerBulkRequest(BulkRequestModel):
     @classmethod
     def from_member_list(cls, member_list):
         return cls((member.tag for member in member_list))
-

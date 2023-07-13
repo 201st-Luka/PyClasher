@@ -2,7 +2,6 @@
 clan models and sub models
 """
 
-
 from .BaseModels import BaseModel, IterBaseModel, BaseClan
 from .ClanMemberList import ClanMemberList
 from .Enums import WarFrequency, ClanType
@@ -335,5 +334,3 @@ class Clan(BaseClan):
         :rtype:     ClanCapital
         """
         ...
-
-

@@ -1,5 +1,5 @@
-from ..Enums import TokenStatus
 from ..BaseModels import BaseModel
+from ..Enums import TokenStatus
 
 
 class VerifyTokenResponse(BaseModel):

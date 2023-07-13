@@ -2,7 +2,6 @@
 models concerning the location
 """
 
-
 from .BaseModels import IterBaseModel, BaseModel
 from ..Exceptions import Missing
 

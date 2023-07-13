@@ -50,6 +50,7 @@ class LeagueSeason(BaseModel):
     @property
     def id(self):
         return self._get_data('id')
+
     pass
 
 

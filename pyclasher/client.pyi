@@ -2,6 +2,7 @@ from asyncio import Queue, Future, Task
 from enum import Enum
 from logging import Logger
 from typing import Iterable, Coroutine, Any
+
 from aiohttp import ClientSession
 
 from .Exceptions import MISSING
@@ -412,11 +413,11 @@ class PyClasherClient:
         ...
 
     def __init__(
-        self,
-        tokens: str | Iterable[str] = None,
-        requests_per_second: int = None,
-        logger: Logger = MISSING,
-        swagger_url: str = None
+            self,
+            tokens: str | Iterable[str] = None,
+            requests_per_second: int = None,
+            logger: Logger = MISSING,
+            swagger_url: str = None
     ) -> None:
         """
         initialisation method for the client

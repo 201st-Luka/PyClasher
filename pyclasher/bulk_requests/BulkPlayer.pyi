@@ -1,8 +1,8 @@
 from typing import Iterable
 
-from ..requests import PlayerRequest, ClanMembersRequest
-from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList
 from .BulkRequestModel import BulkRequestModel
+from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList
+from ..requests import PlayerRequest, ClanMembersRequest
 
 
 class PlayerBulkRequest(BulkRequestModel):

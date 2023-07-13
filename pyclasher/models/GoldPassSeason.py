@@ -5,6 +5,7 @@ class GoldPassSeason(BaseModel):
     @property
     def start_time(self):
         return Time.from_str(self._get_data('startTime'))
+
     pass
 
     @property
