@@ -1,5 +1,5 @@
-from ..models import GoldPassSeason
 from .RequestModels import RequestModel
+from ..models import GoldPassSeason
 
 
 class GoldPassRequest(RequestModel, GoldPassSeason):

@@ -10,9 +10,9 @@ class ClanRequest(RequestModel, Clan):
     Clan tags can be found using clan search operation.
     Note that clan tags start with hash character '#'.
     """
-    clan_tag: str = None
+    clan_tag = None
 
-    def __init__(self, clan_tag: str) -> None:
+    def __init__(self, clan_tag):
         """
         initialisation of the clan request
         :param clan_tag:    Tag of the clan.
@@ -26,7 +26,7 @@ class ClanRequest(RequestModel, Clan):
         return
 
     @classmethod
-    def from_base_clan(cls, base_clan: BaseClan):
+    def from_base_clan(cls, base_clan):
         """
         method that returns the clan object of a BaseClan or a BaseClan subclass model
         :param base_clan:   The BaseClan or a BaseClan subclass model

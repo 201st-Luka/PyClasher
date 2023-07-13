@@ -1,30 +1,30 @@
 from enum import Enum
-from typing import Self
 
-from ..Exceptions import ApiException
-from .Location import Location
 from .Labels import Label
 from .Leagues import League, CapitalLeague, BuilderBaseLeague, WarLeague
+from .Location import Location
+from ..Exceptions import ApiCode
 
 
-class ApiExceptions(Enum):
-    SUCCESS = ApiException(200, "Successful response")
-    BAD_REQUEST = ApiException(400, "Client provided incorrect parameters for the request.")
-    ACCESS_DENIED = ApiException(403,"Access denied, either because of missing/incorrect credentials or used API token does not grant access to the requested resource.")
-    NOT_FOUND = ApiException(404, "Resource was not found.")
-    THROTTLED = ApiException(429, "Request was throttled, because amount of requests was above the threshold defined for the used API token.")
-    UNKNOWN = ApiException(500, "Unknown error happened when handling the request.")
-    MAINTENANCE = ApiException(503, "Service is temporarily unavailable because of maintenance.")
+class ApiCodes(Enum):
+    SUCCESS = ApiCode(200, "Successful response")
+    BAD_REQUEST = ApiCode(400, "Client provided incorrect parameters for the request.")
+    ACCESS_DENIED = ApiCode(403,
+                            "Access denied, either because of missing/incorrect credentials or used API token does not grant access to the requested resource.")
+    NOT_FOUND = ApiCode(404, "Resource was not found.")
+    THROTTLED = ApiCode(429, "Request was throttled, because amount of requests was above the threshold defined for the used API token.")
+    UNKNOWN = ApiCode(500, "Unknown error happened when handling the request.")
+    MAINTENANCE = ApiCode(503, "Service is temporarily unavailable because of maintenance.")
 
     @classmethod
-    def from_code(cls, code: int) -> Self:
+    def from_code(cls, code):
         for exception in cls:
             if exception.value.code == code:
                 return exception
         raise ValueError
 
     @classmethod
-    def from_exception(cls, code: int, response_json: dict):
+    def from_exception(cls, code, response_json):
         self = cls.from_code(code)
         self.value.response_json = response_json
         return self

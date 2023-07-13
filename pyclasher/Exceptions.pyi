@@ -26,7 +26,7 @@ class Missing:
 MISSING = Missing()
 
 
-class ApiException(Exception):
+class ApiCode(Exception):
     """
     exception class to handle ClashOfClans API exceptions
 

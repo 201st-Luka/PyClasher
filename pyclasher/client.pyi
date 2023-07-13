@@ -1,15 +1,12 @@
-from json import dumps
-from asyncio import run, Queue, sleep, Future, create_task, get_running_loop, Task
+from asyncio import Queue, Future, Task
 from enum import Enum
 from logging import Logger
-from typing import Iterable, Self, Coroutine, Any
-from urllib.parse import urlparse
-from aiohttp import ClientSession, request
+from typing import Iterable, Coroutine, Any
 
-from .Exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
-    NoneToken, MISSING
+from aiohttp import ClientSession
+
+from .Exceptions import MISSING
 from .models.BaseModels import BaseModel
-from .models import ApiExceptions
 
 
 class RequestMethods(Enum):
@@ -416,11 +413,11 @@ class PyClasherClient:
         ...
 
     def __init__(
-        self,
-        tokens: str | Iterable[str] = None,
-        requests_per_second: int = None,
-        logger: Logger = MISSING,
-        swagger_url: str = None
+            self,
+            tokens: str | Iterable[str] = None,
+            requests_per_second: int = None,
+            logger: Logger = MISSING,
+            swagger_url: str = None
     ) -> None:
         """
         initialisation method for the client
@@ -451,7 +448,7 @@ class PyClasherClient:
                    requests_per_second: int = 5,
                    logger: Logger = MISSING,
                    login_count: int = 1
-                   ) -> None:
+                   ) -> PyClasherClient | Coroutine[Any, Any, PyClasherClient]:
         """
         login via the ClashOfClans login API to retrieve a temporary session (usually 1 hour)
 

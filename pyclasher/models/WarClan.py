@@ -2,97 +2,85 @@ from .BaseModels import BaseModel, IterBaseModel, BaseClanMember, BaseClan
 
 
 class ClanWarAttack(BaseModel):
-    def __init__(self, data: dict):
+    def __init__(self, data):
         super().__init__(data)
         self._main_attribute = self.attacker_tag
         return
 
     @property
-    def order(self) -> int:
+    def order(self):
         return self._get_data('order')
 
     @property
-    def attacker_tag(self) -> str:
+    def attacker_tag(self):
         return self._get_data('attackerTag')
 
     @property
-    def defender_tag(self) -> str:
+    def defender_tag(self):
         return self._get_data('defenderTag')
 
     @property
-    def stars(self) -> int:
+    def stars(self):
         return self._get_data('stars')
 
     @property
-    def destruction_percentage(self) -> int:
+    def destruction_percentage(self):
         return self._get_data('destructionPercentage')
 
     @property
-    def duration(self) -> int:
+    def duration(self):
         return self._get_data('duration')
 
 
 class ClanWarAttackList(IterBaseModel):
     _iter_rtype = ClanWarAttack
 
-    def __getitem__(self, item: int) -> _iter_rtype:
-        return super().__getitem__(item)
-
-    def __next__(self) -> _iter_rtype:
-        return super().__next__()
-
 
 class ClanWarMember(BaseClanMember):
     @property
-    def map_position(self) -> int:
+    def map_position(self):
         return self._get_data('mapPosition')
 
     @property
-    def townhall_level(self) -> int:
+    def townhall_level(self):
         return self._get_data('townhallLevel')
 
     @property
-    def opponent_attacks(self) -> int:
+    def opponent_attacks(self):
         return self._get_data('opponentAttacks')
 
-    def best_opponent_attack(self) -> ClanWarAttack:
+    def best_opponent_attack(self):
         return ClanWarAttack(self._get_data('bestOpponentAttack'))
 
-    def attacks(self) -> ClanWarAttackList:
+    def attacks(self):
         return ClanWarAttackList(self._get_data('attacks'))
 
 
 class ClanWarMemberList(IterBaseModel):
     _iter_rtype = ClanWarMember
 
-    def __getitem__(self, item: int) -> _iter_rtype:
-        return super().__getitem__(item)
-
-    def __next__(self) -> _iter_rtype:
-        return super().__next__()
-
 
 class WarClan(BaseClan):
     @property
-    def destruction_percentage(self) -> float:
+    def destruction_percentage(self):
         return self._get_data('destructionPercentage')
 
     @property
-    def clan_level(self) -> int:
+    def clan_level(self):
         return self._get_data('clanLevel')
 
     @property
-    def attacks(self) -> int:
+    def attacks(self):
         return self._get_data('attacks')
 
     @property
-    def stars(self) -> int:
+    def stars(self):
         return self._get_data('stars')
 
     @property
-    def exp_earned(self) -> int:
+    def exp_earned(self):
         return self._get_data('expEarned')
 
     @property
-    def members(self) -> ClanWarMemberList:
+    def members(self):
         return ClanWarMemberList(self._get_data('members'))

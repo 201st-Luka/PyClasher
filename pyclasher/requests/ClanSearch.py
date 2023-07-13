@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from ..models import ClanList, WarFrequency, Locations, Labels, SearchClan
+from ..models import ClanList, WarFrequency, Locations, Labels, Clan
 
 
 class ClanSearchRequest(IterRequestModel):
@@ -11,13 +11,13 @@ class ClanSearchRequest(IterRequestModel):
     change in the future releases of the API.
     """
 
-    name: str = None
-    _iter_rtype = SearchClan
+    name = None
+    _iter_rtype = Clan
     _list_rtype = ClanList
 
-    def __init__(self, name: str = None, war_frequency: WarFrequency = None, location: Locations = None, min_members: int = None,
-                 max_members: int = None, min_clan_points: int = None, min_clan_level: int = None, label_ids: list[Labels] = None,
-                 limit: int = None, after: str = None, before: str = None) -> None:
+    def __init__(self, name=None, war_frequency=None, location=None, min_members=None,
+                 max_members=None, min_clan_points=None, min_clan_level=None, label_ids=None,
+                 limit=None, after=None, before=None) -> None:
         """
         initialisation of the clan request
         :param name:            Search clans by name. If name is used as part of search query, it needs to be at least
@@ -62,12 +62,3 @@ class ClanSearchRequest(IterRequestModel):
                                       'limit': limit, 'after': after, 'before': before})
         self._main_attribute = self.name
         return
-
-    def items(self) -> _list_rtype:
-        return super().items()
-
-    def __getitem__(self, item: int) -> _iter_rtype:
-        return super().__getitem__(item)
-
-    def __next__(self) -> _iter_rtype:
-        return super().__next__()

@@ -10,7 +10,7 @@ class ClanCapitalRaidSeasonsRequest(IterRequestModel):
     _iter_rtype = ClanCapitalRaidSeason
     _list_rtype = ClanCapitalRaidSeasons
 
-    def __init__(self, clan_tag: str, limit: int = None, after: str = None, before: str = None):
+    def __init__(self, clan_tag, limit=None, after=None, before=None):
         """
         initialisation of the clan capital raid seasons request
         :param clan_tag:    Tag of the clan.
@@ -30,12 +30,3 @@ class ClanCapitalRaidSeasonsRequest(IterRequestModel):
                                   kwargs={'limit': limit, 'after': after, 'before': before})
         self._main_attribute = self.clan_tag
         return
-
-    def items(self) -> _list_rtype:
-        return super().items()
-
-    def __getitem__(self, item: int) -> _iter_rtype:
-        return super().__getitem__(item)
-
-    def __next__(self) -> _iter_rtype:
-        return super().__next__()

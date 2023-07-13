@@ -3,31 +3,31 @@ from .Enums import PlayerHouseElementType
 
 
 class PlayerHouseElement(BaseModel):
-    def __init__(self, data: dict):
+    def __init__(self, data):
         super().__init__(data)
         self._main_attribute = self.id
         return
 
     @property
-    def id(self) -> int:
+    def id(self):
         return self._get_data('id')
 
     @property
-    def type(self) -> PlayerHouseElementType:
+    def type(self):
         return PlayerHouseElementType(self._get_data('type'))
 
 
 class PlayerHouseElementList(IterBaseModel):
     _iter_rtype = PlayerHouseElement
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item):
         return super().__getitem__(item)
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self):
         return super().__next__()
 
 
 class PlayerHouse(BaseModel):
     @property
-    def elements(self) -> PlayerHouseElementList:
+    def elements(self):
         return PlayerHouseElementList(self._get_data('elements'))

@@ -1,9 +1,8 @@
 from asyncio import Future, get_running_loop, run
-from typing import Coroutine, Any
 from urllib.parse import quote
 
 from .RequestModels import RequestModel
-from .. import ClientIsNotRunning, RequestMethods, ApiException
+from .. import ClientIsNotRunning, RequestMethods, ApiCode
 from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
 
 
@@ -13,13 +12,13 @@ class PlayerRequest(RequestModel, Player):
     from clan member lists.
     """
 
-    def __init__(self, player_tag: str):
+    def __init__(self, player_tag):
         self.player_tag = player_tag
         super().__init__("players/{player_tag}", player_tag=self.player_tag)
         self._main_attribute = self.player_tag
         return
 
-    async def _async_verify_token(self, player_token: str) -> VerifyTokenResponse:
+    async def _async_verify_token(self, player_token):
         self.client.logger.debug(f"posting {self._request_id}")
 
         if not self.client.is_running:
@@ -34,13 +33,13 @@ class PlayerRequest(RequestModel, Player):
 
         data = await future
 
-        if isinstance(data, ApiException):
+        if isinstance(data, ApiCode):
             raise data
 
         self.client.logger.debug(f"post {self._request_id} done")
         return VerifyTokenResponse(data)
 
-    def verify_token(self, player_token: str) -> VerifyTokenResponse | Coroutine[Any, Any, VerifyTokenResponse]:
+    def verify_token(self, player_token):
         try:
             get_running_loop()
         except RuntimeError:

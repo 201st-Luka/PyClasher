@@ -1,5 +1,4 @@
 from asyncio import get_running_loop, run
-from typing import Self, Coroutine, Any
 
 from .RequestModels import RequestModel
 from ..models import ClanWar, BaseClan
@@ -9,9 +8,9 @@ class ClanCurrentWarRequest(RequestModel, ClanWar):
     """
     Retrieve information about clan's current clan war
     """
-    clan_tag: str = None
+    clan_tag = None
 
-    def __init__(self, clan_tag: str) -> None:
+    def __init__(self, clan_tag):
         """
         initialisation of the clan current war request
         :param clan_tag:    Tag of the clan.
@@ -25,7 +24,7 @@ class ClanCurrentWarRequest(RequestModel, ClanWar):
         return
 
     @classmethod
-    def from_base_clan(cls, base_clan: BaseClan) -> Self | Coroutine[Any, Any, Self]:
+    def from_base_clan(cls, base_clan):
         """
         method that returns the clan object of a BaseClan or a BaseClan subclass model
         :param base_clan:   The BaseClan or a BaseClan subclass model

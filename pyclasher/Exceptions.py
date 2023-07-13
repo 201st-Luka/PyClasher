@@ -18,26 +18,26 @@ class Missing:
 MISSING = Missing()
 
 
-class ApiException(Exception):
+class ApiCode(Exception):
     """
     exception class to handle ClashOfClans API client errors
     """
 
-    def __init__(self, code, description, response_json = None):
+    def __init__(self, code, description, response_json=None):
         self.code = code
         self.description = description
         self.response_json = response_json
         return
 
-    def _dict_to_str(self) -> str:
+    def _dict_to_str(self):
         return "\n".join((f" - {key}: {val}" for key, val in self.response_json.items()))
 
-    def __str__(self) -> str:
+    def __str__(self):
         if self.response_json is None:
             return f"ApiException({self.code})"
         return f"ApiException:\n - Code: {self.code}\n - Description: {self.description}\n{self._dict_to_str()}"
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"ApiException(code={self.code})"
 
 
@@ -58,7 +58,7 @@ class InvalidLoginData(Exception):
 
 
 class InvalidType(Exception):
-    def __init__(self, element, allowed_types: type | tuple[type, ...]):
+    def __init__(self, element, allowed_types):
         super().__init__()
         self.element = element
         self.types = allowed_types
@@ -69,27 +69,27 @@ class InvalidType(Exception):
 
 
 class LoginNotDone(Exception):
-    def __str__(self) -> str:
+    def __str__(self):
         return "The login was not done. You need to login first."
 
 
 class ClientIsRunning(Exception):
-    def __str__(self) -> str:
+    def __str__(self):
         return "The client is already running."
 
 
 class ClientIsNotRunning(Exception):
-    def __str__(self) -> str:
+    def __str__(self):
         return "The client is not running."
 
 
 class ClientAlreadyInitialised(Exception):
-    def __str__(self) -> str:
+    def __str__(self):
         return "The PyClasherClient has already been initialised."
 
 
 class NoClient(Exception):
-    def __str__(self) -> str:
+    def __str__(self):
         return "No client has been initialised."
 
 
@@ -100,15 +100,15 @@ class InvalidTimeFormat(Exception):
         self.time_format = time_format
         return
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"The time {self.value} does not match the format '{self.time_format}'."
 
 
 class ClientRunningOverwrite(Exception):
-    def __str__(self) -> str:
+    def __str__(self):
         return "You cannot overwrite the parameter of a running client."
 
 
 class InvalidSeasonFormat(Exception):
-    def __str__(self) -> str:
+    def __str__(self):
         return "The season string is not valid. It must be follow the following format: <yyyy-mm> where <yyyy> is the year and <mm> is the month."

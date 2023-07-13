@@ -10,7 +10,7 @@ class ClanWarLogRequest(IterRequestModel):
     _iter_rtype = ClanWarLogEntry
     _list_rtype = ClanWarLog
 
-    def __init__(self, clan_tag: str, limit: int = None, after: str = None, before: str = None) -> None:
+    def __init__(self, clan_tag, limit=None, after=None, before=None):
         """
         initialisation of the clan request
         :param clan_tag:    Tag of the clan.
@@ -30,12 +30,3 @@ class ClanWarLogRequest(IterRequestModel):
                                   kwargs={'limit': limit, 'after': after, 'before': before})
         self._main_attribute = self.clan_tag
         return
-
-    def items(self) -> _list_rtype:
-        return super().items()
-
-    def __getitem__(self, item: int) -> _iter_rtype:
-        return super().__getitem__(item)
-
-    def __next__(self) -> _iter_rtype:
-        return super().__next__()
