@@ -381,8 +381,6 @@ class PyClasherClient:
     :type   requests_per_second:    int
     :cvar   logger:                 public logger to log the requests, ... (usually MISSING)
     :type   logger:                 Logger
-    :cvar   initialised:            public boolean that indicates if the
-    :type   initialised:            bool
     :cvar   __consumers:            private list of consumers of the queue and requests
     :type   __consumers:            list[Consumer]
     :cvar   __consume_tasks:        private list of tasks of the consumer
@@ -402,7 +400,6 @@ class PyClasherClient:
     queue: Queue
     requests_per_second: int = 5
     logger: Logger = MISSING
-    initialised: bool = False
     __consumers: list[Consumer] = None
     __consume_tasks: list[Task] = None
     __temporary_session: bool = False
@@ -458,8 +455,8 @@ class PyClasherClient:
         :param  logger:                 logger
         :param  login_count:            number of logins that should be done (having more logins results more tokens and this leads to more requests that can be executed in parallel)
         .. note::                       do not set the ``login_count`` to high, otherwise the account could be banned (5 works fine)
-        :return:                        None
-        :rtype:                         None
+        :return:                        an instance of the pyclasher client or a coroutine that returns an instance of the pyclasher client
+        :rtype:                         PyClasherClient | Coroutine[Any, Any, PyClasherClient]
         """
         ...
 
@@ -511,4 +508,14 @@ class PyClasherClient:
         ...
 
     def __del__(self) -> None:
+        ...
+
+    @property
+    def initialised(self) -> bool:
+        """
+        class status if an instance is available
+
+        :return:    True if one client was initialised else False
+        :rtype:     bool
+        """
         ...

@@ -218,7 +218,6 @@ class PyClasherClient:
     queue = None
     requests_per_second = 5
     logger = MISSING
-    initialised = False
     __consumers = None
     __consume_tasks = None
     __temporary_session = False
@@ -260,8 +259,6 @@ class PyClasherClient:
             self.logger.debug("pyclasher client initialised")
 
             self.queue = Queue()
-
-            PyClasherClient.initialised = True
         return
 
     @classmethod
@@ -352,9 +349,12 @@ class PyClasherClient:
 
     def __del__(self):
         PyClasherClient.__instance = None
-        PyClasherClient.initialised = False
 
         if self.__client_running:
             self.close()
             self.logger.warning("The client was still running, closed now.")
         return
+
+    @property
+    def initialised(self):
+        return PyClasherClient.__instance is not None
