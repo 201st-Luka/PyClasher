@@ -31,7 +31,7 @@ jobs:
       env:
         CLASH_OF_CLANS_LOGIN_EMAIL: ${{ secrets.CLASH_OF_CLANS_LOGIN_EMAIL }}
         CLASH_OF_CLANS_LOGIN_PASSWORD: ${{ secrets.CLASH_OF_CLANS_LOGIN_PASSWORD }}
-        TEST_CLAN_TAG: ${{ secrets.TEST_CLAN_TAG }}
-        TEST_PLAYER_TAG: ${{ secrets.TEST_PLAYER_TAG }}
-        TEST_CLAN_NAME: ${{ secrets.TEST_CLAN_NAME }}
+        TEST_CLAN_TAG: ${{ variables.TEST_CLAN_TAG }}
+        TEST_PLAYER_TAG: ${{ variables.TEST_PLAYER_TAG }}
+        TEST_CLAN_NAME: ${{ variables.TEST_CLAN_NAME }}
       run: pytest
