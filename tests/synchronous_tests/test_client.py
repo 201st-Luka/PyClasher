@@ -16,6 +16,16 @@ def test_initialise_client() -> None:
     return
 
 
+def test_initialise_client_multiple_tokens():
+    client = PyClasherClient.from_login(login_email, login_password, login_count=5)
+
+    assert client.initialised
+
+    assert isinstance(client.queue, Queue)
+
+    return
+
+
 def test_start_close() -> None:
     client = PyClasherClient.from_login(login_email, login_password, login_count=1)
 

@@ -112,3 +112,8 @@ class ClientRunningOverwrite(Exception):
 class InvalidSeasonFormat(Exception):
     def __str__(self):
         return "The season string is not valid. It must be follow the following format: <yyyy-mm> where <yyyy> is the year and <mm> is the month."
+
+
+class RequestTimeout(Exception):
+    def __str__(self):
+        return "The request took to much time and was cancelled."

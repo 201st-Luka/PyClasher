@@ -1,4 +1,4 @@
-from asyncio import run, Future, get_running_loop
+from asyncio import Future, get_running_loop
 from typing import Any
 from urllib.parse import quote, urlencode
 
@@ -42,6 +42,7 @@ class RequestModel:
 
             request_id += 1
             return
+
         raise NoClient
 
     def to_dict(self):
@@ -69,22 +70,21 @@ class RequestModel:
 
     async def _async_request(self):
         """
-        makes a request with the ClashOfClans API
+        makes a request to the ClashOfClans API
         """
-
-        self.client.logger.debug(f"requesting {self._request_id}")
-
         if not self.client.is_running:
             raise ClientIsNotRunning
 
-        future = Future()
+        future, status, error = Future(), Future(), Future()
 
-        await self.client.queue.put((future, self.__make_request_url(), self.request_method.value, None))
+        self.client.logger.debug(f"requesting {self._request_id}")
 
-        self._data = await future
+        await self.client.queue.put(future, self.__make_request_url(), self.request_method, None, status, error)
 
-        if isinstance(self._data, ApiCode):
-            raise self._data
+        self._data, req_status, req_error = await future, await status, await error
+
+        if req_status != 200:
+            raise req_error.value
 
         self.client.logger.debug(f"request {self._request_id} done")
         return self
@@ -92,21 +92,21 @@ class RequestModel:
     def __get_properties(self):
         return {name: prop.__get__(self) for name, prop in vars(self.__class__).items() if isinstance(prop, property)}
 
-    @property
-    def _response(self):
+    def _get_data(self, item):
         if self._data is None:
+            return None
+        if self._data is MISSING:
             raise RequestNotDone
-        return self._data
-
-    @_response.setter
-    def _response(self, data):
-        self._data = data
+        if item in self._data:
+            return self._data[item]
+        else:
+            return MISSING
 
     def request(self):
         try:
             get_running_loop()
         except RuntimeError:
-            return run(self._async_request())
+            return self.client.loop.run_until_complete(self._async_request())
         else:
             return self._async_request()
 
@@ -143,23 +143,23 @@ class IterRequestModel(RequestModel):
 
     async def _async_request(self):
         await super()._async_request()
-        self._len = len(self._response['items'])
+        self._len = len(self._get_data('items'))
         self._main_attribute = self._len
         return self
 
     @property
     def items(self):
-        return self._list_rtype(self._response['items'])
+        return self._list_rtype(self._get_data('items'))
 
     @property
     def paging(self):
-        return Paging(self._response['paging'])
+        return Paging(self._get_data('paging'))
 
     def __getitem__(self, item):
-        return self._iter_rtype(self._response['items'][item])
+        return self._iter_rtype(self._get_data('items')[item])
 
     def __iter__(self):
-        self._iter = iter(self._response['items'])
+        self._iter = iter(self._get_data('items'))
         return self
 
     def __next__(self):

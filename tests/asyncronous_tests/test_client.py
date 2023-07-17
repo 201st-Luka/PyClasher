@@ -16,7 +16,21 @@ def test_initialise_client() -> None:
         assert isinstance(client.queue, Queue)
         return
 
-    return run(__async_test_function())
+    run(__async_test_function())
+    return
+
+
+def test_initialise_client_multiple_tokens():
+    async def __async_test_function() -> None:
+        client = await PyClasherClient.from_login(login_email, login_password, login_count=5)
+
+        assert client.initialised
+
+        assert isinstance(client.queue, Queue)
+        return
+
+    run(__async_test_function())
+    return
 
 
 def test_start_close() -> None:
@@ -36,4 +50,5 @@ def test_start_close() -> None:
 
         return
 
-    return run(__async_test_function())
+    run(__async_test_function())
+    return

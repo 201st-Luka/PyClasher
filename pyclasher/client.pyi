@@ -1,11 +1,11 @@
-from asyncio import Queue, Future, Task
+from asyncio import Queue, Future, Task, AbstractEventLoop
 from enum import Enum
 from logging import Logger
 from typing import Iterable, Coroutine, Any
 
 from aiohttp import ClientSession
 
-from .Exceptions import MISSING
+from .Exceptions import MISSING, Missing
 from .models.BaseModels import BaseModel
 
 
@@ -281,6 +281,20 @@ class Login:
         ...
 
 
+class RequestQueue(Queue):
+    async def put(self,
+                  future: Future,
+                  request_url: str,
+                  request_method: RequestMethods,
+                  body: dict | None,
+                  status: Future,
+                  error: Future) -> None:
+        ...
+
+    async def get(self) -> tuple[Future, str, RequestMethods, dict | None, Future, Future]:
+        ...
+
+
 class Consumer:
     """
     consumer class that consumes the requests and returns the responses of the ClashOfClans API
@@ -296,30 +310,34 @@ class Consumer:
     """
 
     def __init__(self,
-                 queue: Queue,
+                 queue: RequestQueue,
                  token: str,
                  requests_per_s: int,
+                 request_timeout: float | None,
                  url: str
                  ) -> None:
         """
         initialisation of the request consumer
 
-        :param  queue:          the queue where the requests are enqueued
-        :type   queue:          Queue
-        :param  token:          one ClashOfClans API token
-        :type   token:          str
-        :param  requests_per_s: allowed number of requests that can be done with one consumer in one second
-        :type   requests_per_s: int
-        :param  url:            the base URL for the requests
-        :type   url:            str
-        :return:                None
-        :rtype:                 None
+        :param  queue:              the queue where the requests are enqueued
+        :type   queue:              Queue
+        :param  token:              one ClashOfClans API token
+        :type   token:              str
+        :param  requests_per_s:     allowed number of requests that can be done with one consumer in one second
+        :type   requests_per_s:     int
+        :param  request_timeout:    seconds until the request is cancelled due to a timeout
+        :type   request_timeout:    float
+        :param  url:                the base URL for the requests
+        :type   url:                str
+        :return:                    None
+        :rtype:                     None
         """
         self.queue = queue
         self.header = {
             'Authorization': f'Bearer {token}'
         }
         self.r_p_s = requests_per_s
+        self.timeout = request_timeout
         self.wait = 1 / self.r_p_s
         self.url = url
         self.session = ClientSession(
@@ -330,7 +348,9 @@ class Consumer:
     async def _request(self,
                        future: Future,
                        url: str, method: str,
-                       body: dict | None
+                       body: dict | None,
+                       status: Future,
+                       error: Future
                        ) -> None:
         """
         asynchronous method that executes one request
@@ -376,11 +396,15 @@ class PyClasherClient:
     :cvar   endpoint:               the public endpoint URL for the requests (usually /v1)
     :type   endpoint:               str
     :cvar   queue:                  the public queue where the requests are enqueued
-    :type   queue:                  Queue
+    :type   queue:                  RequestQueue
     :cvar   requests_per_second:    the public number of requests done per consumer/token per second (usually 5)
     :type   requests_per_second:    int
     :cvar   logger:                 public logger to log the requests, ... (usually MISSING)
     :type   logger:                 Logger
+    :cvar   initialised:            public boolean that indicates if the
+    :type   initialised:            bool
+    :cvar   __loop:                 abstract event loop that is used for making requests if no loop is running
+    :type   __loop:                 AbstractEventLoop
     :cvar   __consumers:            private list of consumers of the queue and requests
     :type   __consumers:            list[Consumer]
     :cvar   __consume_tasks:        private list of tasks of the consumer
@@ -397,9 +421,11 @@ class PyClasherClient:
 
     base_url: str = "https://api.clashofclans.com"
     endpoint: str = "/v1"
-    queue: Queue
+    queue: RequestQueue = None
     requests_per_second: int = 5
     logger: Logger = MISSING
+    initialised = False
+    __loop: AbstractEventLoop = MISSING
     __consumers: list[Consumer] = None
     __consume_tasks: list[Task] = None
     __temporary_session: bool = False
@@ -413,6 +439,7 @@ class PyClasherClient:
             self,
             tokens: str | Iterable[str] = None,
             requests_per_second: int = None,
+            request_timeout: float = 30,
             logger: Logger = MISSING,
             swagger_url: str = None
     ) -> None:
@@ -436,6 +463,7 @@ class PyClasherClient:
         :return:                        None
         :rtype:                         None
         """
+        self.request_timeout = request_timeout
         ...
 
     @classmethod
@@ -443,6 +471,7 @@ class PyClasherClient:
                    email: str,
                    password: str,
                    requests_per_second: int = 5,
+                   request_timeout: float = 30,
                    logger: Logger = MISSING,
                    login_count: int = 1
                    ) -> PyClasherClient | Coroutine[Any, Any, PyClasherClient]:
@@ -452,6 +481,7 @@ class PyClasherClient:
         :param  email:                  user email address to log in to the ClashOfClans developer portal
         :param  password:               user password for the email
         :param  requests_per_second:    number of requests per token per second
+        :param  request_timeout:        seconds until the request is cancelled due to a timeout
         :param  logger:                 logger
         :param  login_count:            number of logins that should be done (having more logins results more tokens and this leads to more requests that can be executed in parallel)
         .. note::                       do not set the ``login_count`` to high, otherwise the account could be banned (5 works fine)
@@ -511,11 +541,8 @@ class PyClasherClient:
         ...
 
     @property
-    def initialised(self) -> bool:
-        """
-        class status if an instance is available
+    def loop(self) -> AbstractEventLoop:
+        ...
 
-        :return:    True if one client was initialised else False
-        :rtype:     bool
-        """
+    def reset_client(self, reset_queue: bool = True, reset_loop: bool = True, reset_tokens: bool = True) -> None:
         ...

@@ -15,12 +15,12 @@ class BaseModel:
 
     :cvar   _main_attribute:    the main attribute for generating the string representation of the class
     :type   _main_attribute:    Any | list[Any, ...] | tuple[Any, ...]
-    :cvar   __data:             the model's data
-    :type   __data:             dict
+    :cvar   _data:             the model's data
+    :type   _data:             dict
     """
 
     _main_attribute: Any | list[Any, ...] | tuple[Any, ...] = None
-    __data: dict | None | Missing = MISSING
+    _data: dict | None | Missing = MISSING
 
     def __new__(cls, data: dict | Missing = None) -> BaseModel:
         ...
@@ -33,7 +33,7 @@ class BaseModel:
         :return:        None
         :rtype:         None
         """
-        self.__data = data
+        self._data = data
 
     def to_dict(self) -> dict | None | Missing:
         """
@@ -88,8 +88,8 @@ class IterBaseModel:
     :type   _main_attribute:    Any | list[Any, ...] | tuple[Any, ...]
     :cvar   _iter_rtype:        the type that is returned it iterated over the model
     :type   _iter_rtype:        Any
-    :ivar   __data:             a list of dicts containing the data
-    :type   __data:             list[dict] | None
+    :ivar   _data:             a list of dicts containing the data
+    :type   _data:             list[dict] | None
     """
 
     _len: int = None
@@ -106,9 +106,9 @@ class IterBaseModel:
         :rtype:         None
         """
 
-        self.__data = data
-        if self.__data is not None:
-            self._len = len(self.__data)
+        self._data = data
+        if self._data is not None:
+            self._len = len(self._data)
         self._main_attribute = self._len
 
     def to_dict_list(self) -> list[dict] | None | MISSING:
@@ -127,7 +127,7 @@ class IterBaseModel:
         ...
 
     def __iter__(self) -> IterBaseModel:
-        self._iter = iter(self.__data)
+        self._iter = iter(self._data)
 
     def __next__(self):
         ...
@@ -237,7 +237,7 @@ class After:
         :return:    None
         :rtype:     None
         """
-        self.__data = after
+        self._data = after
 
     @property
     def value(self) -> str:

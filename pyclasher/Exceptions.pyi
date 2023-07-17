@@ -215,3 +215,8 @@ class InvalidSeasonFormat(Exception):
 
     def __str__(self) -> str:
         ...
+
+
+class RequestTimeout(Exception):
+    def __str__(self) -> str:
+        ...

@@ -591,6 +591,7 @@ class ClanWarState(Enum):
     WAR = "war"
     IN_WAR = "inWar"
     ENDED = "ended"
+    WAR_ENDEN = "warEnded"
 
 
 class ClanWarLeagueGroupState(Enum):
