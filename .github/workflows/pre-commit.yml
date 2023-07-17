@@ -4,7 +4,7 @@ on:
   [push]
 
 jobs:
-  build:
+  linting:
 
     runs-on: ubuntu-latest
     strategy:
