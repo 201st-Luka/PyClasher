@@ -13,6 +13,7 @@ class ClanSearchRequest(IterRequestModel):
         self.name = name
         ...
 
+    @property
     def items(self) -> _list_rtype:
         ...
 

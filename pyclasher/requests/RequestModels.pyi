@@ -38,12 +38,7 @@ class RequestModel:
     def __get_properties(self) -> dict:
         ...
 
-    @property
-    def _response(self) -> dict:
-        ...
-
-    @_response.setter
-    def _response(self, data: dict):
+    def _get_data(self, item) -> dict:
         ...
 
     def request(self) -> RequestModel | Coroutine[Any, Any, RequestModel]:
@@ -88,7 +83,7 @@ class IterRequestModel(RequestModel):
         ...
 
     def __iter__(self) -> Self:
-        self._iter = iter(self._response['items'])
+        self._iter = iter(self._get_data['items'])
         ...
 
     def __next__(self) -> _iter_rtype:

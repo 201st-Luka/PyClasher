@@ -11,6 +11,7 @@ class ClanWarLogRequest(IterRequestModel):
         self.clan_tag = clan_tag
         ...
 
+    @property
     def items(self) -> _list_rtype:
         ...
 

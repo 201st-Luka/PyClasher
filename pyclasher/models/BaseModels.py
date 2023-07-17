@@ -15,26 +15,26 @@ class BaseModel:
 
     def __init__(self, data):
         if data is not None:
-            self.__data = data
+            self._data = data
         return
 
     def to_dict(self):
-        return self.__data
+        return self._data
 
     def _get_properties(self):
-        if isinstance(self.__data, dict):
+        if isinstance(self._data, dict):
             return {
                 name: prop.__get__(self) for name, prop in vars(type(self)).items() if isinstance(prop, property)
             }
-        return self.__data
+        return self._data
 
     def _get_data(self, item):
-        if self.__data is None:
+        if self._data is None:
             return None
-        if self.__data is MISSING:
+        if self._data is MISSING:
             raise RequestNotDone
-        if item in self.__data:
-            return self.__data[item]
+        if item in self._data:
+            return self._data[item]
         else:
             return MISSING
 
@@ -56,23 +56,23 @@ class IterBaseModel:
     _iter_rtype = Any
 
     def __init__(self, data):
-        self.__data = data
-        if self.__data is not None:
-            self._len = len(self.__data)
+        self._data = data
+        if self._data is not None and self._data is not MISSING:
+            self._len = len(self._data)
         self._main_attribute = self._len
         return
 
     def to_dict_list(self):
-        return self.__data
+        return self._data
 
     def __len__(self):
         return self._len
 
     def __getitem__(self, item):
-        return self._iter_rtype(self.__data[item])
+        return self._iter_rtype(self._data[item])
 
     def __iter__(self):
-        self._iter = iter(self.__data)
+        self._iter = iter(self._data)
         return self
 
     def __next__(self):
@@ -143,12 +143,12 @@ class After:
     """
 
     def __init__(self, after):
-        self.__data = after
+        self._data = after
         return
 
     @property
     def value(self):
-        return self.__data
+        return self._data
 
     def __repr__(self):
         return f"After(value={self.value})"
@@ -360,7 +360,8 @@ class BaseLeague(BaseModel):
 class BaseClan(BaseModel):
     def __init__(self, data: dict | None):
         super().__init__(data)
-        self._main_attribute = self.tag
+        if data is not None:
+            self._main_attribute = self.tag
         return
 
     @property
