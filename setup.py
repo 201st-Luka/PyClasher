@@ -17,7 +17,7 @@ setup(
     description='pyclasher - an object-oriented wrapper client for Python that provides easy access to the requested data',
     long_description=readme,
     long_description_content_type='text/markdown',
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests', 'tests.*']),
     install_requires=requirements,
     tests_require=[
         'pytest',
