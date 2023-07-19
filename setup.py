@@ -6,7 +6,7 @@ with open('requirements.txt') as requirements_txt:
 with open('README.md', 'r', encoding='utf-8') as readme_md:
     readme = readme_md.read()
 
-VERSION = '0.0.1-alpha'
+VERSION = '0.0.1-alpha2'
 
 packages = find_packages(exclude=['tests', 'tests.*'])
 
