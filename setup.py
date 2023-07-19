@@ -33,5 +33,6 @@ setup(
         'Topic :: Games/Entertainment',
     ],
     keywords='python async clashofclans api wrapper',
-    python_requires='>=3.11'
+    python_requires='>=3.11',
+    package_data={'pyclasher': ['*.pyi']}
 )
