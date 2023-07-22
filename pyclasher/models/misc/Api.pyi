@@ -22,7 +22,7 @@ class ClientError(BaseModel):
         ...
 
     @property
-    def message(self) -> str | Missing:
+    def message(self) -> Missing | str:
         """
         message of the client error
 
@@ -32,7 +32,7 @@ class ClientError(BaseModel):
         ...
 
     @property
-    def type(self) -> str | Missing:
+    def type(self) -> Missing | str:
         """
         type of the client error
 
@@ -42,7 +42,7 @@ class ClientError(BaseModel):
         ...
 
     @property
-    def detail(self) -> str | Missing:
+    def detail(self) -> Missing | str:
         """
         detail(s) about the client error
 
