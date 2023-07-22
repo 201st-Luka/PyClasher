@@ -245,7 +245,7 @@ class PyClasherClient:
     def __init__(
             self,
             tokens=None,
-            requests_per_second=None,
+            requests_per_second=5,
             request_timeout=30,
             logger=MISSING,
             swagger_url=None

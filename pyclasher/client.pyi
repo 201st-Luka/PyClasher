@@ -438,7 +438,7 @@ class PyClasherClient:
     def __init__(
             self,
             tokens: str | Iterable[str] = None,
-            requests_per_second: int = None,
+            requests_per_second: int = 5,
             request_timeout: float = 30,
             logger: Logger = MISSING,
             swagger_url: str = None
@@ -452,7 +452,7 @@ class PyClasherClient:
                                         This value is important to bypass the rate limit of the ClashOfClans API.
                                         More tokens allow more requests per second because each token can do
                                         as many requests per second as specified.
-                                        Defaults to None.
+                                        Defaults to 5.
         :type   requests_per_second:    int
         :param  logger:                 logger for detailed logging
                                         Defaults to None
