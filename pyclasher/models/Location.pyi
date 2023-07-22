@@ -42,7 +42,7 @@ class Location(BaseModel):
         ...
 
     @property
-    def country_code(self) -> int | Missing:
+    def country_code(self) -> Missing | int:
         """
         location country code
 

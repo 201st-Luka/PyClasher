@@ -79,12 +79,13 @@ def test_clans_currentwar() -> None:
         assert isinstance(clan_current_war.to_dict(), dict)
         assert isinstance(clan_current_war.clan, WarClan)
         assert isinstance(clan_current_war.state, ClanWarState)
-        assert isinstance(clan_current_war.team_size, int)
-        assert isinstance(clan_current_war.attacks_per_member, int)
-        assert isinstance(clan_current_war.opponent, WarClan)
-        assert isinstance(clan_current_war.end_time, Time)
-        assert isinstance(clan_current_war.start_time, Time)
-        assert isinstance(clan_current_war.preparation_start_time, Time)
+        if clan_current_war.state != ClanWarState.NOT_IN_WAR:
+            assert isinstance(clan_current_war.team_size, int)
+            assert isinstance(clan_current_war.attacks_per_member, int)
+            assert isinstance(clan_current_war.opponent, WarClan)
+            assert isinstance(clan_current_war.end_time, Time)
+            assert isinstance(clan_current_war.start_time, Time)
+            assert isinstance(clan_current_war.preparation_start_time, Time)
 
         return
 

@@ -116,7 +116,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def member_list(self) -> ClanMemberList | Missing:
+    def member_list(self) -> Missing | ClanMemberList:
         """
         clan's member list
 

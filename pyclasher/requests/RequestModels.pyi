@@ -26,7 +26,7 @@ class RequestModel:
         self._url_kwargs = kwargs
         ...
 
-    def to_dict(self) -> dict | Missing | None:
+    def to_dict(self) -> None | Missing | dict:
         ...
 
     def __make_request_url(self) -> str:

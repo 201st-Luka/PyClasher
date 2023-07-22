@@ -20,12 +20,12 @@ class BaseModel:
     """
 
     _main_attribute: Any | list[Any, ...] | tuple[Any, ...] = None
-    _data: dict | None | Missing = MISSING
+    _data: Missing | dict | None = MISSING
 
-    def __new__(cls, data: dict | Missing = None) -> BaseModel:
+    def __new__(cls, data: Missing | dict = None) -> BaseModel:
         ...
 
-    def __init__(self, data: dict | Missing = None) -> None:
+    def __init__(self, data: Missing | dict = None) -> None:
         """
         initialisation of the base model
 
@@ -35,7 +35,7 @@ class BaseModel:
         """
         self._data = data
 
-    def to_dict(self) -> dict | None | Missing:
+    def to_dict(self) -> None | Missing | dict:
         """
         method that returns the response as a dict
 
@@ -44,7 +44,7 @@ class BaseModel:
         """
         ...
 
-    def _get_properties(self) -> dict | None | Missing:
+    def _get_properties(self) -> None | Missing | dict:
         """
         protected method that returns a dict of the properties of a class (also works with inherited classes) or None or MISSING if the data is not defined
 
@@ -57,7 +57,7 @@ class BaseModel:
         """
         ...
 
-    def _get_data(self, item: str) -> dict | list | int | str | float | bool | None | Missing:
+    def _get_data(self, item: str) -> None | Missing | dict | list | int | str | float | bool:
         """
         getter for the data class attribute that handles errors if the data is not defined
 
@@ -195,12 +195,12 @@ class IconUrls(BaseModel):
     """
 
     @property
-    def tiny(self) -> IconUrl | Missing:
+    def tiny(self) -> Missing | IconUrl:
         """
         tiny icon URL
 
         :return:    the tiny icon URL or MISSING if the tiny icon URL is not supported for a model
-        :rtype:     str | Missing
+        :rtype:     Missing | IconUrl
         """
         ...
 
@@ -293,11 +293,11 @@ class Cursor(BaseModel):
     """
 
     @property
-    def after(self) -> After | Missing:
+    def after(self) -> Missing | After:
         ...
 
     @property
-    def before(self) -> Before | Missing:
+    def before(self) -> Missing | Before:
         ...
 
 
