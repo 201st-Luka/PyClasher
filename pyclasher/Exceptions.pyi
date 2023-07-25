@@ -26,6 +26,10 @@ class Missing:
 MISSING = Missing()
 
 
+class PyClasherException(Exception):
+    pass
+
+
 class ApiCode(Exception):
     """
     exception class to handle ClashOfClans API exceptions
