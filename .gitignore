@@ -2,7 +2,7 @@
 exclude
 .pytest_cache
 tests/.pytest_cache
-build
-pyclasher.egg-info
-testing
+/build/
 /dist/
+/pyclasher.egg-info/
+/testing/
