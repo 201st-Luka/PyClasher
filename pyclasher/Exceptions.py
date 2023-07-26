@@ -18,7 +18,11 @@ class Missing:
 MISSING = Missing()
 
 
-class ApiCode(Exception):
+class PyClasherException(Exception):
+    pass
+
+
+class ApiCode(PyClasherException):
     """
     exception class to handle ClashOfClans API client errors
     """
@@ -41,23 +45,23 @@ class ApiCode(Exception):
         return f"ApiException(code={self.code})"
 
 
-class RequestNotDone(Exception):
+class RequestNotDone(PyClasherException):
     def __str__(self):
         return "The request was not done."
 
 
-class NoneToken(Exception):
+class NoneToken(PyClasherException):
     def __str__(self):
         return "The token must be passed to the client. " \
                "You can do this in the initialisation process or pass the tokens to the start function."
 
 
-class InvalidLoginData(Exception):
+class InvalidLoginData(PyClasherException):
     def __str__(self):
         return "The login data is invalid."
 
 
-class InvalidType(Exception):
+class InvalidType(PyClasherException):
     def __init__(self, element, allowed_types):
         super().__init__()
         self.element = element
@@ -68,32 +72,32 @@ class InvalidType(Exception):
         return f"{self.element} is of invalid type\nallowed types are {self.types}."
 
 
-class LoginNotDone(Exception):
+class LoginNotDone(PyClasherException):
     def __str__(self):
         return "The login was not done. You need to login first."
 
 
-class ClientIsRunning(Exception):
+class ClientIsRunning(PyClasherException):
     def __str__(self):
         return "The client is already running."
 
 
-class ClientIsNotRunning(Exception):
+class ClientIsNotRunning(PyClasherException):
     def __str__(self):
         return "The client is not running."
 
 
-class ClientAlreadyInitialised(Exception):
+class ClientAlreadyInitialised(PyClasherException):
     def __str__(self):
         return "The PyClasherClient has already been initialised."
 
 
-class NoClient(Exception):
+class NoClient(PyClasherException):
     def __str__(self):
         return "No client has been initialised."
 
 
-class InvalidTimeFormat(Exception):
+class InvalidTimeFormat(PyClasherException):
     def __init__(self, value, time_format):
         super().__init__()
         self.value = value
@@ -104,16 +108,16 @@ class InvalidTimeFormat(Exception):
         return f"The time {self.value} does not match the format '{self.time_format}'."
 
 
-class ClientRunningOverwrite(Exception):
+class ClientRunningOverwrite(PyClasherException):
     def __str__(self):
         return "You cannot overwrite the parameter of a running client."
 
 
-class InvalidSeasonFormat(Exception):
+class InvalidSeasonFormat(PyClasherException):
     def __str__(self):
         return "The season string is not valid. It must be follow the following format: <yyyy-mm> where <yyyy> is the year and <mm> is the month."
 
 
-class RequestTimeout(Exception):
+class RequestTimeout(PyClasherException):
     def __str__(self):
         return "The request took to much time and was cancelled."

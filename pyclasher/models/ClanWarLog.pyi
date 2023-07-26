@@ -78,8 +78,8 @@ class ClanWarLog(IterBaseModel):
 
     _iter_rtype = ClanWarLogEntry
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> ClanWarLogEntry:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanWarLogEntry:
         ...

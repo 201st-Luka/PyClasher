@@ -15,10 +15,10 @@ class PlayerHouseElement(BaseModel):
 class PlayerHouseElementList(IterBaseModel):
     _iter_rtype = PlayerHouseElement
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> PlayerHouseElement:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> PlayerHouseElement:
         ...
 
 

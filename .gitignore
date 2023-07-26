@@ -3,3 +3,5 @@ exclude
 .pytest_cache
 tests/.pytest_cache
 build
+pyclasher.egg-info
+testing

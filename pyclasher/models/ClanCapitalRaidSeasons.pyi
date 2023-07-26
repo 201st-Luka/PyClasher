@@ -87,10 +87,10 @@ class ClanCapitalRaidSeasonAttackList(IterBaseModel):
 
     _iter_rtype = ClanCapitalRaidSeasonAttack
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonAttack:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanCapitalRaidSeasonAttack:
         ...
 
 
@@ -189,10 +189,10 @@ class ClanCapitalRaidSeasonDistrictList(IterBaseModel):
 
     _iter_rtype = ClanCapitalRaidSeasonDistrict
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonDistrict:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanCapitalRaidSeasonDistrict:
         ...
 
 
@@ -317,10 +317,10 @@ class ClanCapitalRaidSeasonDefenseLogList(IterBaseModel):
 
     _iter_rtype = ClanCapitalRaidSeasonDefenseLogEntry
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonDefenseLogEntry:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanCapitalRaidSeasonDefenseLogEntry:
         ...
 
 
@@ -333,10 +333,10 @@ class ClanCapitalRaidSeasonAttackLogList(IterBaseModel):
 
     _iter_rtype = ClanCapitalRaidSeasonAttackLogEntry
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonAttackLogEntry:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanCapitalRaidSeasonAttackLogEntry:
         ...
 
 
@@ -395,10 +395,10 @@ class ClanCapitalRaidSeasonMemberList(IterBaseModel):
 
     _iter_rtype = ClanCapitalRaidSeasonMember
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonMember:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanCapitalRaidSeasonMember:
         ...
 
 
@@ -528,8 +528,8 @@ class ClanCapitalRaidSeasons(IterBaseModel):
 
     _iter_rtype = ClanCapitalRaidSeason
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanCapitalRaidSeason:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanCapitalRaidSeason:
         ...

@@ -11,6 +11,6 @@ This wrapper client has been created by 201st-Luka.
 
 from .Exceptions import ApiCode, ClientIsRunning, ClientIsNotRunning, ClientAlreadyInitialised, NoClient, \
     InvalidType, InvalidLoginData, LoginNotDone, NoneToken, RequestNotDone, InvalidTimeFormat, \
-    InvalidSeasonFormat, Missing, MISSING
+    InvalidSeasonFormat, Missing, MISSING, PyClasherException
 from .client import RequestMethods, Status, Auth, Developer, Login, Consumer, PyClasherClient
 from .requests import *

@@ -13,8 +13,8 @@ class ClanMemberList(IterBaseModel):
 
     _iter_rtype = ClanMember
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanMember:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanMember:
         ...

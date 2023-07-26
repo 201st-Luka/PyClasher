@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Coroutine, Any
 
 from .BulkRequestModel import BulkRequestModel
 from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList
@@ -41,13 +41,13 @@ class PlayerBulkRequest(BulkRequestModel):
         ...
 
     @classmethod
-    def from_clan(cls, clan: BaseClan | str) -> PlayerBulkRequest:
+    def from_clan(cls, clan: BaseClan | str) -> PlayerBulkRequest | Coroutine[Any, Any, PlayerBulkRequest]:
         """
         class method to create an instance using a clan or a clan tag
 
         :param cls:     PlayerBulkRequest
         :param clan:    clan or clan tag
-        :rtype:         PlayerBulkRequest
+        :rtype:         PlayerBulkRequest | Coroutine[Any, Any, PlayerBulkRequest]
         """
         ...
 
@@ -66,7 +66,7 @@ class PlayerBulkRequest(BulkRequestModel):
         """
         ...
 
-    def __getitem__(self, item: int) -> _request_model:
+    def __getitem__(self, item: int) -> PlayerRequest:
         """
         getter for a player of the bulk request
 
@@ -75,7 +75,7 @@ class PlayerBulkRequest(BulkRequestModel):
         """
         ...
 
-    def __next__(self) -> _request_model:
+    def __next__(self) -> PlayerRequest:
         """
         returns the next player of the bulk request if an iterator is used
         """
