@@ -41,7 +41,7 @@ class BulkRequestModel:
         return self
 
     def __next__(self):
-        return self._request_model(next(self._iter))
+        return next(self._iter)
 
     def __str__(self):
         return f"{self.__class__.__name__}({self._main_attribute})"

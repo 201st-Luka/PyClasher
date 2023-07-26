@@ -10,6 +10,7 @@ from .Exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRun
     NoneToken, MISSING
 from .models import ApiCodes
 from .models.BaseModels import BaseModel
+from .utils import ExecutionTimer
 
 
 class RequestMethods(Enum):
@@ -210,11 +211,10 @@ class Consumer:
         while True:
             future, url, method, body, status, error = await self.queue.get()
 
-            create_task(self._request(future, url, method.value, body, status, error))
+            async with ExecutionTimer(self.wait):
+                create_task(self._request(future, url, method.value, body, status, error))
 
-            self.queue.task_done()
-
-            await sleep(self.wait)
+                self.queue.task_done()
 
     async def close(self):
         await self.session.close()
