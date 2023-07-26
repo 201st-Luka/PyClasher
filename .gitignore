@@ -5,3 +5,4 @@ tests/.pytest_cache
 build
 pyclasher.egg-info
 testing
+/dist/
