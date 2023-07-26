@@ -65,8 +65,8 @@ class WarStatusList(IterBaseModel):
 
     _iter_rtype = WarStatus
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> WarStatus:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> WarStatus:
         ...

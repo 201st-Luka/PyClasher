@@ -30,10 +30,10 @@ class ClanWarAttack(BaseModel):
 class ClanWarAttackList(IterBaseModel):
     _iter_rtype = ClanWarAttack
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> ClanWarAttack:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanWarAttack:
         ...
 
 
@@ -60,10 +60,10 @@ class ClanWarMember(BaseClanMember):
 class ClanWarMemberList(IterBaseModel):
     _iter_rtype = ClanWarMember
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> ClanWarMember:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanWarMember:
         ...
 
 

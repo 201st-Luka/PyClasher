@@ -51,10 +51,10 @@ class LeagueList(IterBaseModel):
 
     _iter_rtype = League
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> League:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> League:
         ...
 
 
@@ -67,10 +67,10 @@ class BuilderBaseLeagueList(IterBaseModel):
 
     _iter_rtype = BuilderBaseLeague
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> BuilderBaseLeague:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> BuilderBaseLeague:
         ...
 
 
@@ -83,10 +83,10 @@ class CapitalLeagueList(IterBaseModel):
 
     _iter_rtype = CapitalLeague
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> CapitalLeague:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> CapitalLeague:
         ...
 
 
@@ -99,10 +99,10 @@ class WarLeagueList(IterBaseModel):
 
     _iter_rtype = WarLeague
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> WarLeague:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> WarLeague:
         ...
 
 
@@ -131,8 +131,8 @@ class LeagueSeasonList(IterBaseModel):
 
     _iter_rtype = LeagueSeason
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> LeagueSeason:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> LeagueSeason:
         ...

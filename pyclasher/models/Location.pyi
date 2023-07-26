@@ -61,8 +61,8 @@ class LocationList(IterBaseModel):
 
     _iter_rtype = Location
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> Location:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> Location:
         ...

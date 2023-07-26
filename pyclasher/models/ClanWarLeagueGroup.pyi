@@ -27,10 +27,10 @@ class ClanWarLeagueRoundList(IterBaseModel):
 
     _iter_rtype = ClanWarLeagueRound
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> ClanWarLeagueRound:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanWarLeagueRound:
         ...
 
 
@@ -59,10 +59,10 @@ class ClanWarLeagueClanMemberList(IterBaseModel):
 
     _iter_rtype = ClanWarLeagueClanMember
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> ClanWarLeagueClanMember:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanWarLeagueClanMember:
         ...
 
 
@@ -101,10 +101,10 @@ class ClanWarLeagueClanList(IterBaseModel):
 
     _iter_rtype = ClanWarLeagueClan
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> ClanWarLeagueClan:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanWarLeagueClan:
         ...
 
 

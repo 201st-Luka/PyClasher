@@ -44,8 +44,8 @@ class LabelList(IterBaseModel):
 
     _iter_rtype = Label
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int) -> Label:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> Label:
         ...

@@ -34,8 +34,8 @@ class ClanBuilderBaseRankingList(IterBaseModel):
 
     _iter_rtype = ClanBuilderBaseRanking
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanBuilderBaseRanking:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> ClanBuilderBaseRanking:
         ...

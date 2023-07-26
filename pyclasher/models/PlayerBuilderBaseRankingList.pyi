@@ -48,8 +48,8 @@ class PlayerBuilderBaseRanking(BaseModel):
 class PlayerBuilderBaseRankingList(IterBaseModel):
     _iter_rtype = PlayerBuilderBaseRanking
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> PlayerBuilderBaseRanking:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __next__(self) -> PlayerBuilderBaseRanking:
         ...
