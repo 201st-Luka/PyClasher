@@ -1,5 +1,7 @@
 [![Discord][discord_shield]][discord_url] ![Last commit][last_commit_shield]
 
+![PyClasher](.github/PyClasher.png)
+
 # PyClasher
 
 PyClasher is the name of the asynchronous ClashOfClans API. It is
