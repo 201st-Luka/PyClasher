@@ -2,7 +2,7 @@
 base models for this API wrapper client
 """
 
-from typing import Any, Iterator
+from typing import Any, Iterator, Generator
 
 from ..Exceptions import MISSING, Missing
 
@@ -123,7 +123,7 @@ class IterBaseModel:
     def __len__(self) -> int:
         ...
 
-    def __getitem__(self, item: int) -> _iter_rtype:
+    def __getitem__(self, item: int | slice) -> MISSING | Generator | _iter_rtype:
         ...
 
     def __iter__(self) -> Iterator[_iter_rtype]:

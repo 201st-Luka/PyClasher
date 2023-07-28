@@ -156,7 +156,15 @@ class IterRequestModel(RequestModel):
         return Paging(self._get_data('paging'))
 
     def __getitem__(self, item):
-        return self._iter_rtype(self._get_data('items')[item])
+        if self._data is MISSING:
+            raise RequestNotDone
+        if self._data is None:
+            return None
+        if isinstance(item, int):
+            return self.items[item]
+        if isinstance(item, slice):
+            return (self.items[i] for i in range(*item.indices(len(self))))
+        raise NotImplementedError
 
     def __iter__(self):
         self._iter = iter(self._get_data('items'))

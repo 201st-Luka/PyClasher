@@ -1,5 +1,7 @@
 from asyncio import gather, get_running_loop, run
 
+from Exceptions import RequestNotDone
+
 
 class BulkRequestModel:
     _request_model = ...
@@ -34,7 +36,12 @@ class BulkRequestModel:
         return len(self._requests)
 
     def __getitem__(self, item):
-        return self._requests[item]
+        self._requests[0].to_dict()         # test if the `to_dict()` method raises `RequestNotDone`
+        if isinstance(item, int):
+            return self._requests[item]
+        if isinstance(item, slice):
+            return (self._requests[i] for i in range(*item.indices(len(self._requests))))
+        raise NotImplementedError
 
     def __iter__(self):
         self._iter = iter(self._requests)

@@ -69,7 +69,15 @@ class IterBaseModel:
         return self._len
 
     def __getitem__(self, item):
-        return self._iter_rtype(self._data[item])
+        if self._data is MISSING:
+            raise RequestNotDone
+        if self._data is None:
+            return None
+        if isinstance(item, int):
+            return self._iter_rtype(self._data[item])
+        if isinstance(item, slice):
+            return (self._iter_rtype(self._data[i]) for i in range(*item.indices(len(self._data))))
+        raise NotImplementedError
 
     def __iter__(self):
         self._iter = iter(self._data)
