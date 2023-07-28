@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel
 
 
@@ -35,6 +37,9 @@ class ClanBuilderBaseRankingList(IterBaseModel):
     _iter_rtype = ClanBuilderBaseRanking
 
     def __getitem__(self, item: int | str) -> ClanBuilderBaseRanking:
+        ...
+
+    def __iter__(self) -> Iterator[ClanBuilderBaseRanking]:
         ...
 
     def __next__(self) -> ClanBuilderBaseRanking:

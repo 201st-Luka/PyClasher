@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel, BaseClan
 from .Enums import ClanRole, WarPreference, Village
 from .Labels import LabelList
@@ -121,6 +123,9 @@ class PlayerItemLevelList(IterBaseModel):
     def __getitem__(self, item: int | str) -> PlayerItemLevel:
         ...
 
+    def __iter__(self) -> Iterator[PlayerItemLevel]:
+        ...
+
     def __next__(self) -> PlayerItemLevel:
         ...
 
@@ -158,10 +163,13 @@ class PlayerAchievementProgress(BaseModel):
 class PlayerAchievementProgressList(IterBaseModel):
     _iter_rtype = PlayerAchievementProgress
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> PlayerAchievementProgress:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __iter__(self) -> Iterator[PlayerAchievementProgress]:
+        ...
+
+    def __next__(self) -> PlayerAchievementProgress:
         ...
 
 

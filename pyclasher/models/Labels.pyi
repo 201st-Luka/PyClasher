@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from pyclasher.models.BaseModels import BaseModel, IterBaseModel, IconUrls
 
 
@@ -45,6 +47,9 @@ class LabelList(IterBaseModel):
     _iter_rtype = Label
 
     def __getitem__(self, item: int) -> Label:
+        ...
+
+    def __iter__(self) -> Iterator[Label]:
         ...
 
     def __next__(self) -> Label:

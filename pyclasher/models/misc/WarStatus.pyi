@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from ..BaseModels import BaseModel, Time, IterBaseModel
 from ..Enums import ClanWarState
 
@@ -66,6 +68,9 @@ class WarStatusList(IterBaseModel):
     _iter_rtype = WarStatus
 
     def __getitem__(self, item: int | str) -> WarStatus:
+        ...
+
+    def __iter__(self) -> Iterator[WarStatus]:
         ...
 
     def __next__(self) -> WarStatus:

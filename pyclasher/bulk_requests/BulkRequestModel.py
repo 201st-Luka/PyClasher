@@ -47,4 +47,5 @@ class BulkRequestModel:
         return f"{self.__class__.__name__}({self._main_attribute})"
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({', '.join(('='.join((key, str(value))) for key, value in self.__get_properties().items()))})"
+        return (f"{self.__class__.__name__}"
+                f"({', '.join(('='.join((key, str(value))) for key, value in self.__get_properties().items()))})")

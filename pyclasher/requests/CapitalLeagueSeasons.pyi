@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .RequestModels import IterRequestModel
 from ..models import CapitalLeagueList, CapitalLeague
 
@@ -16,6 +18,9 @@ class CapitalLeaguesRequest(IterRequestModel):
         ...
 
     def __getitem__(self, item: int) -> _iter_rtype:
+        ...
+
+    def __iter__(self) -> Iterator[_iter_rtype]:
         ...
 
     def __next__(self) -> _iter_rtype:

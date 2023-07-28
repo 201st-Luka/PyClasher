@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel, BadgeUrls
 from .Location import Location
 
@@ -106,8 +108,11 @@ class ClanRankingList(IterBaseModel):
 
     _iter_rtype = ClanRanking
 
-    def __getitem__(self, item: int | str) -> _iter_rtype:
+    def __getitem__(self, item: int | str) -> ClanRanking:
         ...
 
-    def __next__(self) -> _iter_rtype:
+    def __iter__(self) -> Iterator[ClanRanking]:
+        ...
+
+    def __next__(self) -> ClanRanking:
         ...

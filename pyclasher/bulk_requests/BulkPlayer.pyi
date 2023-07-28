@@ -1,4 +1,4 @@
-from typing import Iterable, Coroutine, Any
+from typing import Iterable, Coroutine, Any, Iterator
 
 from .BulkRequestModel import BulkRequestModel
 from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList
@@ -73,6 +73,9 @@ class PlayerBulkRequest(BulkRequestModel):
         :param item:    (int) the index of the player
         :type item:     int
         """
+        ...
+
+    def __iter__(self) -> Iterator[PlayerRequest]:
         ...
 
     def __next__(self) -> PlayerRequest:

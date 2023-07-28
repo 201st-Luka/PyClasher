@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel, BaseClanMember, BaseClan, Time
 
 
@@ -88,6 +90,9 @@ class ClanCapitalRaidSeasonAttackList(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeasonAttack
 
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonAttack:
+        ...
+
+    def __iter__(self) -> Iterator[ClanCapitalRaidSeasonAttack]:
         ...
 
     def __next__(self) -> ClanCapitalRaidSeasonAttack:
@@ -190,6 +195,9 @@ class ClanCapitalRaidSeasonDistrictList(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeasonDistrict
 
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonDistrict:
+        ...
+
+    def __iter__(self) -> Iterator[ClanCapitalRaidSeasonDistrict]:
         ...
 
     def __next__(self) -> ClanCapitalRaidSeasonDistrict:
@@ -320,6 +328,9 @@ class ClanCapitalRaidSeasonDefenseLogList(IterBaseModel):
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonDefenseLogEntry:
         ...
 
+    def __iter__(self) -> Iterator[ClanCapitalRaidSeasonDefenseLogEntry]:
+        ...
+
     def __next__(self) -> ClanCapitalRaidSeasonDefenseLogEntry:
         ...
 
@@ -334,6 +345,9 @@ class ClanCapitalRaidSeasonAttackLogList(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeasonAttackLogEntry
 
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonAttackLogEntry:
+        ...
+
+    def __iter__(self) -> Iterator[ClanCapitalRaidSeasonAttackLogEntry]:
         ...
 
     def __next__(self) -> ClanCapitalRaidSeasonAttackLogEntry:
@@ -396,6 +410,9 @@ class ClanCapitalRaidSeasonMemberList(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeasonMember
 
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonMember:
+        ...
+
+    def __iter__(self) -> Iterator[ClanCapitalRaidSeasonMember]:
         ...
 
     def __next__(self) -> ClanCapitalRaidSeasonMember:
@@ -529,6 +546,9 @@ class ClanCapitalRaidSeasons(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeason
 
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeason:
+        ...
+
+    def __iter__(self) -> Iterator[ClanCapitalRaidSeason]:
         ...
 
     def __next__(self) -> ClanCapitalRaidSeason:

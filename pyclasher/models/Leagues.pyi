@@ -1,6 +1,7 @@
 """
 models concerning the leagues
 """
+from typing import Iterator
 
 from .BaseModels import BaseModel, IconUrls, IterBaseModel, BaseLeague
 
@@ -54,6 +55,9 @@ class LeagueList(IterBaseModel):
     def __getitem__(self, item: int | str) -> League:
         ...
 
+    def __iter__(self) -> Iterator[League]:
+        ...
+
     def __next__(self) -> League:
         ...
 
@@ -68,6 +72,9 @@ class BuilderBaseLeagueList(IterBaseModel):
     _iter_rtype = BuilderBaseLeague
 
     def __getitem__(self, item: int | str) -> BuilderBaseLeague:
+        ...
+
+    def __iter__(self) -> Iterator[BuilderBaseLeague]:
         ...
 
     def __next__(self) -> BuilderBaseLeague:
@@ -86,6 +93,9 @@ class CapitalLeagueList(IterBaseModel):
     def __getitem__(self, item: int | str) -> CapitalLeague:
         ...
 
+    def __iter__(self) -> Iterator[CapitalLeague]:
+        ...
+
     def __next__(self) -> CapitalLeague:
         ...
 
@@ -100,6 +110,9 @@ class WarLeagueList(IterBaseModel):
     _iter_rtype = WarLeague
 
     def __getitem__(self, item: int) -> WarLeague:
+        ...
+
+    def __iter__(self) -> Iterator[WarLeague]:
         ...
 
     def __next__(self) -> WarLeague:
@@ -132,6 +145,9 @@ class LeagueSeasonList(IterBaseModel):
     _iter_rtype = LeagueSeason
 
     def __getitem__(self, item: int | str) -> LeagueSeason:
+        ...
+
+    def __iter__(self) -> Iterator[LeagueSeason]:
         ...
 
     def __next__(self) -> LeagueSeason:

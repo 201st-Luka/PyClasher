@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel, BaseClanMember, BaseClan
 from .Enums import ClanWarLeagueGroupState
 
@@ -30,6 +32,9 @@ class ClanWarLeagueRoundList(IterBaseModel):
     def __getitem__(self, item: int) -> ClanWarLeagueRound:
         ...
 
+    def __iter__(self) -> Iterator[ClanWarLeagueRound]:
+        ...
+
     def __next__(self) -> ClanWarLeagueRound:
         ...
 
@@ -60,6 +65,9 @@ class ClanWarLeagueClanMemberList(IterBaseModel):
     _iter_rtype = ClanWarLeagueClanMember
 
     def __getitem__(self, item: int) -> ClanWarLeagueClanMember:
+        ...
+
+    def __iter__(self) -> Iterator[ClanWarLeagueClanMember]:
         ...
 
     def __next__(self) -> ClanWarLeagueClanMember:
@@ -102,6 +110,9 @@ class ClanWarLeagueClanList(IterBaseModel):
     _iter_rtype = ClanWarLeagueClan
 
     def __getitem__(self, item: int) -> ClanWarLeagueClan:
+        ...
+
+    def __iter__(self) -> Iterator[ClanWarLeagueClan]:
         ...
 
     def __next__(self) -> ClanWarLeagueClan:
