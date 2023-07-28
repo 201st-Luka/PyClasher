@@ -1,4 +1,4 @@
-from typing import Any, Coroutine
+from typing import Any, Coroutine, Iterator
 
 
 class BulkRequestModel:
@@ -80,7 +80,7 @@ class BulkRequestModel:
     def __getitem__(self, item: int) -> _request_model:
         ...
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[_request_model]:
         self._iter = iter(self._requests)
         ...
 

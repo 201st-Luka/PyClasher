@@ -13,10 +13,6 @@ class PlayerBuilderBaseRanking(BaseModel):
         return PlayerRankingClan(self._get_data('clan'))
 
     @property
-    def versus_trophies(self):
-        return self._get_data('versusTrophies')
-
-    @property
     def versus_battle_wins(self):
         return self._get_data('versusBattleWins')
 

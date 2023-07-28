@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel
 from .Enums import PlayerHouseElementType
 
@@ -16,6 +18,9 @@ class PlayerHouseElementList(IterBaseModel):
     _iter_rtype = PlayerHouseElement
 
     def __getitem__(self, item: int | str) -> PlayerHouseElement:
+        ...
+
+    def __iter__(self) -> Iterator[PlayerHouseElement]:
         ...
 
     def __next__(self) -> PlayerHouseElement:

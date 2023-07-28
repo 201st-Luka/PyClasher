@@ -20,7 +20,8 @@ class PlayerBulkRequest(BulkRequestModel):
 
     @classmethod
     async def _async_from_clan(cls, clan):
-        members = await ClanMembersRequest(clan.tag).request() if isinstance(clan, BaseClan) else await ClanMembersRequest(clan).request()
+        members = await (ClanMembersRequest(clan.tag).request() if isinstance(clan, BaseClan) else
+                         await ClanMembersRequest(clan).request())
         return cls.from_member_list(members)
 
     @classmethod

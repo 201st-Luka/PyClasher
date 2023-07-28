@@ -1,4 +1,4 @@
-from typing import Any, Self, Coroutine
+from typing import Any, Self, Coroutine, Iterator
 
 from ..Exceptions import MISSING, Missing
 from ..client import PyClasherClient, RequestMethods
@@ -82,8 +82,8 @@ class IterRequestModel(RequestModel):
     def __getitem__(self, item: int) -> _iter_rtype:
         ...
 
-    def __iter__(self) -> Self:
-        self._iter = iter(self._get_data['items'])
+    def __iter__(self) -> Iterator[_iter_rtype]:
+        self._iter = iter(self._get_data('items'))
         ...
 
     def __next__(self) -> _iter_rtype:

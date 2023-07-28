@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import IterBaseModel, BaseModel, Time
 from .Enums import ClanWarResult
 from .WarClan import WarClan
@@ -79,6 +81,9 @@ class ClanWarLog(IterBaseModel):
     _iter_rtype = ClanWarLogEntry
 
     def __getitem__(self, item: int) -> ClanWarLogEntry:
+        ...
+
+    def __iter__(self) -> Iterator[ClanWarLogEntry]:
         ...
 
     def __next__(self) -> ClanWarLogEntry:

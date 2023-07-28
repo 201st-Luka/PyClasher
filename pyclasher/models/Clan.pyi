@@ -1,6 +1,7 @@
 """
 clan models and sub models
 """
+from typing import Iterator
 
 from .BaseModels import BaseModel, IterBaseModel, BaseClan
 from .ClanMemberList import ClanMemberList
@@ -58,6 +59,9 @@ class ClanDistrictDataList(IterBaseModel):
     _iter_rtype = ClanDistrictData
 
     def __getitem__(self, item: int) -> ClanDistrictData:
+        ...
+
+    def __iter__(self) -> Iterator[ClanDistrictData]:
         ...
 
     def __next__(self) -> ClanDistrictData:

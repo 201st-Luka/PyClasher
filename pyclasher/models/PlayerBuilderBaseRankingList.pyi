@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel
 from .Leagues import BuilderBaseLeague
 from .PlayerRankingClan import PlayerRankingClan
@@ -10,10 +12,6 @@ class PlayerBuilderBaseRanking(BaseModel):
 
     @property
     def clan(self) -> PlayerRankingClan:
-        ...
-
-    @property
-    def versus_trophies(self) -> int:
         ...
 
     @property
@@ -49,6 +47,9 @@ class PlayerBuilderBaseRankingList(IterBaseModel):
     _iter_rtype = PlayerBuilderBaseRanking
 
     def __getitem__(self, item: int | str) -> PlayerBuilderBaseRanking:
+        ...
+
+    def __iter__(self) -> Iterator[PlayerBuilderBaseRanking]:
         ...
 
     def __next__(self) -> PlayerBuilderBaseRanking:

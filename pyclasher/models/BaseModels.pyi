@@ -2,7 +2,7 @@
 base models for this API wrapper client
 """
 
-from typing import Any
+from typing import Any, Iterator
 
 from ..Exceptions import MISSING, Missing
 
@@ -126,8 +126,9 @@ class IterBaseModel:
     def __getitem__(self, item: int) -> _iter_rtype:
         ...
 
-    def __iter__(self) -> IterBaseModel:
+    def __iter__(self) -> Iterator[_iter_rtype]:
         self._iter = iter(self._data)
+        ...
 
     def __next__(self):
         ...

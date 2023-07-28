@@ -1,6 +1,7 @@
 """
 models concerning the location
 """
+from typing import Iterator
 
 from .BaseModels import IterBaseModel, BaseModel
 from ..Exceptions import Missing
@@ -62,6 +63,9 @@ class LocationList(IterBaseModel):
     _iter_rtype = Location
 
     def __getitem__(self, item: int | str) -> Location:
+        ...
+
+    def __iter__(self) -> Iterator[Location]:
         ...
 
     def __next__(self) -> Location:

@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from .BaseModels import BaseModel, IterBaseModel, BaseClanMember, BaseClan
 
 
@@ -33,6 +35,9 @@ class ClanWarAttackList(IterBaseModel):
     def __getitem__(self, item: int) -> ClanWarAttack:
         ...
 
+    def __iter__(self) -> Iterator[ClanWarAttack]:
+        ...
+
     def __next__(self) -> ClanWarAttack:
         ...
 
@@ -61,6 +66,9 @@ class ClanWarMemberList(IterBaseModel):
     _iter_rtype = ClanWarMember
 
     def __getitem__(self, item: int) -> ClanWarMember:
+        ...
+
+    def __iter__(self) -> Iterator[ClanWarMember]:
         ...
 
     def __next__(self) -> ClanWarMember:
