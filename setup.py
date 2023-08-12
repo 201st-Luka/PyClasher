@@ -1,18 +1,19 @@
 from setuptools import setup, find_packages
 
+import pyclasher
+
+
 with open('requirements.txt') as requirements_txt:
     requirements = requirements_txt.read().splitlines()
 
 with open('README.md', 'r', encoding='utf-8') as readme_md:
     readme = readme_md.read()
 
-VERSION = '1.0.0-alpha1'
-
-packages = find_packages(exclude=['tests', 'tests.*'])
+packages = find_packages(where="pyclasher")
 
 setup(
     name='pyclasher',
-    version=VERSION,
+    version=pyclasher.__version__,
     author='201st-Luka',
     description='pyclasher - an object-oriented wrapper client for Python that provides easy access to the requested data',
     long_description=readme,
