@@ -18,8 +18,7 @@ async def test_clan(event_loop, pyclasher_client):
     await clan.request()
 
     assert isinstance(clan.to_dict(), dict)
-    assert clan.tag == TEST_CLAN_TAG
-    assert clan.clan_tag == TEST_CLAN_TAG
+    assert clan.tag == clan.clan_tag == TEST_CLAN_TAG
     assert isinstance(clan.clan_level, int)
     assert isinstance(clan.name, str)
     assert isinstance(clan.type, ClanType)
