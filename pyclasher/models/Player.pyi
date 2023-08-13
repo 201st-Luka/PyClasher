@@ -207,10 +207,6 @@ class Player(BaseModel):
         ...
 
     @property
-    def best_versus_trophies(self) -> int:
-        ...
-
-    @property
     def town_hall_level(self) -> int:
         ...
 
