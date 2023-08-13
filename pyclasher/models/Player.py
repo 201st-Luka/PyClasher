@@ -155,10 +155,6 @@ class Player(BaseModel):
         return self._get_data('defenseWins')
 
     @property
-    def versus_trophies(self):
-        return self._get_data('versusTrophies')
-
-    @property
     def town_hall_level(self):
         return self._get_data('townHallLevel')
 
