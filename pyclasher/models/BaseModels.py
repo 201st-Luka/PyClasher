@@ -8,12 +8,12 @@ class BaseModel:
     _main_attribute = None
     _data = MISSING
 
-    def __new__(cls, data):
+    def __new__(cls, data=None):
         if data is MISSING:
             return MISSING
         return super().__new__(cls)
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         if data is not None:
             self._data = data
         return
