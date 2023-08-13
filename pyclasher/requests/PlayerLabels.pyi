@@ -8,6 +8,9 @@ class PlayerLabelsRequest(IterRequestModel):
     _iter_rtype = Label
     _list_rtype = LabelList
 
+    def __init__(self) -> None:
+        ...
+
     async def _async_request(self) -> PlayerLabelsRequest:
         ...
 
