@@ -1,42 +1,12 @@
 from os import environ
 
-from pyclasher import PyClasherClient
 
+CLASH_OF_CLANS_LOGIN_EMAIL = environ.get("CLASH_OF_CLANS_LOGIN_EMAIL")
 
-class Invalid(Exception):
-    def __init__(self, reason: str) -> None:
-        super().__init__()
-        self.reason = reason
-        return
+CLASH_OF_CLANS_LOGIN_PASSWORD = environ.get("CLASH_OF_CLANS_LOGIN_PASSWORD")
 
-    def __str__(self) -> str:
-        return self.reason
+TEST_CLAN_TAG = environ.get("TEST_CLAN_TAG")
 
+TEST_PLAYER_TAG = environ.get("TEST_PLAYER_TAG")
 
-if "CLASH_OF_CLANS_LOGIN_EMAIL" in environ.keys():
-    login_email = environ.get("CLASH_OF_CLANS_LOGIN_EMAIL")
-else:
-    raise Invalid("The environment does not provide 'CLASH_OF_CLANS_LOGIN_EMAIL'.")
-
-if "CLASH_OF_CLANS_LOGIN_PASSWORD" in environ.keys():
-    login_password = environ.get("CLASH_OF_CLANS_LOGIN_PASSWORD")
-else:
-    raise Invalid("The environment does not provide 'CLASH_OF_CLANS_LOGIN_PASSWORD'.")
-
-if "TEST_CLAN_TAG" in environ.keys():
-    my_test_clan_tag = environ.get("TEST_CLAN_TAG")
-else:
-    raise Invalid("The environment does not provide 'TEST_CLAN_TAG'.")
-
-if "TEST_PLAYER_TAG" in environ.keys():
-    my_test_player_tag = environ.get("TEST_PLAYER_TAG")
-else:
-    raise Invalid("The environment does not provide 'TEST_PLAYER_TAG'.")
-
-if "TEST_CLAN_NAME" in environ.keys():
-    my_test_clan_name = environ.get("TEST_CLAN_NAME")
-else:
-    raise Invalid("The environment does not provide 'TEST_CLAN_NAME'.")
-
-
-client = PyClasherClient.from_login(login_email, login_password, requests_per_second=5, login_count=5)
+TEST_CLAN_NAME = environ.get("TEST_CLAN_NAME")

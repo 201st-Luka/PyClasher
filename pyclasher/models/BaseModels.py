@@ -55,6 +55,11 @@ class IterBaseModel:
     _main_attribute = None
     _iter_rtype = Any
 
+    def __new__(cls, data):
+        if data is MISSING:
+            return MISSING
+        return super().__new__(cls)
+
     def __init__(self, data):
         self._data = data
         if self._data is not None and self._data is not MISSING:

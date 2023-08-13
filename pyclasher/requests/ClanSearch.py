@@ -11,7 +11,7 @@ class ClanSearchRequest(IterRequestModel):
     change in the future releases of the API.
     """
 
-    name = None
+    clan_name = None
     _iter_rtype = Clan
     _list_rtype = ClanList
 
@@ -48,7 +48,7 @@ class ClanSearchRequest(IterRequestModel):
         :type before:           str
         """
 
-        self.name = name
+        self.clan_name = name
         IterRequestModel.__init__(self, "clans",
                                   kwargs={
                                       'name': name,
@@ -60,5 +60,5 @@ class ClanSearchRequest(IterRequestModel):
                                       'minClanLevel': min_clan_level,
                                       'labelIds': ",".join((label.value.id for label in label_ids)) if label_ids is not None else None,
                                       'limit': limit, 'after': after, 'before': before})
-        self._main_attribute = self.name
+        self._main_attribute = self.clan_name
         return

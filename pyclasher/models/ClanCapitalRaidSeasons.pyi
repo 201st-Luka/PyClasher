@@ -1,5 +1,6 @@
 from typing import Iterator
 
+from ..Exceptions import Missing
 from .BaseModels import BaseModel, IterBaseModel, BaseClanMember, BaseClan, Time
 
 
@@ -526,7 +527,7 @@ class ClanCapitalRaidSeason(BaseModel):
         ...
 
     @property
-    def members(self) -> ClanCapitalRaidSeasonMemberList:
+    def members(self) -> Missing | ClanCapitalRaidSeasonMemberList:
         """
         member list
 
