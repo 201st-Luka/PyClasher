@@ -1,5 +1,6 @@
 from typing import Iterator
 
+from ..Exceptions import Missing
 from .BaseModels import BaseModel, IterBaseModel, BaseClan
 from .Enums import ClanRole, WarPreference, Village
 from .Labels import LabelList
@@ -175,7 +176,7 @@ class PlayerAchievementProgressList(IterBaseModel):
 
 class Player(BaseModel):
     @property
-    def league(self) -> League:
+    def league(self) -> Missing | League:
         ...
 
     @property
