@@ -78,6 +78,12 @@ If you find a bug, an error or want custom functionality, please tell
 me via Discord or open an issue or start a discussion on the 
 GitHub-repository.
 
+---
+
+##### Disclaimer
+This material is unofficial and is not endorsed by Supercell. For more information see Supercell's Fan Content Policy:
+www.supercell.com/fan-content-policy.
+
 
 
 <!---links--->
