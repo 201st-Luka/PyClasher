@@ -24,7 +24,7 @@ from .ClanWarLeagueGroup import ClanWarLeagueRound, ClanWarLeagueRoundList, Clan
 from .ClanWarLog import ClanWarLogEntry, ClanWarLog
 from .Enums import ApiCodes, ClanType, WarFrequency, Locations, Leagues, CapitalLeagues, \
     BuilderBaseLeagues, WarLeagues, Labels, Languages, ClanWarState, ClanWarLeagueGroupState, \
-    ClanWarResult, WarPreference, PlayerHouseElementType, Village, TokenStatus
+    ClanWarResult, WarPreference, PlayerHouseElementType, Village, TokenStatus, ClanRole
 # gold pass season
 from .GoldPassSeason import GoldPassSeason
 # labels

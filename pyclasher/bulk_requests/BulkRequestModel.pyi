@@ -1,4 +1,4 @@
-from typing import Any, Coroutine, Iterator
+from typing import Any, Coroutine, Iterator, Generator
 
 
 class BulkRequestModel:
@@ -77,7 +77,7 @@ class BulkRequestModel:
     def __len__(self) -> int:
         ...
 
-    def __getitem__(self, item: int) -> _request_model:
+    def __getitem__(self, item: int | slice) -> Generator | _request_model:
         ...
 
     def __iter__(self) -> Iterator[_request_model]:

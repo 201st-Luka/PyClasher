@@ -64,11 +64,25 @@ good as I can.
 - documentation
 - real example ([HeadhunterBot][headhunterbot_url] is in development)
 
+### Planned code implementations (ToDo-list)
+
+- `total_wars` attribute for `ClanWarLogEntry`
+- war log filtering for `ClanWarLogRequest` (for example filter the number of attacks per member)
+- some "average" attributes for `Clan`-classes, `WarLog`-classes, ...
+- attributes `king`, `queen`, `warden`, `royal_champion` for the `Player.heroes` attribute
+- autosort for the `ClanCurrentWarRequest` members of the `member_list` attribute (sorted by the map position)
+
 ---
 
 If you find a bug, an error or want custom functionality, please tell
 me via Discord or open an issue or start a discussion on the 
 GitHub-repository.
+
+---
+
+##### Disclaimer
+This material is unofficial and is not endorsed by Supercell. For more information see Supercell's Fan Content Policy:
+www.supercell.com/fan-content-policy.
 
 
 

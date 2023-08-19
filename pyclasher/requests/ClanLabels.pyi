@@ -8,6 +8,9 @@ class ClanLabelsRequest(IterRequestModel):
     _iter_rtype = Label
     _list_rtype = LabelList
 
+    def __init__(self) -> None:
+        ...
+
     @property
     def items(self) -> _list_rtype:
         ...

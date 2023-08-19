@@ -4,6 +4,7 @@ from ..models import GoldPassSeason
 
 class GoldPassRequest(RequestModel, GoldPassSeason):
     def __init__(self):
-        super().__init__("goldpass/seasons/current")
+        RequestModel.__init__(self, "goldpass/seasons/current")
+        GoldPassSeason.__init__(self)
         self._main_attribute = ""
         return

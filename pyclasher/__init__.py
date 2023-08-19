@@ -9,6 +9,8 @@ This wrapper client has been created by 201st-Luka.
 .. author:: 201st-Luka
 """
 
+__version__ = '1.0.0-alpha1'
+
 from .Exceptions import ApiCode, ClientIsRunning, ClientIsNotRunning, ClientAlreadyInitialised, NoClient, \
     InvalidType, InvalidLoginData, LoginNotDone, NoneToken, RequestNotDone, InvalidTimeFormat, \
     InvalidSeasonFormat, Missing, MISSING, PyClasherException

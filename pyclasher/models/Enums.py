@@ -606,6 +606,7 @@ class ClanWarResult(Enum):
     LOSE = "lose"
     WIN = "win"
     TIE = "tie"
+    NONE = None
 
 
 class ClanRole(Enum):

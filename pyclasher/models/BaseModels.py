@@ -8,12 +8,12 @@ class BaseModel:
     _main_attribute = None
     _data = MISSING
 
-    def __new__(cls, data):
+    def __new__(cls, data=None):
         if data is MISSING:
             return MISSING
         return super().__new__(cls)
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         if data is not None:
             self._data = data
         return
@@ -55,6 +55,11 @@ class IterBaseModel:
     _main_attribute = None
     _iter_rtype = Any
 
+    def __new__(cls, data):
+        if data is MISSING:
+            return MISSING
+        return super().__new__(cls)
+
     def __init__(self, data):
         self._data = data
         if self._data is not None and self._data is not MISSING:
@@ -69,7 +74,15 @@ class IterBaseModel:
         return self._len
 
     def __getitem__(self, item):
-        return self._iter_rtype(self._data[item])
+        if self._data is MISSING:
+            raise RequestNotDone
+        if self._data is None:
+            return None
+        if isinstance(item, int):
+            return self._iter_rtype(self._data[item])
+        if isinstance(item, slice):
+            return (self._iter_rtype(self._data[i]) for i in range(*item.indices(len(self._data))))
+        raise NotImplementedError
 
     def __iter__(self):
         self._iter = iter(self._data)

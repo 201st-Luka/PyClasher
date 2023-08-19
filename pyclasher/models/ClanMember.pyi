@@ -1,3 +1,4 @@
+from ..Exceptions import Missing
 from .BaseModels import BaseClanMember
 from .Enums import ClanRole
 from .Leagues import League, BuilderBaseLeague
@@ -110,7 +111,7 @@ class ClanMember(BaseClanMember):
         ...
 
     @property
-    def player_house(self) -> PlayerHouse:
+    def player_house(self) -> Missing | PlayerHouse:
         """
         player house
 

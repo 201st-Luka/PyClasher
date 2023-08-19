@@ -32,7 +32,7 @@ class ApiCodes(Enum):
     def from_exception(cls,
                        code: int,
                        response_json: dict
-                       ) -> ApiCode:
+                       ) -> ApiCodes:
         """
         class method that allows to initialise ApiCodes with a failed request response
 
@@ -510,6 +510,7 @@ class ClanWarResult(Enum):
     LOSE = "lose"
     WIN = "win"
     TIE = "tie"
+    NONE = None
 
 
 class ClanRole(Enum):

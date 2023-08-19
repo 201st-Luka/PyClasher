@@ -204,7 +204,8 @@ class Consumer:
 
             future.set_result(response_json)
             status.set_result(response.status)
-            error.set_result(None if response.status == 200 else ApiCodes.from_exception(response.status, response_json))
+            error.set_result(None if response.status == 200 else
+                             ApiCodes.from_exception(response.status, response_json))
             return
 
     async def consume(self):

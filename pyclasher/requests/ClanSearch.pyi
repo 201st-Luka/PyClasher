@@ -5,14 +5,14 @@ from ..models import ClanList, WarFrequency, Locations, Labels, Clan
 
 
 class ClanSearchRequest(IterRequestModel):
-    name: str = None
+    clan_name: str = None
     _iter_rtype = Clan
     _list_rtype = ClanList
 
     def __init__(self, name: str = None, war_frequency: WarFrequency = None, location: Locations = None, min_members: int = None,
                  max_members: int = None, min_clan_points: int = None, min_clan_level: int = None, label_ids: list[Labels] = None,
                  limit: int = None, after: str = None, before: str = None) -> None:
-        self.name = name
+        self.clan_name = name
         ...
 
     @property

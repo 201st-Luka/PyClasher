@@ -210,7 +210,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def war_wins(self) -> int:
+    def war_wins(self) -> Missing | int:
         """
         clan's war wins
 
@@ -220,7 +220,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def war_ties(self) -> int:
+    def war_ties(self) -> Missing | int:
         """
         clan's war ties
 
@@ -230,7 +230,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def war_losses(self) -> int:
+    def war_losses(self) -> Missing | int:
         """
         clan's war losses
 
@@ -250,7 +250,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def chat_language(self) -> Language:
+    def chat_language(self) -> Missing | Language:
         """
         clan's chat language
 
@@ -290,7 +290,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def location(self) -> Location:
+    def location(self) -> Missing | Location:
         """
         clan's location
 
@@ -320,7 +320,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def description(self) -> str:
+    def description(self) -> Missing | str:
         """
         clan's description
 
@@ -330,7 +330,7 @@ class Clan(BaseClan):
         ...
 
     @property
-    def clan_capital(self) -> ClanCapital:
+    def clan_capital(self) -> Missing | ClanCapital:
         """
         clan's capital
 
