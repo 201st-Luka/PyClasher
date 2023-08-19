@@ -4,7 +4,7 @@ from asyncio import Queue, AbstractEventLoop
 
 from pyclasher import PyClasherClient
 
-from constants import CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD
+from .constants import CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD
 
 
 @pytest.mark.asyncio
