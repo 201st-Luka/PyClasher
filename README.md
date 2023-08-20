@@ -10,6 +10,8 @@ requested data.
 
 ---
 
+I am planning to release the package on pypi.org after my exams. This is probably in the first week of september.
+
 The package is still in development and will be finished as short as
 possible for me. When the package covers the 
 whole ClashOfClans API, the repository will be transformed into
