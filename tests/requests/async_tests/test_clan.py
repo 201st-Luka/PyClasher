@@ -2,11 +2,11 @@ import pytest
 
 from pyclasher import (ClanRequest, ClanMembersRequest, Missing, ClanCurrentWarRequest, ClanWarLogRequest,
                        ClanSearchRequest, ClanCapitalRaidSeasonsRequest)
-from pyclasher.models import (ClanType, WarFrequency, BadgeUrls, WarLeague, CapitalLeague, Language, ClanCapital,
-                              LabelList, Location, ClanMemberList, Paging, BuilderBaseLeague, League, PlayerHouse,
-                              ClanRole, ClanMember, ClanWarState, WarClan, Time, ClanWarLog, ClanWarResult, ClanList,
-                              ClanCapitalRaidSeasons, ClanCapitalRaidSeasonMemberList,
-                              ClanCapitalRaidSeasonAttackLogList, ClanCapitalRaidSeasonDefenseLogList)
+from api.models import (ClanType, WarFrequency, BadgeUrls, WarLeague, CapitalLeague, Language, ClanCapital,
+                        LabelList, Location, ClanMemberList, Paging, BuilderBaseLeague, League, PlayerHouse,
+                        ClanRole, ClanMember, ClanWarState, WarClan, Time, ClanWarLog, ClanWarResult, ClanList,
+                        ClanCapitalRaidSeasons, ClanCapitalRaidSeasonMemberList,
+                        ClanCapitalRaidSeasonAttackLogList, ClanCapitalRaidSeasonDefenseLogList)
 
 from ...constants import TEST_CLAN_TAG, TEST_CLAN_NAME
 

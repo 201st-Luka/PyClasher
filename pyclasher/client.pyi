@@ -5,8 +5,8 @@ from typing import Iterable, Coroutine, Any
 
 from aiohttp import ClientSession
 
-from .Exceptions import MISSING, Missing
-from .models.BaseModels import BaseModel
+from .Exceptions import MISSING
+from api.models import BaseModel
 
 
 class RequestMethods(Enum):
