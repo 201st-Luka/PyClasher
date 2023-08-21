@@ -1,5 +1,5 @@
-from time import perf_counter
 from asyncio import sleep
+from time import perf_counter
 
 
 class ExecutionTimer:

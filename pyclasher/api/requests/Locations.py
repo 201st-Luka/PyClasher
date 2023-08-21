@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import Location, LocationList
+from ..models import Location, LocationList
 
 
 class LocationsRequest(IterRequestModel):

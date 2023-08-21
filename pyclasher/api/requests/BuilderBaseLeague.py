@@ -1,5 +1,5 @@
 from .RequestModels import RequestModel
-from api.models import BuilderBaseLeague
+from ..models import BuilderBaseLeague
 
 
 class BuilderBaseLeagueRequest(RequestModel, BuilderBaseLeague):

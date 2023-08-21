@@ -1,8 +1,8 @@
-from ..Exceptions import Missing
 from .BaseModels import BaseClanMember
 from .Enums import ClanRole
 from .Leagues import League, BuilderBaseLeague
 from .PlayerHouse import PlayerHouse
+from ...exceptions import Missing
 
 
 class ClanMember(BaseClanMember):

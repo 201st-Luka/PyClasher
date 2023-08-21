@@ -1,5 +1,5 @@
 from .RequestModels import RequestModel
-from api.models import CapitalLeague
+from ..models import CapitalLeague
 
 
 class CapitalLeagueRequest(RequestModel, CapitalLeague):

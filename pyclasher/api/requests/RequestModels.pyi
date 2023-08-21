@@ -1,8 +1,8 @@
-from typing import Any, Self, Coroutine, Iterator, Generator
+from typing import Any, Coroutine, Iterator, Generator
 
-from ..Exceptions import MISSING, Missing
-from ..client import PyClasherClient, RequestMethods
 from ..models import Paging
+from ...client import PyClasherClient, RequestMethods
+from ...exceptions import MISSING, Missing
 
 request_id: int = 0
 

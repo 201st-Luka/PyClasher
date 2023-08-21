@@ -3,7 +3,7 @@ from enum import Enum
 from .Labels import Label
 from .Leagues import League, CapitalLeague, BuilderBaseLeague, WarLeague
 from .Location import Location
-from Exceptions import ApiCode
+from ...exceptions import ApiCode
 
 
 class ApiCodes(Enum):

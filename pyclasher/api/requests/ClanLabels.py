@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import LabelList, Label
+from ..models import LabelList, Label
 
 
 class ClanLabelsRequest(IterRequestModel):

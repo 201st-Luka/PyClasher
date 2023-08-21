@@ -7,7 +7,6 @@ from .BaseModels import BaseModel, IterBaseModel, ImageUrl, IconUrl, IconUrls, A
     Cursor, Paging, BadgeUrl, BadgeUrls, Time, BaseClanMember, BaseClan, BaseLeague
 # clan models
 from .Clan import ClanDistrictData, ClanDistrictDataList, ClanCapital, Clan
-from .ClanList import ClanList
 from .ClanBuilderBaseRankingList import ClanBuilderBaseRanking, ClanBuilderBaseRankingList
 from .ClanCapitalRaidSeasons import ClanCapitalRaidSeasonClanInfo, ClanCapitalRaidSeasonAttacker, \
     ClanCapitalRaidSeasonAttack, ClanCapitalRaidSeasonAttackList, ClanCapitalRaidSeasonDistrict, \
@@ -15,6 +14,7 @@ from .ClanCapitalRaidSeasons import ClanCapitalRaidSeasonClanInfo, ClanCapitalRa
     ClanCapitalRaidSeasonDefenseLogList, ClanCapitalRaidSeasonAttackLogList, ClanCapitalRaidSeasonMember, \
     ClanCapitalRaidSeasonMemberList, ClanCapitalRaidSeason, ClanCapitalRaidSeasons
 from .ClanCapitalRankingList import ClanCapitalRanking, ClanCapitalRankingList
+from .ClanList import ClanList
 from .ClanMember import ClanMember
 from .ClanMemberList import ClanMemberList
 from .ClanRankingList import ClanRanking, ClanRankingList

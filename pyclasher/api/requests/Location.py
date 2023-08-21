@@ -1,5 +1,5 @@
 from .RequestModels import RequestModel
-from api.models import Location
+from ..models import Location
 
 
 class LocationRequest(RequestModel, Location):

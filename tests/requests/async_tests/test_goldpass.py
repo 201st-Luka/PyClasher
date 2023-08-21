@@ -1,7 +1,7 @@
 import pytest
 
 from pyclasher import GoldPassRequest
-from api.models import Time
+from pyclasher.api.models import Time
 
 
 @pytest.mark.asyncio

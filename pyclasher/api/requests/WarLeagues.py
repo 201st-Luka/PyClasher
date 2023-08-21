@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import WarLeagueList, WarLeague
+from ..models import WarLeagueList, WarLeague
 
 
 class WarLeaguesRequest(IterRequestModel):

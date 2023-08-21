@@ -4,7 +4,7 @@ base models for this API wrapper client
 
 from typing import Any, Iterator, Generator
 
-from ..Exceptions import MISSING, Missing
+from ...exceptions import MISSING, Missing
 
 
 class BaseModel:

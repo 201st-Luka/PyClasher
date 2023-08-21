@@ -2,9 +2,9 @@ from asyncio import Future, get_running_loop
 from typing import Any
 from urllib.parse import quote, urlencode
 
-from Exceptions import NoClient, ClientIsNotRunning, RequestNotDone, MISSING
-from client import PyClasherClient, RequestMethods
-from api.models import Paging
+from ..models import Paging
+from ...client import PyClasherClient, RequestMethods
+from ...exceptions import NoClient, ClientIsNotRunning, RequestNotDone, MISSING
 
 request_id = 0
 

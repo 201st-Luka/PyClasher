@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import PlayerRanking, PlayerRankingList, Season
+from ..models import PlayerRanking, PlayerRankingList, Season
 
 
 class LeagueSeasonRequest(IterRequestModel):

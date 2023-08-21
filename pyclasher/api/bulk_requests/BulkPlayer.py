@@ -1,10 +1,10 @@
 from asyncio import get_running_loop, run
 
-from Exceptions import MISSING
-from api.models import Clan
 from .BulkRequestModel import BulkRequestModel
-from api.models import BaseClan
-from api.requests import PlayerRequest, ClanMembersRequest
+from ..models import BaseClan
+from ..models import Clan
+from ..requests import PlayerRequest, ClanMembersRequest
+from ...exceptions import MISSING
 
 
 class PlayerBulkRequest(BulkRequestModel):

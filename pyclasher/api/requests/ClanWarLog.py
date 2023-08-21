@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import ClanWarLog, ClanWarLogEntry
+from ..models import ClanWarLog, ClanWarLogEntry
 
 
 class ClanWarLogRequest(IterRequestModel):

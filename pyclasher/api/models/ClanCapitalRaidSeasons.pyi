@@ -1,7 +1,7 @@
 from typing import Iterator
 
-from ..Exceptions import Missing
 from .BaseModels import BaseModel, IterBaseModel, BaseClanMember, BaseClan, Time
+from ...exceptions import Missing
 
 
 class ClanCapitalRaidSeasonClanInfo(BaseClan):

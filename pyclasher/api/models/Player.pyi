@@ -1,11 +1,11 @@
 from typing import Iterator
 
-from ..Exceptions import Missing
 from .BaseModels import BaseModel, IterBaseModel, BaseClan
 from .Enums import ClanRole, WarPreference, Village
 from .Labels import LabelList
 from .Leagues import League, BuilderBaseLeague
 from .PlayerHouse import PlayerHouse
+from ...exceptions import Missing
 
 
 class PlayerClan(BaseClan):

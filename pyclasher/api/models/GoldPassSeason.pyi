@@ -1,4 +1,4 @@
-from api.models import Time, BaseModel
+from .BaseModels import Time, BaseModel
 
 
 class GoldPassSeason(BaseModel):

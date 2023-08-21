@@ -1,6 +1,6 @@
 from typing import Iterator
 
-from api.models import BaseModel, IterBaseModel, IconUrls
+from .BaseModels import BaseModel, IterBaseModel, IconUrls
 
 
 class Label(BaseModel):

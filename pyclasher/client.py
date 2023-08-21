@@ -6,10 +6,10 @@ from urllib.parse import urlparse
 
 from aiohttp import ClientSession, request
 
-from .Exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
+from .api.models import ApiCodes
+from .api.models import BaseModel
+from .exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
     NoneToken, MISSING
-from api.models import ApiCodes
-from api.models import BaseModel
 from .utils import ExecutionTimer
 
 

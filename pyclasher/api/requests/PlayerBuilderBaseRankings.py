@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import PlayerBuilderBaseRanking, PlayerBuilderBaseRankingList
+from ..models import PlayerBuilderBaseRanking, PlayerBuilderBaseRankingList
 
 
 class PlayerBuilderBaseRankingsRequest(IterRequestModel):

@@ -2,7 +2,7 @@ from typing import Iterator
 
 from .BaseModels import BaseModel, IterBaseModel
 from .Leagues import BuilderBaseLeague
-from api.models.PlayerRankingClan import PlayerRankingClan
+from .PlayerRankingClan import PlayerRankingClan
 
 
 class PlayerBuilderBaseRanking(BaseModel):

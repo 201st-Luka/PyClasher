@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import ClanCapitalRaidSeasons, ClanCapitalRaidSeason
+from ..models import ClanCapitalRaidSeasons, ClanCapitalRaidSeason
 
 
 class ClanCapitalRaidSeasonsRequest(IterRequestModel):

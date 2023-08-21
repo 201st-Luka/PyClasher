@@ -1,5 +1,5 @@
 from .RequestModels import IterRequestModel
-from api.models import ClanList, WarFrequency, Locations, Labels, Clan
+from ..models import ClanList, WarFrequency, Locations, Labels, Clan
 
 
 class ClanSearchRequest(IterRequestModel):

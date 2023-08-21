@@ -9,8 +9,8 @@ from .Enums import WarFrequency, ClanType
 from .Labels import LabelList
 from .Leagues import WarLeague, CapitalLeague
 from .Location import Location
-from api.models.misc import Language
-from ..Exceptions import Missing
+from .misc import Language
+from ...exceptions import Missing
 
 
 class ClanDistrictData(BaseModel):

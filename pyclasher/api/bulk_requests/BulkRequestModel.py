@@ -1,7 +1,5 @@
 from asyncio import gather, get_running_loop, run
 
-from Exceptions import RequestNotDone
-
 
 class BulkRequestModel:
     _request_model = ...

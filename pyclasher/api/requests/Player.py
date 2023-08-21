@@ -2,8 +2,9 @@ from asyncio import Future, get_running_loop, run
 from urllib.parse import quote
 
 from .RequestModels import RequestModel
-from pyclasher import ClientIsNotRunning, RequestMethods, ApiCode
-from api.models import Player, VerifyTokenRequest, VerifyTokenResponse
+from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
+from ...client import RequestMethods
+from ...exceptions import ClientIsNotRunning, ApiCode
 
 
 class PlayerRequest(RequestModel, Player):

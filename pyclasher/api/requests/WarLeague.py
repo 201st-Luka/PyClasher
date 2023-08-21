@@ -1,5 +1,5 @@
 from .RequestModels import RequestModel
-from api.models import WarLeague
+from ..models import WarLeague
 
 
 class WarLeagueRequest(RequestModel, WarLeague):

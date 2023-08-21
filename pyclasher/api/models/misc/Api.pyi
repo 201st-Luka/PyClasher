@@ -3,7 +3,7 @@ models concerning the ClashOfClans API responses
 """
 
 from ..BaseModels import BaseModel
-from ...Exceptions import Missing
+from ....exceptions import Missing
 
 
 class ClientError(BaseModel):

@@ -4,7 +4,7 @@ models concerning the location
 from typing import Iterator
 
 from .BaseModels import IterBaseModel, BaseModel
-from ..Exceptions import Missing
+from ...exceptions import Missing
 
 
 class Location(BaseModel):

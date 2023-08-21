@@ -1,7 +1,7 @@
 from asyncio import get_running_loop, run
 
 from .RequestModels import RequestModel
-from api.models import ClanWar, BaseClan
+from ..models import ClanWar, BaseClan
 
 
 class ClanCurrentWarRequest(RequestModel, ClanWar):
