@@ -2,7 +2,9 @@ import pytest
 
 from pyclasher import (
     ClanRequest, ClanMembersRequest, Missing, ClanCurrentWarRequest,
-    ClanWarLogRequest, ClanSearchRequest, ClanCapitalRaidSeasonsRequest
+    ClanWarLogRequest, ClanSearchRequest, ClanCapitalRaidSeasonsRequest,
+    ClanCurrentwarLeaguegroupRequest,
+    RequestNotDone
 )
 from pyclasher.api.models import (
     ClanType, WarFrequency, BadgeUrls, WarLeague, CapitalLeague, Language,
@@ -10,7 +12,8 @@ from pyclasher.api.models import (
     BuilderBaseLeague, League, PlayerHouse, ClanRole, ClanMember,
     ClanWarState, WarClan, Time, ClanWarLog, ClanWarResult, ClanList,
     ClanCapitalRaidSeasons, ClanCapitalRaidSeasonMemberList,
-    ClanCapitalRaidSeasonAttackLogList, ClanCapitalRaidSeasonDefenseLogList
+    ClanCapitalRaidSeasonAttackLogList, ClanCapitalRaidSeasonDefenseLogList,
+    ClanWarLeagueGroupState, ClanWarLeagueClanList, ClanWarLeagueRoundList
 )
 
 from ..constants import TEST_CLAN_TAG, TEST_CLAN_NAME
@@ -97,7 +100,8 @@ async def test_clan_current_war(event_loop, pyclasher_client):
     assert isinstance(current_war.clan, WarClan)
     assert isinstance(current_war.opponent, WarClan)
 
-    if current_war.state == ClanWarState.IN_WAR or current_war.state == ClanWarState.PREPARATION:
+    if (current_war.state == ClanWarState.IN_WAR
+            or current_war.state == ClanWarState.PREPARATION):
         assert isinstance(current_war.attacks_per_member, int)
         assert isinstance(current_war.end_time, Time)
         assert isinstance(current_war.team_size, int)
@@ -184,7 +188,8 @@ async def test_clan_capital_raid_season(event_loop, pyclasher_client):
     for rs in raid_seasons:
         assert isinstance(rs.to_dict(), dict)
         assert isinstance(rs.state, str)
-        assert isinstance(rs.members, (ClanCapitalRaidSeasonMemberList, Missing))
+        assert isinstance(rs.members,
+                          (ClanCapitalRaidSeasonMemberList, Missing))
         assert isinstance(rs.end_time, Time)
         assert isinstance(rs.start_time, Time)
         assert isinstance(rs.attack_log, ClanCapitalRaidSeasonAttackLogList)
@@ -194,3 +199,21 @@ async def test_clan_capital_raid_season(event_loop, pyclasher_client):
         assert isinstance(rs.enemy_districts_destroyed, int)
         assert isinstance(rs.raids_completed, int)
         assert isinstance(rs.total_attacks, int)
+
+
+@pytest.mark.asyncio
+async def test_clan_currentwar_leaguegroup(event_loop, pyclasher_client):
+    try:
+        league_group = ClanCurrentwarLeaguegroupRequest(TEST_CLAN_TAG)
+
+        await league_group.request()
+    except RequestNotDone:
+        pass
+    else:
+        assert isinstance(league_group.to_dict(), dict)
+        assert league_group.clan_tag == TEST_CLAN_TAG
+
+        assert isinstance(league_group.state, ClanWarLeagueGroupState)
+        assert isinstance(league_group.clans, ClanWarLeagueClanList)
+        assert isinstance(league_group.rounds, ClanWarLeagueRoundList)
+        assert isinstance(league_group.season, str)
