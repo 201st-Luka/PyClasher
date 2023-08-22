@@ -16,6 +16,7 @@ from .clan_members import ClanMembersRequest
 from .clan_rankings import ClanRankingsRequest
 from .clan_search import ClanSearchRequest
 from .clan_war_log import ClanWarLogRequest
+from .clan_currentwar_leaguegroup import ClanCurrentwarLeaguegroupRequest
 # goldpass
 from .gold_pass import GoldPassRequest
 from .league import LeagueRequest
