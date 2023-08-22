@@ -1,4 +1,4 @@
-from ..base_models import BaseModel
+from .base_models import BaseModel
 
 
 class Language(BaseModel):
