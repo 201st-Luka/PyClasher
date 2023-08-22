@@ -1,4 +1,4 @@
-from asyncio import run, create_task, get_running_loop, new_event_loop
+from asyncio import create_task
 from typing import Iterable
 from urllib.parse import urlparse
 
@@ -83,10 +83,6 @@ class Client:
         self.__temporary_session = True
         return self
 
-    @property
-    def is_running(self) -> bool:
-        return self.__client_running
-
     async def start(self, tokens=None):
         if tokens is None:
             tokens = self.__tokens
@@ -153,3 +149,7 @@ class Client:
             self.logger.warning("The client was still running, closed now.")
 
         return
+
+    @property
+    def is_running(self) -> bool:
+        return self.__client_running

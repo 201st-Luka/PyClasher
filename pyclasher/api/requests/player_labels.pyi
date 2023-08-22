@@ -1,6 +1,6 @@
 from typing import Iterator
 
-from .request_models import IterRequestModel
+from .abc import IterRequestModel
 from ..models import LabelList, Label
 
 

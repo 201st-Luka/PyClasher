@@ -1,6 +1,6 @@
 from asyncio import get_running_loop, run
 
-from .request_models import RequestModel
+from .abc import RequestModel
 from ..models import Clan, BaseClan
 
 

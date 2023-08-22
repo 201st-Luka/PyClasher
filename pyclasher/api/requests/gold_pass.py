@@ -1,4 +1,4 @@
-from .request_models import RequestModel
+from .abc import RequestModel
 from ..models import GoldPassSeason
 
 

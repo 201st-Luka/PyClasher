@@ -1,4 +1,4 @@
-from .request_models import IterRequestModel
+from .abc import IterRequestModel
 from ..models import WarLeagueList, WarLeague
 
 

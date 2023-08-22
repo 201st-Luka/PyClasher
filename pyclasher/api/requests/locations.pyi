@@ -1,6 +1,6 @@
 from typing import Self, Iterator
 
-from .request_models import IterRequestModel
+from .abc import IterRequestModel
 from ..models import Location, LocationList
 
 
