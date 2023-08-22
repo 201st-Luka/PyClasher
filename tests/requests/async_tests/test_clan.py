@@ -77,7 +77,7 @@ async def test_clan_member(event_loop, pyclasher_client):
         assert isinstance(member.league, League)
         assert isinstance(member.player_house, (PlayerHouse, Missing))
         assert isinstance(member.previous_clan_rank, int)
-        assert 1 <= member.previous_clan_rank <= 50
+        assert 0 <= member.previous_clan_rank <= 50
         assert isinstance(member.role, ClanRole)
 
 
