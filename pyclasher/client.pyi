@@ -191,7 +191,7 @@ class Login:
     """
     class to log in via the ClashOfClans login API
 
-    to execute the login use ``Login(...).login()`` or ``await Login(...).login()`` depending of the context
+    to execute the login use ``Login(...).login()`` or ``await Login(...).login()`` depending on the context
     """
 
     login_url = "https://developer.clashofclans.com/api/login"
@@ -301,10 +301,8 @@ class Consumer:
 
     :ivar   queue:          the queue where the requests are enqueued
     :type   queue:          Queue
-    :ivar   token:          one ClashOfClans API token
-    :type   token:          str
-    :ivar   requests_per_s: allowed number of requests that can be done with one consumer in one second
-    :type   requests_per_s: int
+    :ivar   r_p_s:          allowed number of requests that can be done with one consumer in one second
+    :type   r_p_s:          int
     :ivar   url:            the base URL for the requests
     :type   url:            str
     """
@@ -371,7 +369,7 @@ class Consumer:
 
         :return:    None
         :rtype:     None
-        .. note::   uses an infinite while loop, only run it as a asyncio task
+        .. note::   uses an infinite while loop, only run it as an asyncio task
         """
         ...
 

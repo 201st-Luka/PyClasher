@@ -177,7 +177,7 @@ class Paging(BaseModel):
 
 class BadgeUrl(ImageUrl):
     """
-    class to hold a url for one badge
+    class to hold an url for one badge
     """
 
 
@@ -223,20 +223,20 @@ class Time:
 
     :cvar   time_format:    time format of the string class method
     :type   time_format:    str
-    :ivar   year:           year of the date and time
-    :type   year:           int
-    :ivar   month:          month of the date and time
-    :type   month:          int
-    :ivar   day:            day of the date and time
-    :type   day:            int
-    :ivar   hour:           hour of the date and time
-    :type   hour:           int
-    :ivar   minute:         minute of the date and time
-    :type   minute:         int
-    :ivar   second:         second of the date and time
-    :type   second:         int
-    :ivar   microsecond:    microsecond of the date and time
-    :type   microsecond:    int
+    :ivar   _year:          year of the date and time
+    :type   _year:          int
+    :ivar   _month:         month of the date and time
+    :type   _month:         int
+    :ivar   _day:           day of the date and time
+    :type   _day:           int
+    :ivar   _hour:          hour of the date and time
+    :type   _hour:          int
+    :ivar   _minute:        minute of the date and time
+    :type   _minute:        int
+    :ivar   _second:        second of the date and time
+    :type   _second:        int
+    :ivar   _microsecond:   microsecond of the date and time
+    :type   _microsecond:   int
     """
 
     time_format: str = "%Y%m%dT%H%M%S.%fZ"

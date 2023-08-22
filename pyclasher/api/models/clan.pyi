@@ -303,7 +303,7 @@ class Clan(BaseClan):
     @property
     def type(self) -> ClanType:
         """
-        clan tpye
+        clan type
 
         :return:    the type of the clan
         :rtype:     ClanType
