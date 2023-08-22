@@ -1,4 +1,5 @@
-from .base_models import BaseModel, IterBaseModel, BaseClanMember, BaseClan
+from .abc import BaseModel, IterBaseModel
+from .base_models import BaseClanMember, BaseClan
 
 
 class ClanWarAttack(BaseModel):

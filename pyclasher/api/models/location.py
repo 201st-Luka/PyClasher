@@ -1,4 +1,4 @@
-from .base_models import IterBaseModel, BaseModel
+from .abc import IterBaseModel, BaseModel
 
 
 class Location(BaseModel):

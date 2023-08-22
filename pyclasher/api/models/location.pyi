@@ -3,7 +3,7 @@ models concerning the location
 """
 from typing import Iterator
 
-from .base_models import IterBaseModel, BaseModel
+from .abc import IterBaseModel, BaseModel
 from ...exceptions import Missing
 
 

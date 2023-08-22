@@ -1,4 +1,5 @@
-from .base_models import BaseModel, Time
+from .abc import BaseModel
+from .base_models import Time
 from .enums import ClanWarState
 from .war_clan import WarClan
 

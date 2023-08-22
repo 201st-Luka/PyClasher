@@ -3,13 +3,14 @@ clan models and sub models
 """
 from typing import Iterator
 
-from .base_models import BaseModel, IterBaseModel, BaseClan
+from .abc import BaseModel, IterBaseModel
+from .base_models import BaseClan
 from .clan_member_list import ClanMemberList
 from .enums import WarFrequency, ClanType
 from .labels import LabelList
+from .language import Language
 from .leagues import WarLeague, CapitalLeague
 from .location import Location
-from .misc import Language
 from ...exceptions import Missing
 
 
@@ -302,7 +303,7 @@ class Clan(BaseClan):
     @property
     def type(self) -> ClanType:
         """
-        clan tpye
+        clan type
 
         :return:    the type of the clan
         :rtype:     ClanType

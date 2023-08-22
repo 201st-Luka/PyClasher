@@ -1,4 +1,5 @@
-from .base_models import IterBaseModel, BaseModel, Time
+from .abc import IterBaseModel, BaseModel
+from .base_models import Time
 from .enums import ClanWarResult
 from .war_clan import WarClan
 

@@ -1,4 +1,5 @@
-from .base_models import BaseModel, BadgeUrls, IterBaseModel, BaseClanMember, Time
+from .abc import BaseModel, IterBaseModel
+from .base_models import BadgeUrls, BaseClanMember, Time
 
 
 class ClanCapitalRaidSeasonClanInfo(BaseModel):

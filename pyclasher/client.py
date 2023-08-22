@@ -1,228 +1,14 @@
-from asyncio import run, Queue, create_task, get_running_loop, new_event_loop, timeout
-from enum import Enum
-from json import dumps
+from asyncio import run, create_task, get_running_loop, new_event_loop
 from typing import Iterable
 from urllib.parse import urlparse
 
-from aiohttp import ClientSession, request
-
-from .api.models import ApiCodes
-from .api.models import BaseModel
-from .exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
-    NoneToken, MISSING
-from .utils import ExecutionTimer
+from .request_queue import PcConsumer, PcQueue
+from .utils.login import Login
+from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
+                         NoneToken, MISSING)
 
 
-class RequestMethods(Enum):
-    REQUEST = "get"
-    POST = "post"
-
-
-class Status(BaseModel):
-    """
-    class representing the status of the ClashOfClans API login
-    """
-
-    def __init__(self, data):
-        super().__init__(data)
-        self._main_attribute = self.code
-        return
-
-    @property
-    def code(self):
-        return self._get_data('code')
-
-    @property
-    def message(self):
-        return self._get_data('message')
-
-    @property
-    def detail(self):
-        return self._get_data('detail')
-
-
-class Auth(BaseModel):
-    def __init__(self, data):
-        super().__init__(data)
-        self._main_attribute = self.uid
-        return
-
-    @property
-    def uid(self):
-        return self._get_data('uid')
-
-    @property
-    def token(self):
-        return self._get_data('token')
-
-    @property
-    def ua(self):
-        return self._get_data('ua')
-
-    @property
-    def ip(self):
-        return self._get_data('ip')
-
-
-class Developer(BaseModel):
-    def __init__(self, data):
-        super().__init__(data)
-        self._main_attribute = self.email
-        return
-
-    @property
-    def id(self):
-        return self._get_data('id')
-
-    @property
-    def name(self):
-        return self._get_data('name')
-
-    @property
-    def game(self):
-        return self._get_data('game')
-
-    @property
-    def email(self):
-        return self._get_data('email')
-
-    @property
-    def tier(self):
-        return self._get_data('tier')
-
-    @property
-    def allowed_scopes(self):
-        return self._get_data('allowedScopes')
-
-    @property
-    def max_cidrs(self):
-        return self._get_data('maxCidrs')
-
-    @property
-    def prev_login_ts(self):
-        return self._get_data('prevLoginTs')
-
-    @property
-    def prev_login_ip(self):
-        return self._get_data('prevLoginIp')
-
-    @property
-    def prev_login_ua(self):
-        return self._get_data('prevLoginUa')
-
-
-class Login:
-    login_url = "https://developer.clashofclans.com/api/login"
-    __response = None
-
-    def __init__(self, email, password):
-        self.email = email
-        self.__password = password
-
-        return
-
-    @property
-    def status(self):
-        if self.__response is None:
-            raise LoginNotDone
-        return Status(self.__response['status'])
-
-    @property
-    def session_expires_in_seconds(self):
-        return self.__response['sessionExpiresInSeconds']
-
-    @property
-    def auth(self):
-        return Auth(self.__response['auth'])
-
-    @property
-    def developer(self):
-        return Developer(self.__response['developer'])
-
-    @property
-    def temporary_api_token(self):
-        return self.__response['temporaryAPIToken']
-
-    @property
-    def swagger_url(self):
-        return self.__response['swaggerUrl']
-
-    def login(self):
-        async def async_login():
-            async with request("post", self.login_url, json={
-                "email": self.email,
-                "password": self.__password
-            }) as response:
-                if response.status == 200:
-                    self.__response = await response.json()
-                    return self
-                else:
-                    raise InvalidLoginData
-
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return run(async_login())
-        else:
-            return async_login()
-
-    def __repr__(self):
-        return f"Login(email={self.email}, password={'*' * len(self.__password)}, " \
-               f"status={self.status}, session_expires_in_seconds={self.session_expires_in_seconds}, auth={self.auth}, " \
-               f"developer={self.developer}, temporary_api_token={self.temporary_api_token}, swagger_url={self.swagger_url})"
-
-    def __str__(self):
-        return f"Login({self.email})"
-
-
-class RequestQueue(Queue):
-    async def put(self, future, request_url, request_method, body, status, error):
-        return await super().put((future, request_url, request_method, body, status, error))
-
-
-class Consumer:
-    def __init__(self, queue, token, requests_per_s, request_timeout, url):
-        self.queue = queue
-        self.header = {
-            'Authorization': f'Bearer {token}'
-        }
-        self.r_p_s = requests_per_s
-        self.timeout = request_timeout
-        self.wait = 1 / self.r_p_s
-        self.url = url
-        self.session = ClientSession(
-            base_url=url,
-            headers=self.header
-        )
-        return
-
-    async def _request(self, future, url, method, body, status, error):
-        async with self.session.request(
-                method=method, url=url, data=None if body is None else dumps(body)
-        ) as response, timeout(self.timeout):
-            response_json = await response.json()
-
-            future.set_result(response_json)
-            status.set_result(response.status)
-            error.set_result(None if response.status == 200 else
-                             ApiCodes.from_exception(response.status, response_json))
-            return
-
-    async def consume(self):
-        while True:
-            future, url, method, body, status, error = await self.queue.get()
-
-            async with ExecutionTimer(self.wait):
-                create_task(self._request(future, url, method.value, body, status, error))
-
-                self.queue.task_done()
-
-    async def close(self):
-        await self.session.close()
-        return
-
-
-class PyClasherClient:
+class Client:
     __instance = None
 
     base_url = "https://api.clashofclans.com"
@@ -251,7 +37,7 @@ class PyClasherClient:
             logger=MISSING,
             swagger_url=None
     ):
-        if not PyClasherClient.initialised:
+        if not Client.initialised:
             if logger is None:
                 logger = MISSING
             self.logger = logger
@@ -273,11 +59,11 @@ class PyClasherClient:
 
             self.logger.debug("pyclasher client initialised")
 
-            self.queue = RequestQueue()
+            self.queue = PcQueue()
             self.__loop = new_event_loop()
             self.request_timeout = request_timeout
 
-            PyClasherClient.initialised = True
+            Client.initialised = True
         return
 
     @classmethod
@@ -290,7 +76,10 @@ class PyClasherClient:
 
             logger.info("initialising pyclasher client via login")
 
-            self = cls([login.temporary_api_token for login in logins], requests_per_second, request_timeout, swagger_url=logins[0].swagger_url)
+            self = cls([login.temporary_api_token for login in logins],
+                       requests_per_second,
+                       request_timeout,
+                       swagger_url=logins[0].swagger_url)
             self.logger = logger
             self.__temporary_session = True
             return self
@@ -308,7 +97,7 @@ class PyClasherClient:
 
     def start(self, tokens=None):
         async def async_consumer_start(tokens_):
-            self.__consumers = [Consumer(self.queue, token, self.requests_per_second, self.request_timeout, self.base_url) for token in tokens_]
+            self.__consumers = [PcConsumer(self.queue, token, self.requests_per_second, self.request_timeout, self.base_url) for token in tokens_]
             self.__consume_tasks = [create_task(consumer.consume()) for consumer in self.__consumers]
             self.logger.debug("pyclasher client started")
             return self
@@ -338,7 +127,7 @@ class PyClasherClient:
             return self.__loop.run_until_complete(async_consumer_start(tokens))
         else:
             self.__consumers = [
-                Consumer(
+                PcConsumer(
                     self.queue, token, self.requests_per_second, self.request_timeout, self.base_url)
                 for token in tokens
             ]
@@ -387,8 +176,8 @@ class PyClasherClient:
         return
 
     def __del__(self):
-        PyClasherClient.__instance = None
-        PyClasherClient.initialised = False
+        Client.__instance = None
+        Client.initialised = False
 
         if self.__client_running:
             self.close()
@@ -407,7 +196,7 @@ class PyClasherClient:
         if not self.is_running:
             if reset_queue:
                 del self.queue
-                self.queue = RequestQueue()
+                self.queue = PcQueue()
 
             if reset_loop:
                 self.__loop.stop()

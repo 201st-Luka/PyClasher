@@ -3,7 +3,8 @@ models concerning the leagues
 """
 from typing import Iterator
 
-from .base_models import BaseModel, IconUrls, IterBaseModel, BaseLeague
+from .abc import BaseModel, IterBaseModel
+from .base_models import IconUrls, BaseLeague
 
 
 class League(BaseLeague):

@@ -1,4 +1,5 @@
-from .base_models import Time, BaseModel
+from .abc import BaseModel
+from .base_models import Time
 
 
 class GoldPassSeason(BaseModel):

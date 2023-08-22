@@ -1,6 +1,7 @@
 from typing import Iterator
 
-from ..base_models import BaseModel, Time, IterBaseModel
+from ..abc import BaseModel, IterBaseModel
+from ..base_models import Time
 from ..enums import ClanWarState
 
 

@@ -1,4 +1,5 @@
-from .base_models import BaseModel, IterBaseModel, BadgeUrls
+from .abc import BaseModel, IterBaseModel
+from .base_models import BadgeUrls
 from .location import Location
 
 
