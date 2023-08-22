@@ -13,16 +13,9 @@ class Client:
 
     base_url = "https://api.clashofclans.com"
     endpoint = "/v1"
-    queue = None
     requests_per_second = 5
     logger = MISSING
     initialised = False
-    __loop = MISSING
-    __consumers = None
-    __consume_tasks = None
-    __temporary_session = False
-    __tokens = None
-    __client_running = False
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -60,48 +53,41 @@ class Client:
             self.logger.debug("pyclasher client initialised")
 
             self.queue = PcQueue()
-            self.__loop = new_event_loop()
             self.request_timeout = request_timeout
 
             Client.initialised = True
+            self.__client_running = False
+            self.__temporary_session = False
+            self.__consumers = None
+            self.__consume_tasks = None
+
         return
 
     @classmethod
-    def from_login(cls, email, password, requests_per_second=5, request_timeout=30, logger=MISSING, login_count=1):
+    async def from_login(cls, email, password, requests_per_second=5,
+                         request_timeout=30, logger=MISSING, login_count=1):
         if logger is None:
             logger = MISSING
 
-        async def from_async_login():
-            logins = [await Login(email, password).login() for _ in range(login_count)]
+        logins = [
+            await Login(email, password).login() for _ in range(login_count)
+        ]
 
-            logger.info("initialising pyclasher client via login")
+        logger.info("initialising pyclasher client via login")
 
-            self = cls([login.temporary_api_token for login in logins],
-                       requests_per_second,
-                       request_timeout,
-                       swagger_url=logins[0].swagger_url)
-            self.logger = logger
-            self.__temporary_session = True
-            return self
-
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return run(from_async_login())
-        else:
-            return from_async_login()
+        self = cls([login.temporary_api_token for login in logins],
+                   requests_per_second,
+                   request_timeout,
+                   swagger_url=logins[0].swagger_url)
+        self.logger = logger
+        self.__temporary_session = True
+        return self
 
     @property
     def is_running(self) -> bool:
         return self.__client_running
 
-    def start(self, tokens=None):
-        async def async_consumer_start(tokens_):
-            self.__consumers = [PcConsumer(self.queue, token, self.requests_per_second, self.request_timeout, self.base_url) for token in tokens_]
-            self.__consume_tasks = [create_task(consumer.consume()) for consumer in self.__consumers]
-            self.logger.debug("pyclasher client started")
-            return self
-
+    async def start(self, tokens=None):
         if tokens is None:
             tokens = self.__tokens
 
@@ -121,55 +107,38 @@ class Client:
         self.__client_running = True
         self.logger.info("starting pychlasher client")
 
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return self.__loop.run_until_complete(async_consumer_start(tokens))
+        self.__consumers = [
+            PcConsumer(self.queue, token, self.requests_per_second,
+                       self.request_timeout, self.base_url)
+            for token in tokens
+        ]
+        self.__consume_tasks = [
+            create_task(consumer.consume()) for consumer in self.__consumers
+        ]
+        self.logger.debug("pyclasher client started")
+
+        return self
+
+    async def close(self):
+        self.logger.info("closing pyclasher client")
+        if not self.__client_running:
+            self.logger.error("the client is not running")
+            raise ClientIsNotRunning
         else:
-            self.__consumers = [
-                PcConsumer(
-                    self.queue, token, self.requests_per_second, self.request_timeout, self.base_url)
-                for token in tokens
-            ]
-            self.__consume_tasks = [create_task(consumer.consume()) for consumer in self.__consumers]
-            self.logger.debug("pyclasher client started")
-            return self
+            self.__client_running = False
 
-    def close(self):
-        async def async_close():
-            self.logger.info("closing pyclasher client")
-            if not self.__client_running:
-                self.logger.error("the client is not running")
-                raise ClientIsNotRunning
-            else:
-                self.__client_running = False
+        for task in self.__consume_tasks:
+            task.cancel()
+        self.__consume_tasks = None
+        for consumer in self.__consumers:
+            await consumer.close()
+        self.__consumers = None
 
-            for task in self.__consume_tasks:
-                task.cancel()
-            self.__consume_tasks = None
-            for consumer in self.__consumers:
-                await consumer.close()
-            self.__consumers = None
-
-            self.logger.debug("pyclasher client closed")
-            return self
-
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return self.__loop.run_until_complete(async_close())
-        else:
-            return async_close()
-
-    def __enter__(self):
-        return self.start()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
-        return
+        self.logger.debug("pyclasher client closed")
+        return self
 
     async def __aenter__(self):
-        return self.start()
+        return await self.start()
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
@@ -183,30 +152,4 @@ class Client:
             self.close()
             self.logger.warning("The client was still running, closed now.")
 
-        self.__loop.stop()
-        self.__loop.close()
-
         return
-
-    @property
-    def loop(self):
-        return self.__loop
-
-    def reset_client(self, reset_queue=True, reset_loop=True, reset_tokens=True):
-        if not self.is_running:
-            if reset_queue:
-                del self.queue
-                self.queue = PcQueue()
-
-            if reset_loop:
-                self.__loop.stop()
-                self.__loop.close()
-                del self.__loop
-                self.__loop = new_event_loop()
-
-            if reset_tokens:
-                self.__tokens = None
-
-            return
-        else:
-            raise ClientIsRunning

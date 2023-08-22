@@ -9,7 +9,7 @@ from pyclasher.api.models import (ClanType, WarFrequency, BadgeUrls, WarLeague, 
                                   ClanCapitalRaidSeasons, ClanCapitalRaidSeasonMemberList,
                                   ClanCapitalRaidSeasonAttackLogList, ClanCapitalRaidSeasonDefenseLogList)
 
-from ...constants import TEST_CLAN_TAG, TEST_CLAN_NAME
+from constants import TEST_CLAN_TAG, TEST_CLAN_NAME
 
 
 @pytest.mark.asyncio
