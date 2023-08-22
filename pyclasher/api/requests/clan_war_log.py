@@ -26,7 +26,13 @@ class ClanWarLogRequest(IterRequestModel):
         """
 
         self.clan_tag = clan_tag
-        IterRequestModel.__init__(self, "clans/{clan_tag}/warlog", clan_tag=self.clan_tag,
-                                  kwargs={'limit': limit, 'after': after, 'before': before})
+        IterRequestModel.__init__(self,
+                                  "clans/{clan_tag}/warlog",
+                                  clan_tag=self.clan_tag,
+                                  kwargs={
+                                      'limit': limit,
+                                      'after': after,
+                                      'before': before
+                                  })
         self._main_attribute = self.clan_tag
         return

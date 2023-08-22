@@ -9,6 +9,7 @@ class ClanWarleaguesWarsRequest(RequestModel, ClanWarLeagueGroup):
 
     def __init__(self, war_tag):
         self.war_tag = war_tag
-        super().__init__("clanwarleagues/wars/{war_tag}", war_tag=self.war_tag)
+        super().__init__("clanwarleagues/wars/{war_tag}",
+                         war_tag=self.war_tag)
         self._main_attribute = self.war_tag
         return

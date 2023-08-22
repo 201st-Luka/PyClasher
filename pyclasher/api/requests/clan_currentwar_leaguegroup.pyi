@@ -10,8 +10,5 @@ class ClanCurrentwarLeaguegroupRequest(RequestModel, ClanWarLeagueGroup):
         ...
 
     @classmethod
-    def from_base_clan(cls, base_clan: BaseClan) -> ClanCurrentwarLeaguegroupRequest:
-        async def async_from_base_clan() -> ClanCurrentwarLeaguegroupRequest:
-            ...
-
+    async def from_base_clan(cls, base_clan: BaseClan) -> ClanCurrentwarLeaguegroupRequest:
         ...

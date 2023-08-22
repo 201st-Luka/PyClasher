@@ -1,6 +1,7 @@
-from asyncio import Future, get_running_loop, run
+from asyncio import Future
 from urllib.parse import quote
 
+from ...client import Client
 from .abc import RequestModel
 from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
 from ...utils.request_methods import RequestMethods
@@ -19,31 +20,33 @@ class PlayerRequest(RequestModel, Player):
         self._main_attribute = self.player_tag
         return
 
-    async def _async_verify_token(self, player_token):
-        self.client.logger.debug(f"posting {self._request_id}")
+    async def verify_token(self, player_token):
+        self.client = Client.get_instance()
 
         if not self.client.is_running:
             raise ClientIsNotRunning
 
         body = VerifyTokenRequest(player_token).to_dict()
-        url = "/".join((self.client.endpoint, quote(f"players/{self.player_tag}/verifytoken")))
+        url = "/".join((self.client.endpoint,
+                        quote(f"players/{self.player_tag}/verifytoken")))
 
-        future = Future()
+        future, status, error = Future(), Future(), Future()
 
-        await self.client.queue.put((future, url, RequestMethods.POST.value, body))
+        self.client.logger.debug(f"posting {self._request_id}")
 
-        data = await future
+        await self.client.queue.put(future,
+                                    url,
+                                    RequestMethods.POST.value,
+                                    body,
+                                    status,
+                                    error)
 
-        if isinstance(data, ApiCode):
-            raise data
+        data, req_status, req_error = (await future,
+                                       await status,
+                                       await error)
+
+        if req_status != 200:
+            raise req_error.value
 
         self.client.logger.debug(f"post {self._request_id} done")
         return VerifyTokenResponse(data)
-
-    def verify_token(self, player_token):
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return run(self._async_verify_token(player_token))
-        else:
-            return self._async_verify_token(player_token)

@@ -8,11 +8,15 @@ class BuilderBaseLeaguesRequest(IterRequestModel):
 
     def __init__(self, limit=None, after=None, before=None):
         super().__init__("builderbaseleagues",
-                         kwargs={'limit': limit, 'after': after, 'before': before})
+                         kwargs={
+                             'limit': limit,
+                             'after': after,
+                             'before': before
+                         })
         self._main_attribute = self._len
         return
 
-    async def _async_request(self):
-        await super()._async_request()
+    async def request(self):
+        await super().request()
         self._main_attribute = len(self)
         return self
