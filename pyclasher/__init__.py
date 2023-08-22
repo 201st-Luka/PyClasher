@@ -11,8 +11,16 @@ This wrapper client has been created by 201st-Luka.
 
 __version__ = '1.0.0-alpha1'
 
-from .Exceptions import ApiCode, ClientIsRunning, ClientIsNotRunning, ClientAlreadyInitialised, NoClient, \
-    InvalidType, InvalidLoginData, LoginNotDone, NoneToken, RequestNotDone, InvalidTimeFormat, \
-    InvalidSeasonFormat, Missing, MISSING, PyClasherException
-from .client import RequestMethods, Status, Auth, Developer, Login, Consumer, PyClasherClient
-from .requests import *
+# api
+from .api import *
+
+# utils
+from .utils import *
+
+# client.py
+from .client import RequestMethods, Status, Auth, Developer, Login, RequestQueue, Consumer, PyClasherClient
+
+# exceptions.py
+from .exceptions import (Missing, MISSING, PyClasherException, ApiCode, RequestNotDone, NoneToken, InvalidLoginData,
+                         InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, ClientAlreadyInitialised,
+                         NoClient, InvalidTimeFormat, ClientRunningOverwrite, InvalidSeasonFormat, RequestTimeout)

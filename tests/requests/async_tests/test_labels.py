@@ -1,7 +1,7 @@
 import pytest
 
 from pyclasher import ClanLabelsRequest, PlayerLabelsRequest
-from pyclasher.models import LabelList, Paging, IconUrls
+from pyclasher.api.models import LabelList, Paging, IconUrls
 
 
 @pytest.mark.asyncio

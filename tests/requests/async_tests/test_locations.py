@@ -1,7 +1,7 @@
 import pytest
 
 from pyclasher import LocationsRequest
-from pyclasher.models import LocationList, Paging
+from pyclasher.api.models import LocationList, Paging
 
 
 @pytest.mark.asyncio

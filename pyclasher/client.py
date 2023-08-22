@@ -1,4 +1,4 @@
-from asyncio import run, Queue, sleep, create_task, get_running_loop, new_event_loop, timeout
+from asyncio import run, Queue, create_task, get_running_loop, new_event_loop, timeout
 from enum import Enum
 from json import dumps
 from typing import Iterable
@@ -6,10 +6,10 @@ from urllib.parse import urlparse
 
 from aiohttp import ClientSession, request
 
-from .Exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
+from .api.models import ApiCodes
+from .api.models import BaseModel
+from .exceptions import InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, \
     NoneToken, MISSING
-from .models import ApiCodes
-from .models.BaseModels import BaseModel
 from .utils import ExecutionTimer
 
 
