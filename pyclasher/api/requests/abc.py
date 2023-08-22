@@ -1,4 +1,4 @@
-from asyncio import Future, get_running_loop
+from asyncio import Future
 from typing import Any
 from urllib.parse import quote, urlencode
 
@@ -21,7 +21,11 @@ class RequestModel:
     _url_kwargs = None
     _len = None
 
-    def __init__(self, raw_url, kwargs=None, request_method=RequestMethods.REQUEST, **url_kwargs):
+    def __init__(self,
+                 raw_url,
+                 kwargs=None,
+                 request_method=RequestMethods.REQUEST,
+                 **url_kwargs):
         """
         sets up all parameters for a request
         :param raw_url:         the url of the request
@@ -34,8 +38,7 @@ class RequestModel:
             global request_id
 
             self._request_id = request_id
-            self.client = Client()
-            self.client.logger.info(f"request {self._request_id} initialised")
+            self.client = None
 
             self._url = raw_url.format(**url_kwargs)
             self.request_method = request_method
@@ -54,44 +57,28 @@ class RequestModel:
     def __make_request_url(self):
         """
         method that returns the request url
+
         :return request_url:    full request url
         :rtype:                 str
         """
-
-        self.client.logger.debug(f"making request url for request {self._request_id}")
-
         request_url = "/".join((self.client.endpoint, quote(self._url)))
         if self._url_kwargs is not None:
-            url_args = {key: value for key, value in self._url_kwargs.items() if value is not None}
+            url_args = {
+                key: value
+                for key, value in self._url_kwargs.items()
+                if value is not None
+            }
             if url_args != {}:
                 request_url = f"{request_url}?{urlencode(url_args)}"
 
-        self.client.logger.debug(f"url for request {self._request_id} is {request_url}")
         return request_url
 
-    async def _async_request(self):
-        """
-        makes a request to the ClashOfClans API
-        """
-        if not self.client.is_running:
-            raise ClientIsNotRunning
-
-        future, status, error = Future(), Future(), Future()
-
-        self.client.logger.debug(f"requesting {self._request_id}")
-
-        await self.client.queue.put(future, self.__make_request_url(), self.request_method, None, status, error)
-
-        self._data, req_status, req_error = await future, await status, await error
-
-        if req_status != 200:
-            raise req_error.value
-
-        self.client.logger.debug(f"request {self._request_id} done")
-        return self
-
     def __get_properties(self):
-        return {name: prop.__get__(self) for name, prop in vars(self.__class__).items() if isinstance(prop, property)}
+        return {
+            name: prop.__get__(self)
+            for name, prop in vars(self.__class__).items()
+            if isinstance(prop, property)
+        }
 
     def _get_data(self, item):
         if self._data is None:
@@ -103,49 +90,72 @@ class RequestModel:
         else:
             return MISSING
 
-    def request(self):
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return self.client.loop.run_until_complete(self._async_request())
-        else:
-            return self._async_request()
+    async def request(self):
+        """
+        makes a request to the ClashOfClans API
+        """
+        self.client = Client()
+
+        if not self.client.is_running:
+            raise ClientIsNotRunning
+
+        future, status, error = Future(), Future(), Future()
+
+        self.client.logger.debug(f"requesting {self._request_id}")
+
+        await self.client.queue.put(
+            future, self.__make_request_url(),
+            self.request_method, None,
+            status,
+            error
+        )
+
+        self._data, req_status, req_error = (await future,
+                                             await status,
+                                             await error)
+
+        if req_status != 200:
+            raise req_error.value
+
+        self.client.logger.debug(f"request {self._request_id} done")
+        return self
 
     async def __aenter__(self):
-        return await self._async_request()
+        return await self.request()
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         return
 
-    def __enter__(self):
-        return self.request()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        return
-
     def __repr__(self):
-        if self.__class__.__name__ == "RequestModel":
-            return f"RequestModel(url={self._url}, url_kwargs={self._url_kwargs})"
-        else:
-            return f"{self.__class__.__name__}({', '.join(('='.join((key, str(value))) for key, value in self.__get_properties().items()))})"
+        props = ', '.join((
+            '='.join((key, str(value)))
+            for key, value in self.__get_properties().items())
+        )
+        return f"{self.__class__.__name__}({props})"
 
     def __str__(self):
-        if self.__class__.__name__ == "RequestModel":
-            return f"RequestModel({self.__make_request_url()})"
-        else:
-            main_attr = ",".join(self._main_attribute) if isinstance(self._main_attribute, (list, tuple)) else self._main_attribute
-            return f"{self.__class__.__name__}({main_attr})"
+        return f"{self.__class__.__name__}()"
 
 
 class IterRequestModel(RequestModel):
     _iter_rtype: Any = ...
     _list_rtype: Any = ...
-    _len = None
 
-    async def _async_request(self):
-        await super()._async_request()
+    def __init__(self,
+                 raw_url,
+                 kwargs=None,
+                 request_method=RequestMethods.REQUEST,
+                 **url_kwargs):
+        super().__init__(raw_url,
+                         kwargs=kwargs,
+                         request_method=request_method,
+                         **url_kwargs)
+        self._len = None
+        return
+
+    async def request(self):
+        await super().request()
         self._len = len(self._get_data('items'))
-        self._main_attribute = self._len
         return self
 
     @property
