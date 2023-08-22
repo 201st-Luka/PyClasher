@@ -1,6 +1,7 @@
 from typing import Iterator
 
-from .base_models import BaseModel, IterBaseModel, BaseClanMember, BaseClan, Time
+from .abc import BaseModel, IterBaseModel
+from .base_models import BaseClanMember, BaseClan, Time
 from ...exceptions import Missing
 
 

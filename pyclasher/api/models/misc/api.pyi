@@ -2,7 +2,7 @@
 models concerning the ClashOfClans API responses
 """
 
-from ..base_models import BaseModel
+from ..abc import BaseModel
 from ....exceptions import Missing
 
 

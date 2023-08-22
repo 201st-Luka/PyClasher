@@ -1,4 +1,4 @@
-from .base_models import IterBaseModel
+from .abc import IterBaseModel
 from .clan import Clan
 
 

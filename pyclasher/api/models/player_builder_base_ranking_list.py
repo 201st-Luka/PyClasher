@@ -1,4 +1,4 @@
-from .base_models import BaseModel, IterBaseModel
+from .abc import BaseModel, IterBaseModel
 from .leagues import BuilderBaseLeague
 from .player_ranking_clan import PlayerRankingClan
 

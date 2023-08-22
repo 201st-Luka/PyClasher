@@ -1,6 +1,7 @@
 from typing import Iterator
 
-from .base_models import BaseModel, IterBaseModel, BaseClan
+from .abc import BaseModel, IterBaseModel
+from .base_models import BaseClan
 from .enums import ClanRole, WarPreference, Village
 from .labels import LabelList
 from .leagues import League, BuilderBaseLeague

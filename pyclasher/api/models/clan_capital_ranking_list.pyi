@@ -1,6 +1,6 @@
 from typing import Iterator
 
-from .base_models import BaseModel, IterBaseModel
+from .abc import BaseModel, IterBaseModel
 
 
 class ClanCapitalRanking(BaseModel):

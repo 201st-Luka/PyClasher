@@ -1,4 +1,5 @@
-from .base_models import BaseModel, IterBaseModel, IconUrls
+from .abc import BaseModel, IterBaseModel
+from .base_models import IconUrls
 
 
 class Label(BaseModel):

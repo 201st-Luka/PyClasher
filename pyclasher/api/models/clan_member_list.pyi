@@ -1,6 +1,6 @@
 from typing import Iterator
 
-from .base_models import IterBaseModel
+from .abc import IterBaseModel
 from .clan_member import ClanMember
 
 
