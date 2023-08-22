@@ -18,7 +18,7 @@ from .api import *
 from .utils import *
 
 # client.py
-from .client import RequestMethods, Status, Auth, Developer, Login, RequestQueue, Consumer, PyClasherClient
+from .client import Client
 
 # exceptions.py
 from .exceptions import (Missing, MISSING, PyClasherException, ApiCode, RequestNotDone, NoneToken, InvalidLoginData,

@@ -3,7 +3,7 @@ from urllib.parse import quote
 
 from .request_models import RequestModel
 from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
-from ...client import RequestMethods
+from ...utils.request_methods import RequestMethods
 from ...exceptions import ClientIsNotRunning, ApiCode
 
 

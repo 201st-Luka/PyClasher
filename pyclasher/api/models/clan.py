@@ -3,9 +3,9 @@ from .base_models import BaseClan
 from .clan_member_list import ClanMemberList
 from .enums import WarFrequency, ClanType
 from .labels import LabelList
+from .language import Language
 from .leagues import WarLeague, CapitalLeague
 from .location import Location
-from .language import Language
 
 
 class ClanDistrictData(BaseModel):

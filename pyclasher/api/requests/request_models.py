@@ -3,7 +3,8 @@ from typing import Any
 from urllib.parse import quote, urlencode
 
 from ..models import Paging
-from ...client import PyClasherClient, RequestMethods
+from ...client import Client
+from ...utils.request_methods import RequestMethods
 from ...exceptions import NoClient, ClientIsNotRunning, RequestNotDone, MISSING
 
 request_id = 0
@@ -29,11 +30,11 @@ class RequestModel:
         :param url_kwargs:      the url kwargs that are to replace in raw_url
         """
 
-        if PyClasherClient.initialised:
+        if Client.initialised:
             global request_id
 
             self._request_id = request_id
-            self.client = PyClasherClient()
+            self.client = Client()
             self.client.logger.info(f"request {self._request_id} initialised")
 
             self._url = raw_url.format(**url_kwargs)

@@ -2,18 +2,18 @@ import pytest
 
 from asyncio import Queue, AbstractEventLoop
 
-from pyclasher import PyClasherClient
+from pyclasher import Client
 
 from .constants import CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD
 
 
 @pytest.mark.asyncio
 async def test_client():
-    assert not PyClasherClient.initialised
+    assert not Client.initialised
 
-    client = await PyClasherClient.from_login(CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD)
+    client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD)
 
-    assert PyClasherClient.initialised
+    assert Client.initialised
     assert not client.is_running
     assert isinstance(client.queue, Queue)
 
