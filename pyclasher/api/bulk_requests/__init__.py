@@ -1,1 +1,1 @@
-from .BulkPlayer import PlayerBulkRequest
+from .b_player import PlayerBulkRequest

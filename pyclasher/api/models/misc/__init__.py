@@ -2,8 +2,8 @@
 ClashOfClans API miscellaneous models
 """
 
-from .Api import ClientError, Replay, ServiceVersion
-from .Language import Language
-from .Posts import VerifyTokenRequest, DeepLinkCreationRequest
-from .Responses import VerifyTokenResponse, DeepLinkCreationResponse
-from .WarStatus import WarStatus, WarStatusList
+from .api import ClientError, Replay, ServiceVersion
+from .language import Language
+from .posts import VerifyTokenRequest, DeepLinkCreationRequest
+from .responses import VerifyTokenResponse, DeepLinkCreationResponse
+from .war_status import WarStatus, WarStatusList

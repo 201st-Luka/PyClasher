@@ -1,1 +1,1 @@
-from .ExecTimer import ExecutionTimer
+from .exectimer import ExecutionTimer
