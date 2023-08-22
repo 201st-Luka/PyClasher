@@ -1,11 +1,12 @@
-from asyncio import create_task
+import sys
+from asyncio import create_task, run
 from typing import Iterable
 from urllib.parse import urlparse
 
 from .request_queue import PcConsumer, PcQueue
 from .utils.login import Login
 from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
-                         NoneToken, MISSING)
+                         NoneToken, MISSING, ClientAlreadyInitialised)
 
 
 class Client:
@@ -20,7 +21,8 @@ class Client:
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
-        return cls.__instance
+            return cls.__instance
+        raise ClientAlreadyInitialised
 
     def __init__(
             self,
@@ -145,11 +147,19 @@ class Client:
         Client.initialised = False
 
         if self.__client_running:
-            self.close()
-            self.logger.warning("The client was still running, closed now.")
+            run(self.close())
+            if self.logger is not MISSING:
+                self.logger.warning("The client was still running, closed now.")
+            else:
+                print("The client was still running, closed now.",
+                      file=sys.stderr)
 
         return
 
     @property
     def is_running(self) -> bool:
         return self.__client_running
+
+    @classmethod
+    def get_instance(cls):
+        return Client.__instance

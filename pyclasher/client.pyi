@@ -152,3 +152,7 @@ class Client:
         :rtype:     bool
         """
         ...
+
+    @classmethod
+    def get_instance(cls) -> None | Client:
+        ...

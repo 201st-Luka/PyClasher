@@ -94,7 +94,7 @@ class RequestModel:
         """
         makes a request to the ClashOfClans API
         """
-        self.client = Client()
+        self.client = Client.get_instance()
 
         if not self.client.is_running:
             raise ClientIsNotRunning
