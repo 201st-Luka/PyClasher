@@ -31,6 +31,6 @@ from .player_builder_base_rankings import PlayerBuilderBaseRankingsRequest
 # labels
 from .player_labels import PlayerLabelsRequest
 from .player_rankings import PlayerRankingsRequest
-from .request_models import RequestModel, IterRequestModel, request_id
+from .abc import RequestModel, IterRequestModel, request_id
 from .war_league import WarLeagueRequest
 from .war_leagues import WarLeaguesRequest

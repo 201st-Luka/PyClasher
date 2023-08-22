@@ -1,6 +1,6 @@
 from typing import Coroutine, Any
 
-from .request_models import RequestModel
+from .abc import RequestModel
 from ..models import Player, VerifyTokenResponse
 
 

@@ -1,29 +1,33 @@
+from abc import ABC
+from logging import Logger
 from typing import Any, Coroutine, Iterator, Generator
 
 from ..models import Paging
-from ...client import PyClasherClient, RequestMethods
+from ...client import RequestMethods, Client
 from ...exceptions import MISSING, Missing
 
 request_id: int = 0
 
 
-class RequestModel:
+class RequestModel(ABC):
     _data: dict = MISSING
     _main_attribute: Any = None
     _url: str = None
     _url_kwargs: dict | None = None
     _len: int = None
 
-    def __init__(self, raw_url: str, kwargs: dict = None, request_method: RequestMethods = RequestMethods.REQUEST, **url_kwargs) -> None:
-        global request_id
-
-        self._request_id = request_id
-        self.client = PyClasherClient()
-        self.client.logger.info(f"request {self._request_id} initialised")
-
-        self._url = raw_url.format(**url_kwargs)
-        self.request_method = request_method
-        self._url_kwargs = kwargs
+    def __init__(
+            self,
+            raw_url: str,
+            kwargs: dict = None,
+            request_method: RequestMethods = RequestMethods.REQUEST,
+            **url_kwargs
+        ) -> None:
+        self._request_id = ...
+        self.client: Client | None = ...
+        self._url: str = ...
+        self.request_method: RequestMethods = ...
+        self._url_kwargs: dict = kwargs
         ...
 
     def to_dict(self) -> None | Missing | dict:
@@ -32,28 +36,19 @@ class RequestModel:
     def __make_request_url(self) -> str:
         ...
 
-    async def _async_request(self) -> RequestModel:
-        ...
-
     def __get_properties(self) -> dict:
         ...
 
     def _get_data(self, item) -> dict:
         ...
 
-    def request(self) -> RequestModel | Coroutine[Any, Any, RequestModel]:
+    async def request(self) -> RequestModel:
         ...
 
     async def __aenter__(self):
         ...
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
-        ...
-
-    def __enter__(self):
-        ...
-
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         ...
 
     def __repr__(self) -> str:
@@ -63,10 +58,18 @@ class RequestModel:
         ...
 
 
-class IterRequestModel(RequestModel):
+class IterRequestModel(RequestModel, ABC):
     _iter_rtype: Any = ...
     _list_rtype: Any = ...
-    _len = None
+
+    def __init__(
+            self,
+            raw_url: str,
+            kwargs: dict = None,
+            request_method: RequestMethods = RequestMethods.REQUEST,
+            **url_kwargs
+    ) -> None:
+        self._len: None | int = ...
 
     async def _async_request(self) -> IterRequestModel:
         ...

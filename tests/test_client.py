@@ -1,6 +1,6 @@
 import pytest
 
-from asyncio import Queue, AbstractEventLoop
+from asyncio import Queue
 
 from pyclasher import Client
 
@@ -11,16 +11,16 @@ from .constants import CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD
 async def test_client():
     assert not Client.initialised
 
-    client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD)
+    client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL,
+                                     CLASH_OF_CLANS_LOGIN_PASSWORD)
 
     assert Client.initialised
     assert not client.is_running
     assert isinstance(client.queue, Queue)
 
-    client.start()
+    await client.start()
 
     assert client.is_running
-    assert isinstance(client.loop, AbstractEventLoop)
 
     await client.close()
 
@@ -29,6 +29,5 @@ async def test_client():
 
     async with client:
         assert client.is_running
-        assert isinstance(client.loop, AbstractEventLoop)
 
     assert not client.is_running

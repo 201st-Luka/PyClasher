@@ -1,7 +1,7 @@
 from asyncio import Future, get_running_loop, run
 from urllib.parse import quote
 
-from .request_models import RequestModel
+from .abc import RequestModel
 from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
 from ...utils.request_methods import RequestMethods
 from ...exceptions import ClientIsNotRunning, ApiCode
