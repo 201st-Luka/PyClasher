@@ -14,6 +14,7 @@ class LeaguesRequest(IterRequestModel):
     def _async_request(self) -> LeaguesRequest:
         ...
 
+    @property
     def items(self) -> _list_rtype:
         ...
 
