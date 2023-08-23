@@ -2,11 +2,11 @@ from asyncio import Future
 from typing import Any
 from urllib.parse import quote, urlencode
 
-from exceptions import InvalidClientId
 from ..models import Paging
 from ...client import Client
 from ...utils.request_methods import RequestMethods
-from ...exceptions import NoClient, ClientIsNotRunning, RequestNotDone, MISSING
+from ...exceptions import (NoClient, ClientIsNotRunning, RequestNotDone,
+                           MISSING, InvalidClientId)
 
 request_id = 0
 
