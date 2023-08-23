@@ -5,7 +5,8 @@ from urllib.parse import quote, urlencode
 from ..models import Paging
 from ...client import Client
 from ...utils.request_methods import RequestMethods
-from ...exceptions import NoClient, ClientIsNotRunning, RequestNotDone, MISSING
+from ...exceptions import (NoClient, ClientIsNotRunning, RequestNotDone,
+                           MISSING, InvalidClientId)
 
 request_id = 0
 
@@ -90,11 +91,16 @@ class RequestModel:
         else:
             return MISSING
 
-    async def request(self):
+    async def request(self, client_id=None):
         """
         makes a request to the ClashOfClans API
         """
-        self.client = Client.get_instance()
+        self.client = Client.get_instance(client_id)
+        if self.client is None:
+            raise NoClient
+        if self.client is MISSING:
+            raise InvalidClientId(f"Cannot find a client with the client_id "
+                                  f"{client_id}.")
 
         if not self.client.is_running:
             raise ClientIsNotRunning
@@ -118,6 +124,8 @@ class RequestModel:
             raise req_error.value
 
         self.client.logger.debug(f"request {self._request_id} done")
+
+        self.client = None
         return self
 
     async def __aenter__(self):

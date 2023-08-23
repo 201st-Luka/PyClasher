@@ -42,7 +42,7 @@ class RequestModel(ABC):
     def _get_data(self, item) -> dict:
         ...
 
-    async def request(self) -> RequestModel:
+    async def request(self, client_id: int | str = None) -> RequestModel:
         ...
 
     async def __aenter__(self):

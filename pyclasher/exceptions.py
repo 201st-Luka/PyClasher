@@ -122,3 +122,7 @@ class InvalidSeasonFormat(PyClasherException):
 class RequestTimeout(PyClasherException):
     def __str__(self):
         return "The request took to much time and was cancelled."
+
+
+class InvalidClientId(PyClasherException):
+    pass

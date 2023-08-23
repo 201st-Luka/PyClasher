@@ -209,7 +209,10 @@ class Client:
         if len(clients):
             if client_id is None:
                 return clients[0]
-            return clients[client_id]
+            for client in clients:
+                if client.client_id == client_id:
+                    return client
+            return MISSING
         return None
 
     @classmethod
