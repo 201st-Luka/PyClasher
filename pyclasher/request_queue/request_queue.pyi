@@ -3,7 +3,7 @@ from asyncio import Queue, Future
 from ..utils.request_methods import RequestMethods
 
 
-class PcQueue(Queue):
+class PQueue(Queue):
     async def put(self,
                   future: Future,
                   request_url: str,

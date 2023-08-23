@@ -2,15 +2,18 @@ from logging import Logger
 from typing import Iterable
 
 from .exceptions import MISSING
-from .request_queue import PcQueue
+from .request_queue import PQueue
+
+
+client_id: int = ...
 
 
 class Client:
     """
     this is the class for the ClashOfClans API client
 
-    :cvar   __instance:             the private instance of the client
-    :type   __instance:             Client
+    :cvar   __instances:            the private instance of the client
+    :type   __instances:            Client
     :cvar   base_url:               the public base URL for the requests (usually https://api.clashofclans.com)
     :type   base_url:               str
     :cvar   endpoint:               the public endpoint URL for the requests (usually /v1)
@@ -19,8 +22,6 @@ class Client:
     :type   requests_per_second:    int
     :cvar   logger:                 public logger to log the requests, ... (usually MISSING)
     :type   logger:                 Logger
-    :cvar   initialised:            public boolean that indicates if the
-    :type   initialised:            bool
     :ivar   queue:                  the public request_queue where the requests are enqueued
     :type   queue:                  RequestQueue
     :ivar   __consumers:            private list of consumers of the request_queue and requests
@@ -35,13 +36,12 @@ class Client:
     :type   __client_running:       bool
     """
 
-    __instance: Client = None
+    __instances: list[Client] = None
 
     base_url: str = "https://api.clashofclans.com"
     endpoint: str = "/v1"
     requests_per_second: int = 5
     logger: Logger = MISSING
-    initialised = False
 
     def __new__(cls, *args, **kwargs):
         ...
@@ -77,12 +77,14 @@ class Client:
         self.logger: Logger = ...
         self.__tokens: list[str] = ...
         self.requests_per_second: int = ...
-        self.queue: PcQueue = ...
+        self.queue: PQueue = ...
         self.request_timeout: float = ...
         self.__client_running: bool = ...
         self.__temporary_session: bool = ...
         self.__consumers: list = ...
         self.__consume_tasks: list = ...
+        self._client_id: int | str = ...
+        self._event_client: bool = ...
         ...
 
     @classmethod
@@ -151,4 +153,20 @@ class Client:
         :return:    boolean indicating if the client is running, True if running else otherwise
         :rtype:     bool
         """
+        ...
+
+    @property
+    def client_id(self):
+        ...
+
+    @client_id.setter
+    def client_id(self, new_id: int | str):
+        self._client_id: int | str = ...
+
+    @classmethod
+    def get_instance(cls, client_id: int | str = None) -> None | Client:
+        ...
+
+    @classmethod
+    def initialized(cls) -> bool:
         ...

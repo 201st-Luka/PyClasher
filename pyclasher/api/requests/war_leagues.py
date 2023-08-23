@@ -8,6 +8,10 @@ class WarLeaguesRequest(IterRequestModel):
 
     def __init__(self, limit=None, after=None, before=None):
         super().__init__("warleagues",
-                         kwargs={'limit': limit, 'after': after, 'before': before})
+                         kwargs={
+                             'limit': limit,
+                             'after': after,
+                             'before': before
+                         })
         self._main_attribute = self._len
         return

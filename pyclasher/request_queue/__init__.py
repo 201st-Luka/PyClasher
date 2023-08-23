@@ -1,2 +1,2 @@
-from .request_queue import PcQueue
-from .request_consumer import PcConsumer
+from .request_queue import PQueue
+from .request_consumer import PConsumer

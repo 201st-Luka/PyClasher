@@ -1,27 +1,27 @@
 from asyncio import get_running_loop, run
 
 from .abc import RequestModel
-from ..models import ClanWar, BaseClan
+from ..models import ClanWarLeagueGroup
 
 
-class ClanCurrentWarRequest(RequestModel, ClanWar):
+class ClanCurrentwarLeaguegroupRequest(RequestModel, ClanWarLeagueGroup):
     """
-    Retrieve information about clan's current clan war
+    Retrieve information about clan's current clan war league group
     """
     clan_tag = None
 
     def __init__(self, clan_tag):
         """
-        initialisation of the clan current war request
+        initialisation of the clan currentwar leaguegroup request
         :param clan_tag:    Tag of the clan.
         :type clan_tag:     str
         """
 
         self.clan_tag = clan_tag
         RequestModel.__init__(self,
-                              "clans/{clan_tag}/currentwar",
+                              "clans/{clan_tag}/currentwar/leaguegroup",
                               clan_tag=self.clan_tag)
-        ClanWar.__init__(self, None)
+        ClanWarLeagueGroup.__init__(self, None)
         self._main_attribute = self.clan_tag
         return
 
@@ -31,9 +31,10 @@ class ClanCurrentWarRequest(RequestModel, ClanWar):
         method that returns the clan object of a BaseClan or a BaseClan subclass model
         :param base_clan:   The BaseClan or a BaseClan subclass model
         :type base_clan:    BaseClan
-        :return:            returns a ClanCurrentWarRequest object
-        :rtype:             ClanCurrentWarRequest
+        :return:            returns a ClanRequest object
+        :rtype:             ClanRequest
         """
         self = await cls(base_clan.tag).request()
         return self
+
 

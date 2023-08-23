@@ -34,7 +34,7 @@ class RequestModel:
         :param url_kwargs:      the url kwargs that are to replace in raw_url
         """
 
-        if Client.initialised:
+        if Client.initialized():
             global request_id
 
             self._request_id = request_id
@@ -94,7 +94,7 @@ class RequestModel:
         """
         makes a request to the ClashOfClans API
         """
-        self.client = Client()
+        self.client = Client.get_instance()
 
         if not self.client.is_running:
             raise ClientIsNotRunning

@@ -15,9 +15,20 @@ class ClanSearchRequest(IterRequestModel):
     _iter_rtype = Clan
     _list_rtype = ClanList
 
-    def __init__(self, name=None, war_frequency=None, location=None, min_members=None,
-                 max_members=None, min_clan_points=None, min_clan_level=None, label_ids=None,
-                 limit=None, after=None, before=None) -> None:
+    def __init__(
+            self,
+            name=None,
+            war_frequency=None,
+            location=None,
+            min_members=None,
+            max_members=None,
+            min_clan_points=None,
+            min_clan_level=None,
+            label_ids=None,
+            limit=None,
+            after=None,
+            before=None
+    ) -> None:
         """
         initialisation of the clan request
         :param name:            Search clans by name. If name is used as part of search query, it needs to be at least
@@ -49,16 +60,21 @@ class ClanSearchRequest(IterRequestModel):
         """
 
         self.clan_name = name
-        IterRequestModel.__init__(self, "clans",
-                                  kwargs={
-                                      'name': name,
-                                      'warFrequency': war_frequency.value if war_frequency is not None else None,
-                                      'locationId': location.value.id if location is not None else None,
-                                      'minMembers': min_members,
-                                      'maxMembers': max_members,
-                                      'minClanPoints': min_clan_points,
-                                      'minClanLevel': min_clan_level,
-                                      'labelIds': ",".join((label.value.id for label in label_ids)) if label_ids is not None else None,
-                                      'limit': limit, 'after': after, 'before': before})
+        IterRequestModel.__init__(
+            self,
+            "clans",
+            kwargs={
+                'name': name,
+                'warFrequency': war_frequency.value if war_frequency is not None else None,
+                'locationId': location.value.id if location is not None else None,
+                'minMembers': min_members,
+                'maxMembers': max_members,
+                'minClanPoints': min_clan_points,
+                'minClanLevel': min_clan_level,
+                'labelIds': ",".join(
+                    (label.value.id for label in
+                     label_ids)) if label_ids is not None else None,
+                'limit': limit, 'after': after,
+                'before': before})
         self._main_attribute = self.clan_name
         return

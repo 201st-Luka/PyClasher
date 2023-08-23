@@ -12,7 +12,7 @@ class ClanCurrentWarRequest(RequestModel, ClanWar):
         ...
 
     @classmethod
-    def from_base_clan(cls, base_clan: BaseClan) -> ClanCurrentWarRequest | Coroutine[Any, Any, ClanCurrentWarRequest]:
+    async def from_base_clan(cls, base_clan: BaseClan) -> ClanCurrentWarRequest:
         async def async_from_base_clan() -> ClanCurrentWarRequest:
             ...
 

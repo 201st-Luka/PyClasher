@@ -1,26 +1,45 @@
-from asyncio import create_task
+from sys import stderr
+from asyncio import create_task, run
 from typing import Iterable
 from urllib.parse import urlparse
 
-from .request_queue import PcConsumer, PcQueue
+from .request_queue import PConsumer, PQueue
 from .utils.login import Login
 from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
-                         NoneToken, MISSING)
+                         NoneToken, MISSING, ClientAlreadyInitialised)
+
+
+client_id = 0
 
 
 class Client:
-    __instance = None
+    __instances = None
 
     base_url = "https://api.clashofclans.com"
     endpoint = "/v1"
     requests_per_second = 5
     logger = MISSING
-    initialised = False
 
     def __new__(cls, *args, **kwargs):
-        if cls.__instance is None:
-            cls.__instance = super().__new__(cls)
-        return cls.__instance
+        if cls.__instances is None:
+            cls.__instances = [super().__new__(cls)]
+            return cls.__instances[0]
+        if 'tokens' in kwargs:
+            if isinstance(kwargs['tokens'], str):
+                tokens = [kwargs['tokens']]
+            elif isinstance(kwargs['tokens'], Iterable):
+                tokens = list(kwargs['tokens'])
+            else:
+                raise InvalidType(kwargs['tokens'], (str, Iterable[str]))
+            for token in tokens:
+                for client in Client.__instances:
+                    if client.__tokens is not None:
+                        if token in client.__tokens:
+                            raise ClientAlreadyInitialised
+                        continue
+
+        cls.__instances.append(super().__new__(cls))
+        return cls.__instances[-1]
 
     def __init__(
             self,
@@ -30,36 +49,42 @@ class Client:
             logger=MISSING,
             swagger_url=None
     ):
-        if not Client.initialised:
-            if logger is None:
-                logger = MISSING
-            self.logger = logger
-            self.logger.info("initialising pyclasher client")
-            if tokens is not None:
-                if isinstance(tokens, str):
-                    self.__tokens = [tokens]
-                elif isinstance(tokens, Iterable):
-                    self.__tokens = list(tokens)
-                else:
-                    raise InvalidType(tokens, (str, Iterable[str]))
+        global client_id
 
-            if swagger_url is not None:
-                parsed_url = urlparse(swagger_url)
-                self.base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
-                self.endpoint = parsed_url.path[:-1]
+        if logger is None:
+            logger = MISSING
+        self.logger = logger
+        self.logger.info("initialising client")
+        if tokens is not None:
+            if isinstance(tokens, str):
+                self.__tokens = [tokens]
+            elif isinstance(tokens, Iterable):
+                self.__tokens = list(tokens)
+            else:
+                raise TypeError(f"Expected types str, list got {type(tokens)} "
+                                f"instead")
 
-            self.requests_per_second = requests_per_second
+        if swagger_url is not None:
+            parsed_url = urlparse(swagger_url)
+            self.base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+            self.endpoint = parsed_url.path[:-1]
 
-            self.logger.debug("pyclasher client initialised")
+        self.requests_per_second = requests_per_second
 
-            self.queue = PcQueue()
-            self.request_timeout = request_timeout
+        self.logger.debug("client initialised")
 
-            Client.initialised = True
-            self.__client_running = False
-            self.__temporary_session = False
-            self.__consumers = None
-            self.__consume_tasks = None
+        self.queue = PQueue()
+        self.request_timeout = request_timeout
+
+        self.__client_running = False
+        self.__temporary_session = False
+        self.__consumers = None
+        self.__consume_tasks = None
+        self._client_id = client_id
+
+        client_id += 1
+
+        self._event_client = False
 
         return
 
@@ -73,7 +98,7 @@ class Client:
             await Login(email, password).login() for _ in range(login_count)
         ]
 
-        logger.info("initialising pyclasher client via login")
+        logger.info("initialising client via login")
 
         self = cls([login.temporary_api_token for login in logins],
                    requests_per_second,
@@ -101,22 +126,22 @@ class Client:
             raise ClientIsRunning
 
         self.__client_running = True
-        self.logger.info("starting pychlasher client")
+        self.logger.info("starting client")
 
         self.__consumers = [
-            PcConsumer(self.queue, token, self.requests_per_second,
-                       self.request_timeout, self.base_url)
+            PConsumer(self.queue, token, self.requests_per_second,
+                      self.request_timeout, self.base_url)
             for token in tokens
         ]
         self.__consume_tasks = [
             create_task(consumer.consume()) for consumer in self.__consumers
         ]
-        self.logger.debug("pyclasher client started")
+        self.logger.debug("client started")
 
         return self
 
     async def close(self):
-        self.logger.info("closing pyclasher client")
+        self.logger.info("closing client")
         if not self.__client_running:
             self.logger.error("the client is not running")
             raise ClientIsNotRunning
@@ -130,7 +155,7 @@ class Client:
             await consumer.close()
         self.__consumers = None
 
-        self.logger.debug("pyclasher client closed")
+        self.logger.debug("client closed")
         return self
 
     async def __aenter__(self):
@@ -141,15 +166,48 @@ class Client:
         return
 
     def __del__(self):
-        Client.__instance = None
-        Client.initialised = False
+        Client.__instances.remove(self)
+        if not len(Client.__instances):
+            Client.__instances = None
 
         if self.__client_running:
-            self.close()
-            self.logger.warning("The client was still running, closed now.")
+            run(self.close())
+            if self.logger is not MISSING:
+                self.logger.warning("The client was still running, closed now.")
+            else:
+                print("The client was still running, closed now.", file=stderr)
 
         return
 
     @property
     def is_running(self) -> bool:
         return self.__client_running
+
+    @property
+    def client_id(self):
+        return self._client_id
+
+    @client_id.setter
+    def client_id(self, new_id):
+        if not isinstance(new_id, (int, str)):
+            raise TypeError(f"Expected types int, str got {type(new_id)} "
+                            f"instead.")
+        self._client_id = new_id
+        return
+
+    @classmethod
+    def get_instance(cls, client_id=None):
+        if cls.__instances is None:
+            return None
+        clients = [client
+                   for client in cls.__instances
+                   if not client._event_client]
+        if len(clients):
+            if client_id is None:
+                return clients[0]
+            return clients[client_id]
+        return None
+
+    @classmethod
+    def initialized(cls):
+        return isinstance(cls.__instances, list)

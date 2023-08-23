@@ -7,6 +7,11 @@ class LocationsRequest(IterRequestModel):
     _list_rtype = LocationList
 
     def __init__(self, limit=None, after=None, before=None):
-        super().__init__("locations", kwargs={'limit': limit, 'after': after, 'before': before})
+        super().__init__("locations",
+                         kwargs={
+                             'limit': limit,
+                             'after': after,
+                             'before': before
+                         })
         self._main_attribute = self._len
         return

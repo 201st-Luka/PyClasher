@@ -7,14 +7,15 @@ from pyclasher import Client
 from .constants import CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD
 
 
+@pytest.mark.tryfirst
 @pytest.mark.asyncio
 async def test_client():
-    assert not Client.initialised
+    assert not Client.initialized()
 
     client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL,
                                      CLASH_OF_CLANS_LOGIN_PASSWORD)
 
-    assert Client.initialised
+    assert Client.initialized()
     assert not client.is_running
     assert isinstance(client.queue, Queue)
 
@@ -31,3 +32,5 @@ async def test_client():
         assert client.is_running
 
     assert not client.is_running
+
+    client.__del__()

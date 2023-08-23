@@ -9,8 +9,5 @@ class PlayerRequest(RequestModel, Player):
         self.player_tag = player_tag
         ...
 
-    async def _async_verify_token(self, player_token: str) -> VerifyTokenResponse:
-        ...
-
-    def verify_token(self, player_token: str) -> VerifyTokenResponse | Coroutine[Any, Any, VerifyTokenResponse]:
+    async def verify_token(self, player_token: str) -> VerifyTokenResponse:
         ...
