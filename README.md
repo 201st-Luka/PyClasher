@@ -73,7 +73,7 @@ good as I can.
 - some "average" attributes for `Clan`-classes, `WarLog`-classes, ...
 - attributes `king`, `queen`, `warden`, `royal_champion` for the `Player.heroes` attribute
 - autosort for the `ClanCurrentWarRequest` members of the `member_list` attribute (sorted by the map position)
-
+- events and an `EventClient`
 ---
 
 If you find a bug, an error or want custom functionality, please tell
