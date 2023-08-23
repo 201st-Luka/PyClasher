@@ -14,7 +14,7 @@ from ..constants import TEST_PLAYER_TAG
 async def test_player(event_loop, pyclasher_client):
     player = PlayerRequest(TEST_PLAYER_TAG)
 
-    await player.request()
+    await player.request("test_client")
 
     assert isinstance(player.to_dict(), dict)
     assert player.player_tag == player.tag == TEST_PLAYER_TAG

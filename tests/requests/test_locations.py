@@ -8,7 +8,7 @@ from pyclasher.api.models import LocationList, Paging
 async def test_locations(event_loop, pyclasher_client):
     locations = LocationsRequest()
 
-    await locations.request()
+    await locations.request("test_client")
 
     assert isinstance(locations.to_dict(), dict)
     assert isinstance(locations.items, LocationList)
