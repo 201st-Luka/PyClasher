@@ -71,9 +71,6 @@ class IterRequestModel(RequestModel, ABC):
     ) -> None:
         self._len: None | int = ...
 
-    async def _async_request(self) -> IterRequestModel:
-        ...
-
     @property
     def items(self) -> _list_rtype:
         ...

@@ -161,8 +161,8 @@ class IterRequestModel(RequestModel):
         self._len = None
         return
 
-    async def request(self):
-        await super().request()
+    async def request(self, client_id=None):
+        await super().request(client_id)
         self._len = len(self._get_data('items'))
         return self
 
