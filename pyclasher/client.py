@@ -189,9 +189,17 @@ class Client:
 
     @client_id.setter
     def client_id(self, new_id):
+        global client_id
+        if isinstance(new_id, str) and new_id.isdigit():
+            new_id = int(new_id)
+
         if not isinstance(new_id, (int, str)):
             raise TypeError(f"Expected types int, str got {type(new_id)} "
                             f"instead.")
+        for client in Client.__instances:
+            if client.client_id == new_id:
+                raise ValueError(f"`new_id` {new_id} has already been taken "
+                                 f"and must be different")
         self._client_id = new_id
         return
 
