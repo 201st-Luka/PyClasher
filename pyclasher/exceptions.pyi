@@ -224,3 +224,7 @@ class InvalidSeasonFormat(Exception):
 class RequestTimeout(Exception):
     def __str__(self) -> str:
         ...
+
+
+class InvalidClientId(PyClasherException):
+    pass
