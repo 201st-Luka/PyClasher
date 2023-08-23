@@ -1,10 +1,10 @@
 from asyncio import Future
 from aiohttp import ClientSession
 
-from .request_queue import PcQueue
+from .request_queue import PQueue
 
 
-class PcConsumer:
+class PConsumer:
     """
     consumer class that consumes the requests and returns the responses of the ClashOfClans API
 
@@ -17,7 +17,7 @@ class PcConsumer:
     """
 
     def __init__(self,
-                 queue: PcQueue,
+                 queue: PQueue,
                  token: str,
                  requests_per_s: int,
                  request_timeout: float | None,

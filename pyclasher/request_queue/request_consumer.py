@@ -7,7 +7,7 @@ from ..api.models import ApiCodes
 from ..utils import ExecutionTimer
 
 
-class PcConsumer:
+class PConsumer:
     def __init__(self, queue, token, requests_per_s, request_timeout, url):
         self.queue = queue
         self.header = {

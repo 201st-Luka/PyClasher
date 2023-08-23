@@ -89,7 +89,8 @@ class ClientIsNotRunning(PyClasherException):
 
 class ClientAlreadyInitialised(PyClasherException):
     def __str__(self):
-        return "The PyClasherClient has already been initialised."
+        return ("It is not possible to create multiple clients with the same "
+                "tokens.")
 
 
 class NoClient(PyClasherException):
