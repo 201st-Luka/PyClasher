@@ -8,7 +8,7 @@ from pyclasher.api.models import LabelList, Paging, IconUrls
 async def test_clan_labels(event_loop, pyclasher_client):
     clan_labels = ClanLabelsRequest()
 
-    await clan_labels.request()
+    await clan_labels.request("test_client")
 
     assert isinstance(clan_labels.to_dict(), dict)
     assert isinstance(clan_labels.items, LabelList)
@@ -25,7 +25,7 @@ async def test_clan_labels(event_loop, pyclasher_client):
 async def test_clan_labels(event_loop, pyclasher_client):
     player_labels = PlayerLabelsRequest()
 
-    await player_labels.request()
+    await player_labels.request("test_client")
 
     assert isinstance(player_labels.to_dict(), dict)
     assert isinstance(player_labels.items, LabelList)

@@ -8,7 +8,7 @@ from pyclasher.api.models import Time
 async def test_goldpass(event_loop, pyclasher_client):
     goldpass = GoldPassRequest()
 
-    await goldpass.request()
+    await goldpass.request("test_client")
 
     assert isinstance(goldpass.to_dict(), dict)
     assert isinstance(goldpass.start_time, Time)

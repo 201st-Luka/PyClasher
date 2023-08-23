@@ -23,7 +23,7 @@ from ..constants import TEST_CLAN_TAG, TEST_CLAN_NAME
 async def test_clan(event_loop, pyclasher_client):
     clan = ClanRequest(TEST_CLAN_TAG)
 
-    await clan.request()
+    await clan.request("test_client")
 
     assert isinstance(clan.to_dict(), dict)
     assert clan.tag == clan.clan_tag == TEST_CLAN_TAG
@@ -61,7 +61,7 @@ async def test_clan(event_loop, pyclasher_client):
 async def test_clan_member(event_loop, pyclasher_client):
     clan_members = ClanMembersRequest(TEST_CLAN_TAG)
 
-    await clan_members.request()
+    await clan_members.request("test_client")
 
     assert isinstance(clan_members.to_dict(), dict)
     assert clan_members.clan_tag == TEST_CLAN_TAG
@@ -92,7 +92,7 @@ async def test_clan_member(event_loop, pyclasher_client):
 async def test_clan_current_war(event_loop, pyclasher_client):
     current_war = ClanCurrentWarRequest(TEST_CLAN_TAG)
 
-    await current_war.request()
+    await current_war.request("test_client")
 
     assert isinstance(current_war.to_dict(), dict)
     assert current_war.clan_tag == TEST_CLAN_TAG
@@ -113,7 +113,7 @@ async def test_clan_current_war(event_loop, pyclasher_client):
 async def test_clan_war_log(event_loop, pyclasher_client):
     war_log = ClanWarLogRequest(TEST_CLAN_TAG)
 
-    await war_log.request()
+    await war_log.request("test_client")
 
     assert isinstance(war_log.to_dict(), dict)
     assert war_log.clan_tag == TEST_CLAN_TAG
@@ -135,7 +135,7 @@ async def test_clan_war_log(event_loop, pyclasher_client):
 async def test_clan_search(event_loop, pyclasher_client):
     clans = ClanSearchRequest(TEST_CLAN_NAME)
 
-    await clans.request()
+    await clans.request("test_client")
 
     assert isinstance(clans.to_dict(), dict)
     assert clans.clan_name == TEST_CLAN_NAME
@@ -178,7 +178,7 @@ async def test_clan_search(event_loop, pyclasher_client):
 async def test_clan_capital_raid_season(event_loop, pyclasher_client):
     raid_seasons = ClanCapitalRaidSeasonsRequest(TEST_CLAN_TAG)
 
-    await raid_seasons.request()
+    await raid_seasons.request("test_client")
 
     assert isinstance(raid_seasons.to_dict(), dict)
     assert raid_seasons.clan_tag == TEST_CLAN_TAG
@@ -206,7 +206,7 @@ async def test_clan_currentwar_leaguegroup(event_loop, pyclasher_client):
     try:
         league_group = ClanCurrentwarLeaguegroupRequest(TEST_CLAN_TAG)
 
-        await league_group.request()
+        await league_group.request("test_client")
     except RequestNotDone:
         pass
     else:
@@ -224,7 +224,7 @@ async def test_clan_warleagues_wars(event_loop, pyclasher_client):
     try:
         league_group = ClanCurrentwarLeaguegroupRequest(TEST_CLAN_TAG)
 
-        await league_group.request()
+        await league_group.request("test_client")
     except RequestNotDone:
         pass
     else:
@@ -232,7 +232,7 @@ async def test_clan_warleagues_wars(event_loop, pyclasher_client):
             for war in league_round.war_tags:
                 group = ClanWarleaguesWarsRequest(war)
 
-                await group.request()
+                await group.request("test_client")
 
                 assert isinstance(group.to_dict(), dict)
                 assert group.war_tag == war

@@ -8,7 +8,7 @@ from pyclasher import LeaguesRequest
 async def test_leagues(event_loop, pyclasher_client):
     leagues = LeaguesRequest()
 
-    await leagues.request()
+    await leagues.request("test_client")
 
     assert isinstance(leagues.to_dict(), dict)
     assert isinstance(leagues.items, LeagueList)
