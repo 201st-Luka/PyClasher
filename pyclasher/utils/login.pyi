@@ -1,10 +1,7 @@
-from asyncio import get_running_loop, run
-from typing import Coroutine
-
-from aiohttp import request
+from typing import Coroutine, Any
 
 from ..api.models.login import LoginModel
-from ..exceptions import Missing, MISSING, LoginNotDone, InvalidLoginData
+from ..exceptions import Missing
 
 
 class Login(LoginModel):
@@ -23,6 +20,11 @@ class Login(LoginModel):
     def __init__(self, email: str, password: str) -> None:
         self.email = email
         self.__password = password
+        ...
+
+    def _get_data(
+            self, item: str
+    ) -> None | Missing | dict | list | int | str | float | bool:
         ...
 
     def login(self) -> Login | Coroutine[Any, Any, Login]:

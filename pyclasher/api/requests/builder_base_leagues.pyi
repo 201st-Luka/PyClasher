@@ -11,9 +11,6 @@ class BuilderBaseLeaguesRequest(IterRequestModel):
     def __init__(self, limit: int = None, after: str = None, before: str = None):
         ...
 
-    async def _async_request(self) -> BuilderBaseLeaguesRequest:
-        ...
-
     def items(self) -> _list_rtype:
         ...
 

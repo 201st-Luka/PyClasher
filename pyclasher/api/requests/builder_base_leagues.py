@@ -16,7 +16,7 @@ class BuilderBaseLeaguesRequest(IterRequestModel):
         self._main_attribute = self._len
         return
 
-    async def request(self):
-        await super().request()
+    async def request(self, client_id=None):
+        await super().request(client_id)
         self._main_attribute = len(self)
         return self

@@ -1,5 +1,3 @@
-from typing import Coroutine, Any
-
 from .abc import RequestModel
 from ..models import ClanWar, BaseClan
 

@@ -25,14 +25,16 @@ class PConsumer:
 
     async def _request(self, future, url, method, body, status, error):
         async with self.session.request(
-                method=method, url=url, data=None if body is None else dumps(body)
+                method=method, url=url,
+                data=None if body is None else dumps(body)
         ) as response, timeout(self.timeout):
             response_json = await response.json()
 
             future.set_result(response_json)
             status.set_result(response.status)
-            error.set_result(None if response.status == 200 else
-                             ApiCodes.from_exception(response.status, response_json))
+            error.set_result(None if response.status == 200
+                             else ApiCodes.from_exception(response.status,
+                                                          response_json))
             return
 
     async def consume(self):
@@ -40,7 +42,11 @@ class PConsumer:
             future, url, method, body, status, error = await self.queue.get()
 
             async with ExecutionTimer(self.wait):
-                create_task(self._request(future, url, method.value, body, status, error))
+                create_task(
+                    self._request(
+                        future, url, method.value, body, status, error
+                    )
+                )
 
                 self.queue.task_done()
 

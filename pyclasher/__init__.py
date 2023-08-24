@@ -21,6 +21,10 @@ from .utils import *
 from .client import Client
 
 # exceptions.py
-from .exceptions import (Missing, MISSING, PyClasherException, ApiCode, RequestNotDone, NoneToken, InvalidLoginData,
-                         InvalidType, LoginNotDone, ClientIsRunning, ClientIsNotRunning, ClientAlreadyInitialised,
-                         NoClient, InvalidTimeFormat, ClientRunningOverwrite, InvalidSeasonFormat, RequestTimeout)
+from .exceptions import (
+    Missing, MISSING, PyClasherException, ApiCode, RequestNotDone, NoneToken,
+    InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning,
+    ClientIsNotRunning, ClientAlreadyInitialised, NoClient,
+    InvalidTimeFormat, ClientRunningOverwrite, InvalidSeasonFormat,
+    RequestTimeout
+)

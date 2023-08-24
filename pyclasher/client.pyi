@@ -5,7 +5,7 @@ from .exceptions import MISSING
 from .request_queue import PQueue
 
 
-client_id: int = ...
+global_client_id: int = ...
 
 
 class Client:

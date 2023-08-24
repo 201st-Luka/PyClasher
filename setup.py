@@ -15,7 +15,8 @@ setup(
     name='pyclasher',
     version=pyclasher.__version__,
     author='201st-Luka',
-    description='pyclasher - an object-oriented wrapper client for Python that provides easy access to the requested data',
+    description='pyclasher - an object-oriented wrapper client for Python '
+                'that provides easy access to the requested data',
     long_description=readme,
     long_description_content_type='text/markdown',
     packages=packages,

@@ -3,7 +3,7 @@ from asyncio import get_running_loop, run
 from aiohttp import request
 
 from ..api.models.login import LoginModel
-from ..exceptions import Missing, MISSING, LoginNotDone, InvalidLoginData
+from ..exceptions import MISSING, LoginNotDone, InvalidLoginData
 
 
 class Login(LoginModel):
@@ -20,7 +20,7 @@ class Login(LoginModel):
 
         return
 
-    def _get_data(self, item: str) -> None | Missing | dict | list | int | str | float | bool:
+    def _get_data(self, item):
         if self._data is None:
             return None
         if self._data is MISSING:

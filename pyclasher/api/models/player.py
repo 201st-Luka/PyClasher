@@ -38,27 +38,39 @@ class PlayerLegendStatistics(BaseModel):
 
     @property
     def current_season(self):
-        return LegendLeagueTournamentSeasonResult(self._get_data('currentSeason'))
+        return LegendLeagueTournamentSeasonResult(
+            self._get_data('currentSeason')
+        )
 
     @property
     def previous_season(self):
-        return LegendLeagueTournamentSeasonResult(self._get_data('previousSeason'))
+        return LegendLeagueTournamentSeasonResult(
+            self._get_data('previousSeason')
+        )
 
     @property
     def previous_builder_base_season(self):
-        return LegendLeagueTournamentSeasonResult(self._get_data('previousBuilderBaseSeason'))
+        return LegendLeagueTournamentSeasonResult(
+            self._get_data('previousBuilderBaseSeason')
+        )
 
     @property
     def previous_versus_season(self):
-        return LegendLeagueTournamentSeasonResult(self._get_data('previousVersusSeason'))
+        return LegendLeagueTournamentSeasonResult(
+            self._get_data('previousVersusSeason')
+        )
 
     @property
     def best_builder_base_season(self):
-        return LegendLeagueTournamentSeasonResult(self._get_data('bestBuilderBaseSeason'))
+        return LegendLeagueTournamentSeasonResult(
+            self._get_data('bestBuilderBaseSeason')
+        )
 
     @property
     def best_versus_season(self):
-        return LegendLeagueTournamentSeasonResult(self._get_data('bestVersusSeason'))
+        return LegendLeagueTournamentSeasonResult(
+            self._get_data('bestVersusSeason')
+        )
 
     @property
     def legend_trophies(self):

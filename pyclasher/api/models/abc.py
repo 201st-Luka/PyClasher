@@ -20,7 +20,11 @@ class BaseModel(ABC):
 
     def _get_properties(self):
         if isinstance(self._data, dict):
-            return {name: prop.__get__(self) for name, prop in vars(type(self)).items() if isinstance(prop, property)}
+            return {
+                name: prop.__get__(self)
+                for name, prop in vars(type(self)).items()
+                if isinstance(prop, property)
+            }
         return self._data
 
     def _get_data(self, item):
@@ -39,8 +43,11 @@ class BaseModel(ABC):
         return f"{self.__class__.__name__}()"
 
     def __repr__(self):
-        return (f"{self.__class__.__name__}"
-                f"({', '.join(('='.join((key, str(value))) for key, value in self._get_properties().items()))})")
+        props = ', '.join(
+            ('='.join((key, str(value)))
+             for key, value in self._get_properties().items())
+        )
+        return f"{self.__class__.__name__}({props})"
 
 
 class IterBaseModel(ABC):
@@ -72,8 +79,10 @@ class IterBaseModel(ABC):
         if isinstance(item, int):
             return self._iter_rtype(self._data[item])
         if isinstance(item, slice):
-            return (self._iter_rtype(self._data[i]) for i in range(*item.indices(len(self._data))))
-        raise NotImplementedError(f"there is no implementation for type {item.__class__.__name__} in "
+            return (self._iter_rtype(self._data[i])
+                    for i in range(*item.indices(len(self._data))))
+        raise NotImplementedError(f"there is no implementation for type "
+                                  f"{item.__class__.__name__} in "
                                   f"{self.__class__.__name__}.__getitem__()")
 
     def __iter__(self):
@@ -95,7 +104,8 @@ class IterBaseModel(ABC):
         return f"{self.__class__.__name__}()"
 
     def __repr__(self):
-        return f"{self.__class__.__name__}(len={self._len}, type={self._iter_rtype.__name__}, {list(self)})"
+        return (f"{self.__class__.__name__}(len={self._len}, type="
+                f"{self._iter_rtype.__name__}, {list(self)})")
 
 
 

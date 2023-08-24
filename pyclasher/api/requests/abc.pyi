@@ -1,9 +1,9 @@
 from abc import ABC
-from logging import Logger
-from typing import Any, Coroutine, Iterator, Generator
+from typing import Any, Iterator, Generator
 
 from ..models import Paging
-from ...client import RequestMethods, Client
+from ...client import Client
+from ...utils import RequestMethods
 from ...exceptions import MISSING, Missing
 
 request_id: int = 0

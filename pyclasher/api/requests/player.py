@@ -5,13 +5,13 @@ from ...client import Client
 from .abc import RequestModel
 from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
 from ...utils.request_methods import RequestMethods
-from ...exceptions import ClientIsNotRunning, ApiCode
+from ...exceptions import ClientIsNotRunning
 
 
 class PlayerRequest(RequestModel, Player):
     """
-    Get information about a single player by player tag. Player tags can be found either in game or by
-    from clan member lists.
+    Get information about a single player by player tag. Player tags can be
+    found either in game or from clan member lists.
     """
 
     def __init__(self, player_tag):
