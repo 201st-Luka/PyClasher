@@ -207,6 +207,8 @@ class Client:
             if " " in new_id:
                 raise PyClasherException("`new_id` must not contain spaces")
 
+        self._client_id = new_id
+
         return
 
     @classmethod
