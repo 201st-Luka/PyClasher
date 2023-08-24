@@ -4,7 +4,7 @@ from pyclasher import PlayerRequest, Missing
 from pyclasher.api.models import (
     ClanRole, PlayerHouse, PlayerClan, PlayerAchievementProgressList,
     BuilderBaseLeague, PlayerItemLevelList, LabelList, League,
-    PlayerLegendStatistics,WarPreference
+    PlayerLegendStatistics, WarPreference
 )
 
 from ..constants import TEST_PLAYER_TAG

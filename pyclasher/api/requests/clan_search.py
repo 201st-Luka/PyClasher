@@ -65,8 +65,10 @@ class ClanSearchRequest(IterRequestModel):
             "clans",
             kwargs={
                 'name': name,
-                'warFrequency': war_frequency.value if war_frequency is not None else None,
-                'locationId': location.value.id if location is not None else None,
+                'warFrequency': (war_frequency.value
+                                 if war_frequency is not None else None),
+                'locationId': (location.value.id
+                               if location is not None else None),
                 'minMembers': min_members,
                 'maxMembers': max_members,
                 'minClanPoints': min_clan_points,
@@ -75,6 +77,8 @@ class ClanSearchRequest(IterRequestModel):
                     (label.value.id for label in
                      label_ids)) if label_ids is not None else None,
                 'limit': limit, 'after': after,
-                'before': before})
+                'before': before
+            }
+        )
         self._main_attribute = self.clan_name
         return

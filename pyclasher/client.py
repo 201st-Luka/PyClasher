@@ -9,7 +9,7 @@ from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
                          NoneToken, MISSING, ClientAlreadyInitialised)
 
 
-client_id = 0
+global_client_id = 0
 
 
 class Client:
@@ -30,7 +30,8 @@ class Client:
             elif isinstance(kwargs['tokens'], Iterable):
                 tokens = list(kwargs['tokens'])
             else:
-                raise InvalidType(kwargs['tokens'], (str, Iterable[str]))
+                raise InvalidType(kwargs['tokens'],
+                                  (str, Iterable[str]))
             for token in tokens:
                 for client in Client.__instances:
                     if client.__tokens is not None:
@@ -49,7 +50,7 @@ class Client:
             logger=MISSING,
             swagger_url=None
     ):
-        global client_id
+        global global_client_id
 
         if logger is None:
             logger = MISSING
@@ -80,9 +81,9 @@ class Client:
         self.__temporary_session = False
         self.__consumers = None
         self.__consume_tasks = None
-        self._client_id = client_id
+        self._client_id = global_client_id
 
-        client_id += 1
+        global_client_id += 1
 
         self._event_client = False
 
@@ -189,7 +190,7 @@ class Client:
 
     @client_id.setter
     def client_id(self, new_id):
-        global client_id
+        global global_client_id
         if isinstance(new_id, str) and new_id.isdigit():
             new_id = int(new_id)
 

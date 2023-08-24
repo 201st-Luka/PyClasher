@@ -15,7 +15,11 @@ class BulkRequestModel:
         return self._requests
 
     def __get_properties(self):
-        return {name: prop.__get__(self) for name, prop in vars(self.__class__).items() if isinstance(prop, property)}
+        return {
+            name: prop.__get__(self)
+            for name, prop in vars(self.__class__).items()
+            if isinstance(prop, property)
+        }
 
     async def _async_request(self):
         self._tasks = [request.request() for request in self._requests]
@@ -38,7 +42,8 @@ class BulkRequestModel:
         if isinstance(item, int):
             return self._requests[item]
         if isinstance(item, slice):
-            return (self._requests[i] for i in range(*item.indices(len(self._requests))))
+            return (self._requests[i]
+                    for i in range(*item.indices(len(self._requests))))
         raise NotImplementedError
 
     def __iter__(self):
@@ -52,5 +57,8 @@ class BulkRequestModel:
         return f"{self.__class__.__name__}({self._main_attribute})"
 
     def __repr__(self):
-        return (f"{self.__class__.__name__}"
-                f"({', '.join(('='.join((key, str(value))) for key, value in self.__get_properties().items()))})")
+        props = ', '.join(
+            ('='.join((key, str(value)))
+             for key, value in self.__get_properties().items())
+        )
+        return f"{self.__class__.__name__}({props})"

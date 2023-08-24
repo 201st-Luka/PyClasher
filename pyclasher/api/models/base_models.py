@@ -169,15 +169,22 @@ class Time:
         except ValueError:
             raise InvalidTimeFormat(time, cls.time_format)
 
-        return cls(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, dt.microsecond)
+        return cls(
+            dt.year, dt.month, dt.day,
+            dt.hour, dt.minute, dt.second, dt.microsecond
+        )
 
     def __eq__(self, other):
         if isinstance(other, Time):
-            return self._year == other._year and self._month == other._month and self._day == other._day and \
-                self._hour == other._hour and self._minute == other._minute and self._second == other._second
+            return (self._year == other._year and self._month == other._month
+                    and self._day == other._day and
+                    self._hour == other._hour and self._minute == other._minute
+                    and self._second == other._second)
         if isinstance(other, (Time, datetime)):
-            return self._year == other.year and self._month == other.month and self._day == other.day and \
-                self._hour == other.hour and self._minute == other.minute and self._second == other.second
+            return (self._year == other.year and self._month == other.month
+                    and self._day == other.day and
+                    self._hour == other.hour and self._minute == other.minute
+                    and self._second == other.second)
         return NotImplemented
 
     def __ne__(self, other):
@@ -189,19 +196,26 @@ class Time:
                 return True
             if self._year == other.year and self._month < other.month:
                 return True
-            if self._year == other.year and self._month == other.month and self._day < other.day:
+            if (self._year == other.year and self._month == other.month
+                    and self._day < other.day):
                 return True
-            if (self._year == other.year and self._month == other.month and self._day == other.day
+            if (self._year == other.year and self._month == other.month
+                    and self._day == other.day
                     and self._hour < other.hour):
                 return True
-            if (self._year == other.year and self._month == other.month and self._day == other.day
-                    and self._hour == other.hour and self._minute < other.minute):
+            if (self._year == other.year and self._month == other.month
+                    and self._day == other.day and self._hour == other.hour
+                    and self._minute < other.minute):
                 return True
-            if (self._year == other.year and self._month == other.month and self._day == other.day
-                    and self._hour == other.hour and self._minute == other.minute and self._second < other.second):
+            if (self._year == other.year and self._month == other.month
+                    and self._day == other.day and self._hour == other.hour
+                    and self._minute == other.minute
+                    and self._second < other.second):
                 return True
-            if (self._year == other.year and self._month == other.month and self._day == other.day
-                    and self._hour == other.hour and self._minute == other.minute and self._second == other.second
+            if (self._year == other.year and self._month == other.month
+                    and self._day == other.day and self._hour == other.hour
+                    and self._minute == other.minute
+                    and self._second == other.second
                     and self._microsecond < other.microsecond):
                 return True
             return False
@@ -218,23 +232,29 @@ class Time:
 
     def __str__(self):
         return (f"Time({self._year}.{self._month}.{self._day}:"
-                f"{self._hour}.{self._minute}.{self._second}.{self._microsecond})")
+                f"{self._hour}.{self._minute}.{self._second}"
+                f".{self._microsecond})")
 
     def __repr__(self):
-        return (f"Time(year={self._year}, month={self._month}, day={self._day}, "
-                f"hour={self._hour}, minute={self._minute}, second={self._second}, microsecond={self._microsecond})")
+        return (f"Time(year={self._year}, month={self._month}, day={self._day},"
+                f" hour={self._hour}, minute={self._minute}, "
+                f"second={self._second}, microsecond={self._microsecond})")
 
     def __add__(self, other):
         if isinstance(other, (Time, datetime)):
-            return Time(self._year + other.year, self._month + other.month, self._day + other.day,
-                        self._hour + other.hour, self._minute + other.minute, self._second + other.second,
+            return Time(self._year + other.year, self._month + other.month,
+                        self._day + other.day, self._hour + other.hour,
+                        self._minute + other.minute,
+                        self._second + other.second,
                         self._microsecond + other.microsecond)
         return NotImplemented
 
     def __sub__(self, other):
         if isinstance(other, (Time, datetime)):
-            return Time(self._year - other.year, self._month - other.month, self._day - other.day,
-                        self._hour - other.hour, self._minute - other.minute, self._second - other.second,
+            return Time(self._year - other.year, self._month - other.month,
+                        self._day - other.day, self._hour - other.hour,
+                        self._minute - other.minute,
+                        self._second - other.second,
                         self._microsecond - other.microsecond)
         return NotImplemented
 

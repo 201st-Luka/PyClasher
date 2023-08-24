@@ -34,12 +34,15 @@ class ApiCode(PyClasherException):
         return
 
     def _dict_to_str(self):
-        return "\n".join((f" - {key}: {val}" for key, val in self.response_json.items()))
+        return "\n".join(
+            (f" - {key}: {val}" for key, val in self.response_json.items())
+        )
 
     def __str__(self):
         if self.response_json is None:
             return f"ApiException({self.code})"
-        return f"ApiException:\n - Code: {self.code}\n - Description: {self.description}\n{self._dict_to_str()}"
+        return (f"ApiException:\n - Code: {self.code}\n - Description: "
+                f"{self.description}\n{self._dict_to_str()}")
 
     def __repr__(self):
         return f"ApiException(code={self.code})"
@@ -52,8 +55,9 @@ class RequestNotDone(PyClasherException):
 
 class NoneToken(PyClasherException):
     def __str__(self):
-        return "The token must be passed to the client. " \
-               "You can do this in the initialisation process or pass the tokens to the start function."
+        return ("The token must be passed to the client. "
+                "You can do this in the initialisation process"
+                " or pass the tokens to the start function.")
 
 
 class InvalidLoginData(PyClasherException):
@@ -69,7 +73,8 @@ class InvalidType(PyClasherException):
         return
 
     def __str__(self):
-        return f"{self.element} is of invalid type\nallowed types are {self.types}."
+        return (f"{self.element} is of invalid type\nallowed types are "
+                f"{self.types}.")
 
 
 class LoginNotDone(PyClasherException):
@@ -106,7 +111,8 @@ class InvalidTimeFormat(PyClasherException):
         return
 
     def __str__(self):
-        return f"The time {self.value} does not match the format '{self.time_format}'."
+        return (f"The time {self.value} does not match the format "
+                f"'{self.time_format}'.")
 
 
 class ClientRunningOverwrite(PyClasherException):
@@ -116,7 +122,9 @@ class ClientRunningOverwrite(PyClasherException):
 
 class InvalidSeasonFormat(PyClasherException):
     def __str__(self):
-        return "The season string is not valid. It must be follow the following format: <yyyy-mm> where <yyyy> is the year and <mm> is the month."
+        return ("The season string is not valid. It must be follow the "
+                "following format: <yyyy-mm> where <yyyy> is the year"
+                " and <mm> is the month.")
 
 
 class RequestTimeout(PyClasherException):

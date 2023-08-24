@@ -22,7 +22,8 @@ def event_loop():
 @pytest_asyncio.fixture(scope="package")
 async def pyclasher_client(event_loop):
     print("Setting PyClasherClient ...")
-    client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD)
+    client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL,
+                                     CLASH_OF_CLANS_LOGIN_PASSWORD)
     await client.start()
 
     yield client
