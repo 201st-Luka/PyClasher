@@ -6,7 +6,8 @@ from urllib.parse import urlparse
 from .request_queue import PConsumer, PQueue
 from .utils.login import Login
 from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
-                         NoneToken, MISSING, ClientAlreadyInitialised)
+                         NoneToken, MISSING, ClientAlreadyInitialised,
+                         PyClasherException)
 
 
 global_client_id = 0
@@ -201,7 +202,11 @@ class Client:
             if client.client_id == new_id:
                 raise ValueError(f"`new_id` {new_id} has already been taken "
                                  f"and must be different")
-        self._client_id = new_id
+
+        if isinstance(new_id, str):
+            if " " in new_id:
+                raise PyClasherException("`new_id` must not contain spaces")
+
         return
 
     @classmethod
