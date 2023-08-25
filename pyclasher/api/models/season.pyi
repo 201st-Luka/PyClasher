@@ -13,3 +13,6 @@ class Season:
     @classmethod
     def from_str(cls, season: str):
         ...
+
+    def to_str(self) -> str:
+        ...
