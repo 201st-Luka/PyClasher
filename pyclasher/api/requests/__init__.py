@@ -24,8 +24,9 @@ from .league import LeagueRequest
 # leagues
 from .league_season import LeagueSeasonRequest
 from .leagues import LeaguesRequest
-from .location import LocationRequest
+from .league_seasons import LeagueSeasonsRequest
 # locations
+from .location import LocationRequest
 from .locations import LocationsRequest
 # player
 from .player import PlayerRequest
