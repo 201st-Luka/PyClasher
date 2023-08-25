@@ -1,4 +1,4 @@
-from typing import Self, Iterator
+from typing import Iterator
 
 from .abc import IterRequestModel
 from ..models import Location, LocationList
@@ -11,9 +11,7 @@ class LocationsRequest(IterRequestModel):
     def __init__(self, limit: int = None, after: str = None, before: str = None):
         ...
 
-    async def _async_request(self) -> Self:
-        ...
-
+    @property
     def items(self) -> _list_rtype:
         ...
 
