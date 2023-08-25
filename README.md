@@ -59,7 +59,6 @@ good as I can.
 - more bulk requests
 - pytests for every request
 - pytests for the models
-- possibility to download files (images, etc) from `api-assets.clashofclans.com`
 
 ### Planned utils
 
