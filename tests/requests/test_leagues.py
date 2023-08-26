@@ -15,7 +15,7 @@ from pyclasher.api.requests import (
 )
 
 
-seasons = (
+Seasons = (
     "2015-07", "2015-08", "2015-09", "2015-10", "2015-11", "2015-12",
     "2016-01", "2016-02", "2016-03", "2016-04", "2016-05", "2016-06",
     "2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12",
@@ -184,7 +184,7 @@ async def test_league_seasons(pyclasher_client):
 
 @pytest.mark.parametrize(
     "season",
-    choices(seasons, k=5)
+    choices(Seasons, k=5)
 )
 @pytest.mark.asyncio
 async def test_league_season(pyclasher_client, season):

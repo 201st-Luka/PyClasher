@@ -5,7 +5,7 @@ from .clan_member import ClanMember
 class ClanMemberList(IterBaseModel):
     _iter_rtype = ClanMember
 
-    def __getitem__(self, item: int | str):
+    def __getitem__(self, item):
         return super().__getitem__(item)
 
     def __next__(self):

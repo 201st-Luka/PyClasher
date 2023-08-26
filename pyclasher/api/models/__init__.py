@@ -40,7 +40,7 @@ from .clan_war_league_group import (
 )
 from .clan_war_log import ClanWarLogEntry, ClanWarLog
 from .enums import (
-    ApiCodes, ClanType, WarFrequency, Locations, Leagues, CapitalLeagues,
+    ClanType, WarFrequency, Locations, Leagues, CapitalLeagues,
     BuilderBaseLeagues, WarLeagues, Labels, Languages, ClanWarState,
     ClanWarLeagueGroupState, ClanWarResult, WarPreference,
     PlayerHouseElementType, Village, TokenStatus, ClanRole

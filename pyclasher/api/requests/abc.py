@@ -121,7 +121,7 @@ class RequestModel:
                                              await error)
 
         if req_status != 200:
-            raise req_error.value
+            raise req_error
 
         self.client.logger.debug(f"request {self._request_id} done")
 

@@ -27,30 +27,93 @@ class PyClasherException(Exception):
     pass
 
 
-class ApiCode(PyClasherException):
-    """
-    exception class to handle ClashOfClans API client errors
-    """
-
-    def __init__(self, code, description, response_json=None):
-        self.code = code
-        self.description = description
-        self.response_json = response_json
+class ApiException(PyClasherException):
+    def __init__(self, api_code, client_error=None, *args, **kwargs):
+        self.api_code = api_code
+        self.client_error = client_error
+        super.__init__(*args, **kwargs)
         return
 
-    def _dict_to_str(self):
-        return "\n".join(
-            (f" - {key}: {val}" for key, val in self.response_json.items())
-        )
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.api_code})"
 
     def __str__(self):
-        if self.response_json is None:
-            return f"ApiException({self.code})"
-        return (f"ApiException:\n - Code: {self.code}\n - Description: "
-                f"{self.description}\n{self._dict_to_str()}")
+        return f"an API error occurred"
 
-    def __repr__(self):
-        return f"ApiException(code={self.code})"
+
+class BadRequest(ApiException):
+    def __init__(self, client_error=None):
+        super().__init__(400, client_error)
+        return
+
+    def __str__(self):
+        return "Client provided incorrect parameters for the request."
+
+
+class AccessDenied(ApiException):
+    def __init__(self, client_error=None):
+        super().__init__(400, client_error)
+        return
+
+    def __str__(self):
+        return ("Access denied, either because of missing/incorrect "
+                "credentials or used API token does not grant access to the "
+                "requested resource.")
+
+
+class NotFound(ApiException):
+    def __init__(self, client_error=None):
+        super().__init__(400, client_error)
+        return
+
+    def __str__(self):
+        return "Resource was not found."
+
+
+class Throttled(ApiException):
+    def __init__(self, client_error=None):
+        super().__init__(400, client_error)
+        return
+
+    def __str__(self):
+        return ("Request was throttled, because amount of requests was above "
+                "the threshold defined for the used API token.")
+
+
+class UnknownApiException(ApiException):
+    def __init__(self, client_error=None):
+        super().__init__(400, client_error)
+        return
+
+    def __str__(self):
+        return "Unknown error happened when handling the request."
+
+
+class Maintenance(ApiException):
+    def __init__(self, client_error=None):
+        super().__init__(400, client_error)
+        return
+
+    def __str__(self):
+        return "Service is temporarily unavailable because of maintenance."
+
+
+class ApiExceptions:
+    BadRequest = BadRequest
+    AccessDenied = AccessDenied
+    NotFound = NotFound
+    Throttled = Throttled
+    UnknownApiException = UnknownApiException
+    Maintenance = Maintenance
+
+    @classmethod
+    def from_api_code(cls, api_code, client_error=None):
+        for key, value in cls.__dict__.items():
+            if value is ApiException:
+                if value().api_code == api_code:
+                    return value(client_error)
+        raise PyClasherException(f"could not find {api_code} in the API "
+                                 f"exceptions")
 
 
 class RequestNotDone(PyClasherException):
@@ -133,8 +196,14 @@ class InvalidSeasonFormat(PyClasherException):
 
 
 class RequestTimeout(PyClasherException):
+    def __init__(self, allowed_time, *args):
+        self.allowed_time = allowed_time
+        super().__init__(*args)
+        return
+
     def __str__(self):
-        return "The request took to much time and was cancelled."
+        return (f"The request took longer than {self.allowed_time}s and was "
+                f"cancelled.")
 
 
 class InvalidClientId(PyClasherException):

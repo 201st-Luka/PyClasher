@@ -1,5 +1,7 @@
 from typing import Any
 
+from .api.models import ClientError
+
 
 class Missing:
     """
@@ -33,56 +35,71 @@ class PyClasherException(Exception):
     pass
 
 
-class ApiCode(Exception):
-    """
-    exception class to handle ClashOfClans API exceptions
-
-    :ivar   code:           error code of the exception
-    :type   code:           int
-    :ivar   description:    description of the exception
-    :type   description:    str
-    :ivar   response_json:  the raw dictionary object of the exception
-    :type   response_json:  dict
-    """
-
-    def __init__(self,
-                 code: int,
-                 description: str,
-                 response_json: dict = None
-                 ) -> None:
-        """
-        initialisation of the API exception model
-
-        :param  code:           error code of the exception
-        :type   code:           int
-        :param  description:    description of the exception
-        :type   description:    str
-        :param  response_json:  the raw dictionary object of the exception
-        :type   response_json:  dict
-        :return:                None
-        :rtype:                 None
-        """
-        self.code = code
-        self.description = description
-        self.response_json = response_json
-
-    def _dict_to_str(self) -> str:
-        """
-        protected method that converts the response json to a string
-
-        :return:    the response json as a string
-        :rtype:     str
-        """
-        ...
-
-    def __str__(self) -> str:
+class ApiException(PyClasherException):
+    def __init__(self, api_code: int, client_error: ClientError = None, *args,
+                 **kwargs) -> None:
+        self.api_code: int = ...
+        self.client_error: ClientError = ...
         ...
 
     def __repr__(self) -> str:
         ...
 
+    def __str__(self) -> str:
+        ...
 
-class RequestNotDone(Exception):
+
+class BadRequest(ApiException):
+    def __init__(self, client_error: ClientError = None):
+        ...
+
+
+class AccessDenied(ApiException):
+    def __init__(self, client_error: ClientError = None):
+        ...
+
+
+class NotFound(ApiException):
+    def __init__(self, client_error: ClientError = None):
+        ...
+
+
+class Throttled(ApiException):
+    def __init__(self, client_error: ClientError = None):
+        ...
+
+
+class UnknownApiException(ApiException):
+    def __init__(self, client_error: ClientError = None):
+        ...
+
+
+class Maintenance(ApiException):
+    def __init__(self, client_error: ClientError = None):
+        ...
+
+
+class ApiExceptions:
+    BadRequest = BadRequest
+    AccessDenied = AccessDenied
+    NotFound = NotFound
+    Throttled = Throttled
+    UnknownApiException = UnknownApiException
+    Maintenance = Maintenance
+
+    @classmethod
+    def from_api_code(cls,
+                      api_code: int,
+                      client_error: ClientError = None) -> ApiException:
+        for key, value in cls.__dict__.items():
+            if value is ApiException:
+                if value().api_code == api_code:
+                    return value(client_error)
+        raise PyClasherException(f"could not find {api_code} in the API "
+                                 f"exceptions")
+
+
+class RequestNotDone(PyClasherException):
     """
     exception class to handle the case if a request was not done but data was retrieved
     """
@@ -91,7 +108,7 @@ class RequestNotDone(Exception):
         ...
 
 
-class NoneToken(Exception):
+class NoneToken(PyClasherException):
     """
     exception class to handle the case if no ClashOfClans API token was entered to the client
     """
@@ -100,7 +117,7 @@ class NoneToken(Exception):
         ...
 
 
-class InvalidLoginData(Exception):
+class InvalidLoginData(PyClasherException):
     """
     exception class to handle invalid login data to log in to the ClashOfClans developer portal
     """
@@ -109,7 +126,7 @@ class InvalidLoginData(Exception):
         ...
 
 
-class InvalidType(Exception):
+class InvalidType(PyClasherException):
     """
     exception class to handle type errors for the pyclasher package
     """
@@ -135,7 +152,7 @@ class InvalidType(Exception):
         ...
 
 
-class LoginNotDone(Exception):
+class LoginNotDone(PyClasherException):
     """
     exception class to handle the error if the login was not done but data was retrieved
     """
@@ -144,7 +161,7 @@ class LoginNotDone(Exception):
         ...
 
 
-class ClientIsRunning(Exception):
+class ClientIsRunning(PyClasherException):
     """
     exception class that handles errors if a not permitted action while the client was running was done
     """
@@ -153,7 +170,7 @@ class ClientIsRunning(Exception):
         ...
 
 
-class ClientIsNotRunning(Exception):
+class ClientIsNotRunning(PyClasherException):
     """
     exception class that handles errors if a not permitted action while the client was not running was done
     """
@@ -162,7 +179,7 @@ class ClientIsNotRunning(Exception):
         ...
 
 
-class ClientAlreadyInitialised(Exception):
+class ClientAlreadyInitialised(PyClasherException):
     """
     exception class to handle multiple client initialisations
     """
@@ -171,7 +188,7 @@ class ClientAlreadyInitialised(Exception):
         ...
 
 
-class NoClient(Exception):
+class NoClient(PyClasherException):
     """
     exception class to handle the error if no client was initialised
     """
@@ -180,7 +197,7 @@ class NoClient(Exception):
         ...
 
 
-class InvalidTimeFormat(Exception):
+class InvalidTimeFormat(PyClasherException):
     """
     exception class to handle errors while converting a time string to a Time class
 
@@ -206,7 +223,7 @@ class InvalidTimeFormat(Exception):
         ...
 
 
-class ClientRunningOverwrite(Exception):
+class ClientRunningOverwrite(PyClasherException):
     """
     exception class that handles the error if a client was running and a client variable was overwritten
     """
@@ -215,7 +232,7 @@ class ClientRunningOverwrite(Exception):
         ...
 
 
-class InvalidSeasonFormat(Exception):
+class InvalidSeasonFormat(PyClasherException):
     """
     exception class that handles an invalid season format
     """
@@ -224,7 +241,12 @@ class InvalidSeasonFormat(Exception):
         ...
 
 
-class RequestTimeout(Exception):
+class RequestTimeout(PyClasherException):
+    def __init__(self, allowed_time: float, *args):
+        self.allowed_time: float = ...
+        ...
+
+
     def __str__(self) -> str:
         ...
 

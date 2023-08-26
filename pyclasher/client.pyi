@@ -50,7 +50,7 @@ class Client:
             self,
             tokens: str | Iterable[str] = None,
             requests_per_second: int = 5,
-            request_timeout: float = 30,
+            request_timeout: float | None = 30,
             logger: Logger = MISSING,
             swagger_url: str = None
     ) -> None:
@@ -78,7 +78,7 @@ class Client:
         self.__tokens: list[str] = ...
         self.requests_per_second: int = ...
         self.queue: PQueue = ...
-        self.request_timeout: float = ...
+        self.request_timeout: float | None = ...
         self.__client_running: bool = ...
         self.__temporary_session: bool = ...
         self.__consumers: list = ...
@@ -92,7 +92,7 @@ class Client:
                          email: str,
                          password: str,
                          requests_per_second: int = 5,
-                         request_timeout: float = 30,
+                         request_timeout: float | None = 30,
                          logger: Logger = MISSING,
                          login_count: int = 1
         ) -> Client:
