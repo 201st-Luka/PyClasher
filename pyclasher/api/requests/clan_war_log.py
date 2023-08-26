@@ -1,5 +1,10 @@
+from typing import Literal
+
+from ...utils import snake_to_camel
+from ...exceptions import PyClasherException, RequestNotDone
 from .abc import IterRequestModel
 from ..models import ClanWarLog, ClanWarLogEntry
+from ..models.enums import ClanWarResult
 
 
 class ClanWarLogRequest(IterRequestModel):
@@ -9,6 +14,7 @@ class ClanWarLogRequest(IterRequestModel):
     clan_tag: str = None
     _iter_rtype = ClanWarLogEntry
     _list_rtype = ClanWarLog
+    __Criteria = Literal["team_size", "attacks_per_member", "result"]
 
     def __init__(self, clan_tag, limit=None, after=None, before=None):
         """
@@ -35,4 +41,37 @@ class ClanWarLogRequest(IterRequestModel):
                                       'before': before
                                   })
         self._main_attribute = self.clan_tag
+        return
+
+    @staticmethod
+    def __sort_key(item, key):
+        if key == "result":
+            if item[snake_to_camel(key)] == ClanWarResult.WIN.value:
+                return 3
+            if item[snake_to_camel(key)] == ClanWarResult.LOSE.value:
+                return 1
+            if item[snake_to_camel(key)] == ClanWarResult.TIE.value:
+                return 2
+            if item[snake_to_camel(key)] == ClanWarResult.NONE.value:
+                return 0
+        else:
+            return item[snake_to_camel(key)]
+
+    def sort(self, criteria, descending=True):
+        if not isinstance(self._data, dict):
+            raise RequestNotDone
+        self._data['items'] = sorted(
+            self._data['items'],
+            key=lambda war: self.__sort_key(war, criteria),
+            reverse=descending
+        )
+        return
+
+    def filter(self, criteria, value):
+        if isinstance(value, ClanWarResult):
+            value = value.value
+
+        self._data['items'] = [war
+                               for war in self._data['items']
+                               if war[snake_to_camel(criteria)] == value]
         return

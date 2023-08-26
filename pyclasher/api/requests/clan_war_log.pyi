@@ -1,16 +1,28 @@
-from typing import Iterator
+from typing import Iterator, Literal
 
 from .abc import IterRequestModel
 from ..models import ClanWarLog, ClanWarLogEntry
+from ..models.enums import ClanWarResult
 
 
 class ClanWarLogRequest(IterRequestModel):
     clan_tag: str = None
     _iter_rtype = ClanWarLogEntry
     _list_rtype = ClanWarLog
+    __Criteria = Literal["team_size", "attacks_per_member", "result"]
 
     def __init__(self, clan_tag: str, limit: int = None, after: str = None, before: str = None) -> None:
         self.clan_tag = clan_tag
+        ...
+
+    @staticmethod
+    def __sort_key(item: dict, key: str) -> int:
+        ...
+
+    def sort(self, criteria: __Criteria, descending=True) -> None:
+        ...
+
+    def filter(self, criteria: __Criteria, value: int | ClanWarResult) -> None:
         ...
 
     @property

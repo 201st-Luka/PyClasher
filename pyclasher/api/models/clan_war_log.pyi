@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Iterator, Literal
 
 from .abc import IterBaseModel, BaseModel
 from .base_models import Time
@@ -80,6 +80,17 @@ class ClanWarLog(IterBaseModel):
     """
 
     _iter_rtype = ClanWarLogEntry
+    __Criteria = Literal["team_size", "attacks_per_member", "result"]
+
+    @staticmethod
+    def __sort_key(item: dict, key: str) -> int:
+        ...
+
+    def sort(self, criteria: __Criteria, descending=True) -> None:
+        ...
+
+    def filter(self, criteria: __Criteria, value: int | ClanWarResult) -> None:
+        ...
 
     def __getitem__(self, item: int) -> ClanWarLogEntry:
         ...

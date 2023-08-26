@@ -68,8 +68,6 @@ I'm planning to keep the API wrapper up to date and improve it as good as I can.
 
 ### Planned code implementations (ToDo-list)
 
-- war log filtering for `ClanWarLogRequest` (for example filter the number of 
-attacks per member)
 - some "average" attributes for `Clan`-classes, `WarLog`-classes, ...
 - attributes `king`, `queen`, `warden`, `royal_champion` for the 
 `Player.heroes` attribute
