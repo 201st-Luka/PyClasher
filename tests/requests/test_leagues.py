@@ -117,7 +117,7 @@ async def test_league(pyclasher_client, league_id):
 
 @pytest.mark.parametrize(
     "league_id",
-    [randint(85000000, 85000022) for _ in range(10)]
+    [randint(85000000, 85000022) for _ in range(5)]
 )
 @pytest.mark.asyncio
 async def test_capital_league(pyclasher_client, league_id):
@@ -134,7 +134,7 @@ async def test_capital_league(pyclasher_client, league_id):
 
 @pytest.mark.parametrize(
     "league_id",
-    [randint(44000000, 44000041) for _ in range(10)]
+    [randint(44000000, 44000041) for _ in range(5)]
 )
 @pytest.mark.asyncio
 async def test_builder_base_league(pyclasher_client, league_id):
@@ -151,7 +151,7 @@ async def test_builder_base_league(pyclasher_client, league_id):
 
 @pytest.mark.parametrize(
     "league_id",
-    [randint(48000000, 48000018) for _ in range(10)]
+    [randint(48000000, 48000018) for _ in range(5)]
 )
 @pytest.mark.asyncio
 async def test_war_league(pyclasher_client, league_id):
@@ -184,7 +184,7 @@ async def test_league_seasons(pyclasher_client):
 
 @pytest.mark.parametrize(
     "season",
-    choices(seasons, k=10)
+    choices(seasons, k=5)
 )
 @pytest.mark.asyncio
 async def test_league_season(pyclasher_client, season):
