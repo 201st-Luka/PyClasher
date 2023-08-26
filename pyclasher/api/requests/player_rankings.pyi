@@ -16,6 +16,7 @@ class PlayerRankingsRequest(IterRequestModel):
     def _async_request(self) -> PlayerRankingsRequest:
         ...
 
+    @property
     def items(self) -> _list_rtype:
         ...
 
