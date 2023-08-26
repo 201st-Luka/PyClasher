@@ -69,7 +69,7 @@ class IterRequestModel(RequestModel, ABC):
             request_method: RequestMethods = RequestMethods.REQUEST,
             **url_kwargs
     ) -> None:
-        self._len: None | int = ...
+        ...
 
     @property
     def items(self) -> _list_rtype:
@@ -92,5 +92,5 @@ class IterRequestModel(RequestModel, ABC):
     def __contains__(self, item: _iter_rtype) -> bool:
         ...
 
-    def __len__(self) -> int:
+    def __len__(self) -> None | int:
         ...

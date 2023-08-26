@@ -75,3 +75,23 @@ class ClanWarLogRequest(IterRequestModel):
                                for war in self._data['items']
                                if war[snake_to_camel(criteria)] == value]
         return
+
+    @property
+    def average_team_size(self):
+        return self.items.average_team_size
+
+    @property
+    def average_destruction_percentage(self):
+        return self.items.average_destruction_percentage
+
+    @property
+    def average_attacks(self):
+        return self.items.average_attacks
+
+    @property
+    def average_stars(self):
+        return self.items.average_stars
+
+    @property
+    def average_exp_earned(self):
+        return self.items.average_exp_earned

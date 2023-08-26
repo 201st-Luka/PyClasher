@@ -15,6 +15,26 @@ class ClanMemberList(IterBaseModel):
 
     _iter_rtype = ClanMember
 
+    @property
+    def average_exp_level(self) -> float:
+        ...
+
+    @property
+    def average_trophies(self) -> float:
+        ...
+
+    @property
+    def average_builder_base_trophies(self) -> float:
+        ...
+
+    @property
+    def average_donations(self) -> float:
+        ...
+
+    @property
+    def average_donations_received(self) -> float:
+        ...
+
     def __getitem__(self, item: int | str) -> ClanMember:
         ...
 

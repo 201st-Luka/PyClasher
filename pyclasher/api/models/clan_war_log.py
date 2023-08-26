@@ -38,6 +38,46 @@ class ClanWarLog(IterBaseModel):
     _iter_rtype = ClanWarLogEntry
     __Criteria = Literal["team_size", "attacks_per_member", "result"]
 
+    @property
+    def average_team_size(self):
+        try:
+            return sum((war.team_size for war in self
+                        if war.attacks_per_member == 2)) / len(self)
+        except ZeroDivisionError:
+            return None
+
+    @property
+    def average_destruction_percentage(self):
+        try:
+            return sum((war.clan.destruction_percentage for war in self
+                        if war.attacks_per_member == 2)) / len(self)
+        except ZeroDivisionError:
+            return None
+
+    @property
+    def average_attacks(self):
+        try:
+            return sum((war.clan.attacks for war in self
+                        if war.attacks_per_member == 2)) / len(self)
+        except ZeroDivisionError:
+            return None
+
+    @property
+    def average_stars(self):
+        try:
+            return sum((war.clan.stars for war in self
+                        if war.attacks_per_member == 2)) / len(self)
+        except ZeroDivisionError:
+            return None
+
+    @property
+    def average_exp_earned(self):
+        try:
+            return sum((war.clan.exp_earned for war in self
+                        if war.attacks_per_member == 2)) / len(self)
+        except ZeroDivisionError:
+            return None
+
     @staticmethod
     def __sort_key(item, key):
         if key == "result":

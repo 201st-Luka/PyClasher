@@ -158,13 +158,7 @@ class IterRequestModel(RequestModel):
                          kwargs=kwargs,
                          request_method=request_method,
                          **url_kwargs)
-        self._len = None
         return
-
-    async def request(self, client_id=None):
-        await super().request(client_id)
-        self._len = len(self._get_data('items'))
-        return self
 
     @property
     def items(self):
@@ -196,4 +190,7 @@ class IterRequestModel(RequestModel):
         raise NotImplementedError
 
     def __len__(self):
-        return self._len
+        try:
+            return len(self._get_data('items'))
+        except RequestNotDone:
+            return None

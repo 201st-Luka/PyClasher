@@ -26,6 +26,26 @@ class ClanWarLogRequest(IterRequestModel):
         ...
 
     @property
+    def average_team_size(self) -> float:
+        ...
+
+    @property
+    def average_destruction_percentage(self) -> float:
+        ...
+
+    @property
+    def average_attacks(self) -> float:
+        ...
+
+    @property
+    def average_stars(self) -> float:
+        ...
+
+    @property
+    def average_exp_earned(self) -> float:
+        ...
+
+    @property
     def items(self) -> _list_rtype:
         ...
 

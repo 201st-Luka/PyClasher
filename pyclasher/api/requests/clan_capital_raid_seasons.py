@@ -36,3 +36,27 @@ class ClanCapitalRaidSeasonsRequest(IterRequestModel):
                                   })
         self._main_attribute = self.clan_tag
         return
+
+    @property
+    def average_capital_total_loot_per_season(self):
+        return self.items.average_capital_total_loot
+
+    @property
+    def average_raids_completed_per_season(self):
+        return self.items.average_raids_completed
+
+    @property
+    def average_total_attacks_per_season(self):
+        return self.items.average_total_attacks
+
+    @property
+    def average_enemy_districts_destroyed_per_season(self):
+        return self.items.average_enemy_districts_destroyed
+
+    @property
+    def average_defensive_reward_per_season(self):
+        return self.items.average_defensive_reward
+
+    @property
+    def average_offensive_reward_per_season(self):
+        return self.items.average_offensive_reward

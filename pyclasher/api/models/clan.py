@@ -146,3 +146,24 @@ class Clan(BaseClan):
     @property
     def clan_capital(self):
         return ClanCapital(self._get_data('clanCapital'))
+
+    @property
+    def average_exp_level_per_member(self):
+        return self.member_list.average_exp_level
+
+    @property
+    def average_trophies_per_member(self):
+        return self.member_list.average_trophies
+
+    @property
+    def average_builder_base_trophies_per_member(self):
+        return self.member_list.average_builder_base_trophies
+
+    @property
+    def average_donations_per_member(self):
+        return self.member_list.average_donations
+
+    @property
+    def average_donations_received_per_member(self):
+        return self.member_list.average_donations_received
+

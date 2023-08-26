@@ -36,3 +36,23 @@ class ClanMembersRequest(IterRequestModel):
                                   })
         self._main_attribute = self.clan_tag
         return
+
+    @property
+    def average_exp_level_per_member(self):
+        return self.items.average_exp_level
+
+    @property
+    def average_trophies_per_member(self):
+        return self.items.average_trophies
+
+    @property
+    def average_builder_base_trophies_per_member(self):
+        return self.items.average_builder_base_trophies
+
+    @property
+    def average_donations_per_member(self):
+        return self.items.average_donations
+
+    @property
+    def average_donations_received_per_member(self):
+        return self.items.average_donations_received
