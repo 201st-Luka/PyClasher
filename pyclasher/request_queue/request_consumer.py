@@ -1,10 +1,11 @@
-from asyncio import timeout, create_task
+from asyncio import create_task, TimeoutError as aTimeoutError
 from json import dumps
 
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ClientTimeout
 
-from ..api.models import ApiCodes
 from ..utils import ExecutionTimer
+from ..exceptions import ApiExceptions, MISSING, RequestTimeout
+from ..api.models import ClientError
 
 
 class PConsumer:
@@ -19,23 +20,35 @@ class PConsumer:
         self.url = url
         self.session = ClientSession(
             base_url=url,
-            headers=self.header
+            headers=self.header,
+            timeout=ClientTimeout(total=self.timeout)
         )
         return
 
     async def _request(self, future, url, method, body, status, error):
-        async with self.session.request(
-                method=method, url=url,
-                data=None if body is None else dumps(body)
-        ) as response, timeout(self.timeout):
-            response_json = await response.json()
+        try:
+            async with self.session.request(
+                    method=method,
+                    url=url,
+                    data=None if body is None else dumps(body)
+            ) as response:
+                response_json = await response.json()
 
-            future.set_result(response_json)
-            status.set_result(response.status)
-            error.set_result(None if response.status == 200
-                             else ApiCodes.from_exception(response.status,
-                                                          response_json))
-            return
+                if response.status == 200:
+                    error.set_result(None)
+                else:
+                    error.set_result(ApiExceptions.from_api_code(
+                        response.status, ClientError(response_json)
+                    ))
+
+                future.set_result(response_json)
+                status.set_result(response.status)
+                return
+
+        except aTimeoutError:
+            future.set_result(MISSING)
+            status.set_result(None)
+            error.set_result(RequestTimeout(self.timeout))
 
     async def consume(self):
         while True:

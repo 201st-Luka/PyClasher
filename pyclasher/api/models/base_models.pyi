@@ -1,6 +1,7 @@
 """
 base models for this API wrapper client
 """
+from logging import Logger
 
 from .abc import BaseModel
 from ...exceptions import MISSING, Missing
@@ -10,11 +11,9 @@ class ImageUrl:
     """
     image URL model
 
-    :cvar   __url:  URL of the image
+    :ivar   __url:  URL of the image
     :type   __url:  str
     """
-
-    __url: str = None
 
     def __init__(self, url: str) -> None:
         """
@@ -22,7 +21,10 @@ class ImageUrl:
         """
         self.__url = url
 
-    async def get_image(self):
+    async def get_image(self, logger: Logger = MISSING) -> bytes:
+        ...
+
+    async def save_image(self, logger: Logger):
         """
         NOT IMPLEMENTED YET
 

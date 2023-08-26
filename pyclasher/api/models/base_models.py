@@ -1,18 +1,27 @@
 from datetime import datetime
 
+from aiohttp import ClientSession
+
 from .abc import BaseModel
-from ...exceptions import InvalidTimeFormat
+from ...exceptions import InvalidTimeFormat, MISSING
 
 
 class ImageUrl:
-    __url = None
-
     def __init__(self, url):
         self.__url = url
         return
 
-    async def get_image(self):
-        raise NotImplementedError
+    async def get_image(self, logger=MISSING) -> bytes:
+        async with ClientSession() as session:
+            async with session.get(self.url) as request:
+                if request.status == 200:
+                    logger.info(f"Successfully downloaded {self.url}")
+                    return await request.read()
+
+    async def save_image(self, filename, logger=MISSING):
+        image = await self.get_image(logger)
+        with open(filename, "wb") as file:
+            file.write(image)
 
     @property
     def url(self):

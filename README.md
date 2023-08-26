@@ -57,9 +57,8 @@ good as I can.
 ### Planned features
 
 - more bulk requests
-- pytests for every request
 - pytests for the models
-- possibility to download files (images, etc) from `api-assets.clashofclans.com`
+- events
 
 ### Planned utils
 
@@ -74,6 +73,7 @@ good as I can.
 - attributes `king`, `queen`, `warden`, `royal_champion` for the `Player.heroes` attribute
 - autosort for the `ClanCurrentWarRequest` members of the `member_list` attribute (sorted by the map position)
 - events and an `EventClient`
+
 ---
 
 If you find a bug, an error or want custom functionality, please tell

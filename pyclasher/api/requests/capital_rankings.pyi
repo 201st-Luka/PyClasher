@@ -1,19 +1,16 @@
 from typing import Iterator
 
 from .abc import IterRequestModel
-from ..models import PlayerRanking, PlayerRankingList, Location
+from ..models import ClanCapitalRanking, ClanCapitalRankingList, Location
 
 
-class PlayerRankingsRequest(IterRequestModel):
-    _iter_rtype = PlayerRanking
-    _list_rtype = PlayerRankingList
+class CapitalRankingsRequest(IterRequestModel):
+    _iter_rtype = ClanCapitalRanking
+    _list_rtype = ClanCapitalRankingList
 
     def __init__(self, location_id: int | Location,
                  limit: int = None, after: str = None, before: str = None):
-        self.location_id = location_id if isinstance(location_id, int) else location_id.id
-        ...
-
-    def _async_request(self) -> PlayerRankingsRequest:
+        self.location_id: int = ...
         ...
 
     @property

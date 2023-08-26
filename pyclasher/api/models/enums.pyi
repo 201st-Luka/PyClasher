@@ -3,47 +3,6 @@ from enum import Enum
 from .labels import Label
 from .leagues import League, CapitalLeague, BuilderBaseLeague, WarLeague
 from .location import Location
-from ...exceptions import ApiCode
-
-
-class ApiCodes(Enum):
-    SUCCESS = ApiCode(..., ...)
-    BAD_REQUEST = ApiCode(..., ...)
-    ACCESS_DENIED = ApiCode(..., ...,
-                            "Access denied, either because of missing/incorrect credentials or used API token does not grant access to the requested resource.")
-    NOT_FOUND = ApiCode(..., ...)
-    THROTTLED = ApiCode(..., ...)
-    UNKNOWN = ApiCode(..., ...)
-    MAINTENANCE = ApiCode(..., ...)
-
-    @classmethod
-    def from_code(cls, code: int) -> ApiCodes:
-        """
-        class method that allows to initialise ApiCodes with the error code
-        
-        :param code:    error or success code
-        :type code:     int 
-        :return:        the corresponding ApiCode
-        :rtype:         ApiCodes
-        """
-        ...
-
-    @classmethod
-    def from_exception(cls,
-                       code: int,
-                       response_json: dict
-                       ) -> ApiCodes:
-        """
-        class method that allows to initialise ApiCodes with a failed request response
-
-        :param  code:           error code
-        :type   code:           int
-        :param  response_json:  failed request response json
-        :type response_json:    dict
-        :return:                the corresponding ApiCode
-        :rtype:                 ApiCodes
-        """
-        ...
 
 
 class ClanType(Enum):

@@ -241,6 +241,10 @@ class Clan(BaseClan):
         ...
 
     @property
+    def total_wars(self) -> int:
+        ...
+
+    @property
     def clan_points(self) -> int:
         """
         clan points

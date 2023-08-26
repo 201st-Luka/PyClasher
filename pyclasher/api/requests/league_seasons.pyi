@@ -1,14 +1,14 @@
 from typing import Iterator
 
 from .abc import IterRequestModel
-from ..models import Location, LocationList
+from ..models import LeagueSeason, LeagueSeasonList
 
 
-class LocationsRequest(IterRequestModel):
-    _iter_rtype = Location
-    _list_rtype = LocationList
+class LeagueSeasonsRequest(IterRequestModel):
+    _iter_rtype = LeagueSeason
+    _list_rtype = LeagueSeasonList
 
-    def __init__(self, limit: int = None, after: str = None, before: str = None):
+    def __init__(self, league_id: int):
         ...
 
     @property

@@ -22,7 +22,7 @@ from .client import Client
 
 # exceptions.py
 from .exceptions import (
-    Missing, MISSING, PyClasherException, ApiCode, RequestNotDone, NoneToken,
+    Missing, MISSING, PyClasherException, RequestNotDone, NoneToken,
     InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning,
     ClientIsNotRunning, ClientAlreadyInitialised, NoClient,
     InvalidTimeFormat, ClientRunningOverwrite, InvalidSeasonFormat,

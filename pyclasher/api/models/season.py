@@ -21,3 +21,13 @@ class Season:
         year = int(season[0])
         month = int(season[1])
         return cls(year, month)
+
+    def to_str(self):
+        return f"{self.year}-{self.month}"
+
+    def __eq__(self, other):
+        if isinstance(other, Season):
+            return self.year == other.year and self.month == other.month
+        if isinstance(other, str):
+            return self == Season.from_str(other)
+        raise NotImplementedError
