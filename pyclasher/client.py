@@ -1,14 +1,13 @@
-from sys import stderr
 from asyncio import create_task, run
+from sys import stderr
 from typing import Iterable
 from urllib.parse import urlparse
 
-from .request_queue import PConsumer, PQueue
-from .utils.login import Login
 from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
                          NoneToken, MISSING, ClientAlreadyInitialised,
                          PyClasherException)
-
+from .request_queue import PConsumer, PQueue
+from .utils.login import Login
 
 global_client_id = 0
 

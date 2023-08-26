@@ -3,8 +3,8 @@ from typing import Any, Iterator, Generator
 
 from ..models import Paging
 from ...client import Client
-from ...utils import RequestMethods
 from ...exceptions import MISSING, Missing
+from ...utils import RequestMethods
 
 request_id: int = 0
 

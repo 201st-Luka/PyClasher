@@ -1,11 +1,11 @@
 from typing import Literal
 
-from ...utils.functions import snake_to_camel
 from .abc import IterBaseModel, BaseModel
 from .base_models import Time
 from .enums import ClanWarResult
 from .war_clan import WarClan
 from ...exceptions import PyClasherException
+from ...utils.functions import snake_to_camel
 
 
 class ClanWarLogEntry(BaseModel):

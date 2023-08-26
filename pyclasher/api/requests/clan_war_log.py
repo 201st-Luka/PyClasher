@@ -1,10 +1,10 @@
 from typing import Literal
 
-from ...utils import snake_to_camel
-from ...exceptions import PyClasherException, RequestNotDone
 from .abc import IterRequestModel
 from ..models import ClanWarLog, ClanWarLogEntry
 from ..models.enums import ClanWarResult
+from ...exceptions import RequestNotDone
+from ...utils import snake_to_camel
 
 
 class ClanWarLogRequest(IterRequestModel):

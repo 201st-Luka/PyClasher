@@ -1,11 +1,11 @@
 from asyncio import Future
 from urllib.parse import quote
 
-from ...client import Client
 from .abc import RequestModel
 from ..models import Player, VerifyTokenRequest, VerifyTokenResponse
-from ...utils.request_methods import RequestMethods
+from ...client import Client
 from ...exceptions import ClientIsNotRunning
+from ...utils.request_methods import RequestMethods
 
 
 class PlayerRequest(RequestModel, Player):

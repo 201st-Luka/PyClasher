@@ -4,9 +4,9 @@ from urllib.parse import quote, urlencode
 
 from ..models import Paging
 from ...client import Client
-from ...utils.request_methods import RequestMethods
 from ...exceptions import (NoClient, ClientIsNotRunning, RequestNotDone,
                            MISSING, InvalidClientId)
+from ...utils.request_methods import RequestMethods
 
 request_id = 0
 

@@ -1,7 +1,8 @@
 from typing import Iterable, Coroutine, Any, Iterator
 
 from .b_request_model import BulkRequestModel
-from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, \
+from ..models import BaseClan, ClanMemberList, ClanWarMemberList, \
+    ClanWarLeagueClanMemberList, \
     ClanCapitalRaidSeasonMemberList
 from ..requests import PlayerRequest, ClanMembersRequest
 

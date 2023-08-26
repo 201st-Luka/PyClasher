@@ -4,7 +4,6 @@ from typing import Iterable
 from .exceptions import MISSING
 from .request_queue import PQueue
 
-
 global_client_id: int = ...
 
 
