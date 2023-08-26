@@ -8,6 +8,11 @@ class Missing:
     def __getattr__(self, item):
         return self
 
+    def __add__(self, other):
+        if isinstance(other, Missing):
+            return 0
+        return other
+
     def __str__(self):
         return "MISSING"
 

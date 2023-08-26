@@ -104,6 +104,10 @@ class Clan(BaseClan):
         return self._get_data('warLosses')
 
     @property
+    def total_wars(self):
+        return self.war_wins + self.war_losses + self.war_ties
+
+    @property
     def clan_points(self):
         return self._get_data('clanPoints')
 

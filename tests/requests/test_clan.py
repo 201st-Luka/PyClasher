@@ -34,6 +34,8 @@ async def test_clan(event_loop, pyclasher_client):
     assert isinstance(clan.war_losses, int)
     assert isinstance(clan.war_wins, int)
     assert isinstance(clan.war_win_streak, int)
+    assert isinstance(clan.total_wars, int)
+    assert clan.total_wars == clan.war_wins + clan.war_ties + clan.war_losses
     assert isinstance(clan.war_frequency, WarFrequency)
     assert isinstance(clan.badge_urls, BadgeUrls)
     assert isinstance(clan.war_league, WarLeague)

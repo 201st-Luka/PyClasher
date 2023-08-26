@@ -58,6 +58,7 @@ good as I can.
 
 - more bulk requests
 - pytests for the models
+- events
 
 ### Planned utils
 

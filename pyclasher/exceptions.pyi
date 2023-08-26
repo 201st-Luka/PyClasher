@@ -15,6 +15,9 @@ class Missing:
     def __getattr__(self, item) -> Missing:
         ...
 
+    def __add__(self, other) -> int | float:
+        ...
+
     def __str__(self) -> str:
         ...
 
