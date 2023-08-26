@@ -70,8 +70,6 @@ I'm planning to keep the API wrapper up to date and improve it as good as I can.
 
 - attributes `king`, `queen`, `warden`, `royal_champion` for the 
 `Player.heroes` attribute
-- autosort for the `ClanCurrentWarRequest` members of the `member_list` 
-attribute (sorted by the map position)
 - events and an `EventClient`
 
 ---
