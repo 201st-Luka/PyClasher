@@ -103,8 +103,8 @@ class Client:
         logger.info("initialising client via login")
 
         self = cls([login.temporary_api_token for login in logins],
-                   requests_per_second,
-                   request_timeout,
+                   requests_per_second=requests_per_second,
+                   request_timeout=request_timeout,
                    swagger_url=logins[0].swagger_url)
         self.logger = logger
         self.__temporary_session = True
