@@ -24,3 +24,27 @@ class ClanCapitalRaidSeasonsRequest(IterRequestModel):
 
     def __next__(self) -> _iter_rtype:
         ...
+
+    @property
+    def average_capital_total_loot_per_season(self) -> float:
+        ...
+
+    @property
+    def average_raids_completed_per_season(self) -> float:
+        ...
+
+    @property
+    def average_total_attacks_per_season(self) -> float:
+        ...
+
+    @property
+    def average_enemy_districts_destroyed_per_season(self) -> float:
+        ...
+
+    @property
+    def average_defensive_reward_per_season(self) -> float:
+        ...
+
+    @property
+    def average_offensive_reward_per_season(self) -> float:
+        ...

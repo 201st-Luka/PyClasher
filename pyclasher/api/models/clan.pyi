@@ -343,3 +343,23 @@ class Clan(BaseClan):
         :rtype:     ClanCapital
         """
         ...
+
+    @property
+    def average_exp_level_per_member(self) -> float:
+        ...
+
+    @property
+    def average_trophies_per_member(self) -> float:
+        ...
+
+    @property
+    def average_builder_base_trophies_per_member(self) -> float:
+        ...
+
+    @property
+    def average_donations_per_member(self) -> float:
+        ...
+
+    @property
+    def average_donations_received_per_member(self) -> float:
+        ...

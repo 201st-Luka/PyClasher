@@ -1,7 +1,8 @@
 from typing import Iterable, Coroutine, Any, Iterator
 
 from .b_request_model import BulkRequestModel
-from ..models import BaseClan, ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, \
+from ..models import BaseClan, ClanMemberList, ClanWarMemberList, \
+    ClanWarLeagueClanMemberList, \
     ClanCapitalRaidSeasonMemberList
 from ..requests import PlayerRequest, ClanMembersRequest
 
@@ -65,6 +66,58 @@ class PlayerBulkRequest(BulkRequestModel):
         :type member_list:  ClanMemberList, ClanWarMemberList, ClanWarLeagueClanMemberList, ClanCapitalRaidSeasonMemberList, ClanMembersRequest
         :rtype:             PlayerBulkRequest
         """
+        ...
+
+    @property
+    def average_attack_wins(self) -> float:
+        ...
+
+    @property
+    def average_defense_wins(self) -> float:
+        ...
+
+    @property
+    def average_town_hall_level(self) -> float:
+        ...
+
+    @property
+    def average_versus_battle_wins(self) -> float:
+        ...
+
+    @property
+    def average_exp_level(self) -> float:
+        ...
+
+    @property
+    def average_trophies(self) -> float:
+        ...
+
+    @property
+    def average_donations(self) -> float:
+        ...
+
+    @property
+    def average_donations_received(self) -> float:
+        ...
+
+    @property
+    def average_builder_hall_level(self) -> float:
+        ...
+
+    @property
+    def average_builder_base_trophies(self) -> float:
+        ...
+
+    @property
+    def average_best_builder_base_trophies(self) -> float:
+        ...
+
+    @property
+    def average_war_stars(self) -> float:
+        ...
+
+    @property
+    def average_clan_capital_contributions(self) -> float:
         ...
 
     def __getitem__(self, item: int) -> PlayerRequest:

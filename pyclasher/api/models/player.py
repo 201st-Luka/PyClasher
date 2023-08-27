@@ -192,6 +192,14 @@ class Player(BaseModel):
         return PlayerItemLevelList(self._get_data('heroes'))
 
     @property
+    def average_hero_level(self):
+        return (sum((hero
+                     for hero in self.heroes
+                     if hero.village == Village.HOME_VILLAGE)) /
+                sum((hero.village == Village.HOME_VILLAGE
+                     for hero in self.heroes)))
+
+    @property
     def spells(self):
         return PlayerItemLevelList(self._get_data('spells'))
 

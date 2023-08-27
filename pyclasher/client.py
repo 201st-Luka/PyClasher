@@ -1,14 +1,13 @@
-from sys import stderr
 from asyncio import create_task, run
+from sys import stderr
 from typing import Iterable
 from urllib.parse import urlparse
 
-from .request_queue import PConsumer, PQueue
-from .utils.login import Login
 from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
                          NoneToken, MISSING, ClientAlreadyInitialised,
                          PyClasherException)
-
+from .request_queue import PConsumer, PQueue
+from .utils.login import Login
 
 global_client_id = 0
 
@@ -103,8 +102,8 @@ class Client:
         logger.info("initialising client via login")
 
         self = cls([login.temporary_api_token for login in logins],
-                   requests_per_second,
-                   request_timeout,
+                   requests_per_second=requests_per_second,
+                   request_timeout=request_timeout,
                    swagger_url=logins[0].swagger_url)
         self.logger = logger
         self.__temporary_session = True

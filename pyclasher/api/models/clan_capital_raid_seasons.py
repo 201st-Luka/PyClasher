@@ -157,12 +157,6 @@ class ClanCapitalRaidSeasonDefenseLogList(IterBaseModel):
 class ClanCapitalRaidSeasonAttackLogList(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeasonAttackLogEntry
 
-    def __getitem__(self, item):
-        return super().__getitem__(item)
-
-    def __next__(self) -> _iter_rtype:
-        return super().__next__()
-
 
 class ClanCapitalRaidSeasonMember(BaseClanMember):
     @property
@@ -184,6 +178,15 @@ class ClanCapitalRaidSeasonMember(BaseClanMember):
 
 class ClanCapitalRaidSeasonMemberList(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeasonMember
+
+    @property
+    def average_attacks(self):
+        return sum((member.attacks for member in self)) / len(self)
+
+    @property
+    def average_resources_looted(self):
+        return (sum((member.capital_resources_looted for member in self)) /
+                len(self))
 
 
 class ClanCapitalRaidSeason(BaseModel):
@@ -233,9 +236,50 @@ class ClanCapitalRaidSeason(BaseModel):
         return self._get_data('defensiveReward')
 
     @property
+    def offensive_reward(self):
+        return self._get_data('offensiveReward')
+
+    @property
     def members(self):
         return ClanCapitalRaidSeasonMemberList(self._get_data('members'))
+
+    @property
+    def average_attacks_per_member(self):
+        return (sum((member.attacks for member in self.members)) /
+                len(self.members))
+
+    @property
+    def average_resources_looted_per_member(self):
+        return (
+            sum((member.capital_resources_looted for member in self.members)) /
+            len(self.members)
+        )
 
 
 class ClanCapitalRaidSeasons(IterBaseModel):
     _iter_rtype = ClanCapitalRaidSeason
+
+    @property
+    def average_capital_total_loot(self):
+        return sum((season.capital_total_loot for season in self)) / len(self)
+
+    @property
+    def average_raids_completed(self):
+        return sum((season.raids_completed for season in self)) / len(self)
+
+    @property
+    def average_total_attacks(self):
+        return sum((season.total_attacks for season in self)) / len(self)
+
+    @property
+    def average_enemy_districts_destroyed(self):
+        return (sum((season.enemy_districts_destroyed for season in self)) /
+                len(self))
+
+    @property
+    def average_defensive_reward(self):
+        return sum((season.defensive_reward for season in self)) / len(self)
+
+    @property
+    def average_offensive_reward(self):
+        return sum((season.offensive_reward for season in self)) / len(self)

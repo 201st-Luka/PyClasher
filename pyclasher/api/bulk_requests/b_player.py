@@ -42,3 +42,55 @@ class PlayerBulkRequest(BulkRequestModel):
     @classmethod
     def from_member_list(cls, member_list):
         return cls((member.tag for member in member_list))
+
+    @property
+    def average_attack_wins(self):
+        return sum((p.attack_wins for p in self)) / len(self)
+
+    @property
+    def average_defense_wins(self):
+        return sum((p.defense_wins for p in self)) / len(self)
+
+    @property
+    def average_town_hall_level(self):
+        return sum((p.town_hall_level for p in self)) / len(self)
+
+    @property
+    def average_versus_battle_wins(self):
+        return sum((p.versus_battle_wins for p in self)) / len(self)
+
+    @property
+    def average_exp_level(self):
+        return sum((p.exp_level for p in self)) / len(self)
+
+    @property
+    def average_trophies(self):
+        return sum((p.trophies for p in self)) / len(self)
+
+    @property
+    def average_donations(self):
+        return sum((p.donations for p in self)) / len(self)
+
+    @property
+    def average_donations_received(self):
+        return sum((p.donations_received for p in self)) / len(self)
+
+    @property
+    def average_builder_hall_level(self):
+        return sum((p.builder_hall_level for p in self)) / len(self)
+
+    @property
+    def average_builder_base_trophies(self):
+        return sum((p.builder_base_trophies for p in self)) / len(self)
+
+    @property
+    def average_best_builder_base_trophies(self):
+        return sum((p.best_builder_base_trophies for p in self)) / len(self)
+
+    @property
+    def average_war_stars(self):
+        return sum((p.war_stars for p in self)) / len(self)
+
+    @property
+    def average_clan_capital_contributions(self):
+        return sum((p.clan_capital_contributions for p in self)) / len(self)

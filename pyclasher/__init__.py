@@ -1,7 +1,7 @@
 """
 pyclasher ClashOfClans API wrapper client
 
-This wrapper client has been created by 201st-Luka.
+This wrapper client has been created and developed by 201st-Luka.
 
 `GitHub <https://github.com/201st-Luka/PyClasher>`_
 `Wiki <https://github.com/201st-Luka/PyClasher/wiki>`_
@@ -11,20 +11,77 @@ This wrapper client has been created by 201st-Luka.
 
 __version__ = '1.0.0-alpha1'
 
-# api
 from .api import *
-
-# utils
-from .utils import *
-
-# client.py
 from .client import Client
-
-# exceptions.py
 from .exceptions import (
-    Missing, MISSING, PyClasherException, RequestNotDone, NoneToken,
-    InvalidLoginData, InvalidType, LoginNotDone, ClientIsRunning,
-    ClientIsNotRunning, ClientAlreadyInitialised, NoClient,
-    InvalidTimeFormat, ClientRunningOverwrite, InvalidSeasonFormat,
-    RequestTimeout
+    PyClasherException, ApiException, ApiExceptions, UnknownApiException,
+    MISSING, Missing, RequestNotDone, RequestTimeout, BadRequest, NotFound,
+    Throttled, Maintenance, AccessDenied, NoClient, InvalidClientId,
+    ClientIsRunning, ClientIsNotRunning, ClientRunningOverwrite,
+    ClientAlreadyInitialised, LoginNotDone, InvalidLoginData, InvalidType,
+    InvalidTimeFormat, InvalidSeasonFormat, NoneToken
+)
+
+__all__ = (
+    "PlayerBulkRequest",
+
+    "BuilderBaseLeagueRequest",
+    "BuilderBaseLeaguesRequest",
+    "CapitalLeagueRequest",
+    "CapitalLeaguesRequest",
+    "CapitalRankingsRequest",
+    "ClanRequest",
+    "ClanBuilderBaseRankingsRequest",
+    "ClanCapitalRaidSeasonsRequest",
+    "ClanCurrentWarRequest",
+    "ClanCurrentwarLeaguegroupRequest",
+    "ClanLabelsRequest",
+    "ClanMembersRequest",
+    "ClanRankingsRequest",
+    "ClanSearchRequest",
+    "ClanWarLogRequest",
+    "ClanWarleaguesWarsRequest",
+    "GoldPassRequest",
+    "LeagueRequest",
+    "LeagueSeasonRequest",
+    "LeagueSeasonsRequest",
+    "LeaguesRequest",
+    "LocationRequest",
+    "LocationsRequest",
+    "PlayerRequest",
+    "PlayerBuilderBaseRankingsRequest",
+    "PlayerLabelsRequest",
+    "PlayerRankingsRequest",
+    "WarLeagueRequest",
+    "WarLeaguesRequest",
+
+    "__version__",
+
+    "Client",
+
+    "PyClasherException",
+    "ApiException",
+    "ApiExceptions",
+    "UnknownApiException",
+    "MISSING",
+    "Missing",
+    "RequestNotDone",
+    "RequestTimeout",
+    "BadRequest",
+    "NotFound",
+    "Throttled",
+    "Maintenance",
+    "AccessDenied",
+    "NoClient",
+    "InvalidClientId",
+    "ClientIsRunning",
+    "ClientIsNotRunning",
+    "ClientRunningOverwrite",
+    "ClientAlreadyInitialised",
+    "LoginNotDone",
+    "InvalidLoginData",
+    "InvalidType",
+    "InvalidTimeFormat",
+    "InvalidSeasonFormat",
+    "NoneToken"
 )

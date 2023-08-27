@@ -132,6 +132,17 @@ async def test_clan_war_log(event_loop, pyclasher_client):
         assert 5 <= war.team_size <= 50
         assert isinstance(war.result, ClanWarResult)
 
+    war_log.sort("team_size", descending=False)
+    previous = 0
+
+    for war in war_log:
+        assert war.team_size >= previous
+        previous = war.team_size
+
+    war_log.filter("attacks_per_member", 1)
+    for war in war_log:
+        assert war.attacks_per_member == 1
+
 
 @pytest.mark.asyncio
 async def test_clan_search(event_loop, pyclasher_client):

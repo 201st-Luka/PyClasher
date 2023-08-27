@@ -411,6 +411,14 @@ class ClanCapitalRaidSeasonMemberList(IterBaseModel):
 
     _iter_rtype = ClanCapitalRaidSeasonMember
 
+    @property
+    def average_attacks(self) -> float:
+        ...
+
+    @property
+    def average_resources_looted(self) -> float:
+        ...
+
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeasonMember:
         ...
 
@@ -528,6 +536,10 @@ class ClanCapitalRaidSeason(BaseModel):
         ...
 
     @property
+    def offensive_reward(self) -> int:
+        ...
+
+    @property
     def members(self) -> Missing | ClanCapitalRaidSeasonMemberList:
         """
         member list
@@ -536,6 +548,15 @@ class ClanCapitalRaidSeason(BaseModel):
         :rtype:     ClanCapitalRaidSeasonMemberList
         """
         ...
+
+    @property
+    def average_attacks_per_member(self) -> float:
+        ...
+
+    @property
+    def average_resources_looted_per_member(self) -> float:
+        ...
+
 
 
 class ClanCapitalRaidSeasons(IterBaseModel):
@@ -546,6 +567,30 @@ class ClanCapitalRaidSeasons(IterBaseModel):
     """
 
     _iter_rtype = ClanCapitalRaidSeason
+
+    @property
+    def average_capital_total_loot(self) -> float:
+        ...
+
+    @property
+    def average_raids_completed(self) -> float:
+        ...
+
+    @property
+    def average_total_attacks(self) -> float:
+        ...
+
+    @property
+    def average_enemy_districts_destroyed(self) -> float:
+        ...
+
+    @property
+    def average_defensive_reward(self) -> float:
+        ...
+
+    @property
+    def average_offensive_reward(self) -> float:
+        ...
 
     def __getitem__(self, item: int | str) -> ClanCapitalRaidSeason:
         ...

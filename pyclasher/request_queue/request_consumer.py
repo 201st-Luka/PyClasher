@@ -3,9 +3,9 @@ from json import dumps
 
 from aiohttp import ClientSession, ClientTimeout
 
-from ..utils import ExecutionTimer
-from ..exceptions import ApiExceptions, MISSING, RequestTimeout
 from ..api.models import ClientError
+from ..exceptions import ApiExceptions, MISSING, RequestTimeout
+from ..utils import ExecutionTimer
 
 
 class PConsumer:

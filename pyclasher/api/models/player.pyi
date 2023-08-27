@@ -229,6 +229,10 @@ class Player(BaseModel):
         ...
 
     @property
+    def average_hero_level(self) -> float:
+        ...
+
+    @property
     def spells(self) -> PlayerItemLevelList:
         ...
 

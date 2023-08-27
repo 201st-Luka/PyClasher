@@ -35,3 +35,14 @@ class ClanCurrentWarRequest(RequestModel, ClanWar):
         self = await cls(base_clan.tag).request()
         return self
 
+    async def request(self, client_id=None):
+        await super().request(client_id)
+
+        self._data['clan']['members'] = sorted(
+            self._data['clan']['members'],
+            key=lambda member: member['mapPosition']
+        )
+        self._data['opponent']['members'] = sorted(
+            self._data['opponent']['members'],
+            key=lambda member: member['mapPosition']
+        )

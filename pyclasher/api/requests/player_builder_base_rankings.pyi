@@ -1,7 +1,8 @@
 from typing import Iterator
 
 from .abc import IterRequestModel
-from ..models import PlayerBuilderBaseRanking, PlayerBuilderBaseRankingList, Location
+from ..models import PlayerBuilderBaseRanking, PlayerBuilderBaseRankingList, \
+    Location
 
 
 class PlayerBuilderBaseRankingsRequest(IterRequestModel):

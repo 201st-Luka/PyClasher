@@ -10,33 +10,35 @@ requested data.
 
 ---
 
-I am planning to release the package on pypi.org after my exams. This is probably in the first week of september.
+I am planning to release the package on pypi.org after my exams. This is 
+probably in the first week of september.
 
 The package is still in development and will be finished as short as
-possible for me. When the package covers the 
-whole ClashOfClans API, the repository will be transformed into
-a python package and will be available for everyone. 
+possible for me. When the package covers the whole ClashOfClans API, the 
+repository will be transformed into a python package and will be available for 
+everyone. 
 
-If you have any questions, feel free to join my discord server 
-to ask you question. 
+If you have any questions, feel free to join my discord server to ask your 
+question. 
 
 ## Installation
 
-It is possible to install the package from GitHib releases. You can use the following command to add PyClasher to your library:
+It is possible to install the package from GitHib releases. You can use the 
+following command to add PyClasher to your library:
 ```bash
-pip install git+https://github.com/201st-Luka/PyClasher.git@v0.0.1-alpha3
+pip install git+https://github.com/201st-Luka/PyClasher.git@v1.0.0-alpha1
 ```
 
 ---
 
 ## Features
  - Asynchronous and parallel requesting
- - Possibility to use multiple tokens and to login via email address 
-and password of the ClashOfClans developer portal
- - Control over the number of requests per second and the number of 
-used tokens
+ - Possibility to use multiple tokens and to login via email address and 
+password of the ClashOfClans developer portal
+ - Control over the number of requests per second and the number of used tokens
  - Open source
- - Documented and type hinted
+ - Type hinted
+ - Sopports Python 3.8 -> 3.11
 
 ---
 
@@ -44,15 +46,14 @@ used tokens
 
 Feel free to contribute to the repository. 
 
-You can fork the repository and commit your changes in a pull request. Please consider to check out the 
-[Discord server][discord_url] if so.
+You can fork the repository and commit your changes in a pull request. Please 
+consider to check out the [Discord server][discord_url] if so.
 
 ---
 
 ## Future
 
-I'm planning to keep the API wrapper up to date and improve it as
-good as I can. 
+I'm planning to keep the API wrapper up to date and improve it as good as I can. 
 
 ### Planned features
 
@@ -67,23 +68,20 @@ good as I can.
 
 ### Planned code implementations (ToDo-list)
 
-- `total_wars` attribute for `ClanWarLogEntry`
-- war log filtering for `ClanWarLogRequest` (for example filter the number of attacks per member)
-- some "average" attributes for `Clan`-classes, `WarLog`-classes, ...
-- attributes `king`, `queen`, `warden`, `royal_champion` for the `Player.heroes` attribute
-- autosort for the `ClanCurrentWarRequest` members of the `member_list` attribute (sorted by the map position)
+- attributes `king`, `queen`, `warden`, `royal_champion` for the 
+`Player.heroes` attribute
 - events and an `EventClient`
 
 ---
 
-If you find a bug, an error or want custom functionality, please tell
-me via Discord or open an issue or start a discussion on the 
-GitHub-repository.
+If you find a bug, an error or want custom functionality, please tell me via 
+Discord or open an issue or start a discussion on the GitHub-repository.
 
 ---
 
 ##### Disclaimer
-This material is unofficial and is not endorsed by Supercell. For more information see Supercell's Fan Content Policy:
+This material is unofficial and is not endorsed by Supercell. For more 
+information see Supercell's Fan Content Policy:
 www.supercell.com/fan-content-policy.
 
 
