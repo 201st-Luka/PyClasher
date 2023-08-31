@@ -21,18 +21,10 @@ class BulkRequestModel:
             if isinstance(prop, property)
         }
 
-    async def _async_request(self):
+    async def request(self):
         self._tasks = [request.request() for request in self._requests]
         await gather(*self._tasks)
         return self
-
-    def request(self):
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return run(self._async_request())
-        else:
-            return self._async_request()
 
     def __len__(self):
         return len(self._requests)

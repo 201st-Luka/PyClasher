@@ -38,7 +38,7 @@ password of the ClashOfClans developer portal
  - Control over the number of requests per second and the number of used tokens
  - Open source
  - Type hinted
- - Sopports Python 3.8 -> 3.11
+ - Supports Python 3.8 -> 3.11
 
 ---
 
@@ -58,7 +58,6 @@ I'm planning to keep the API wrapper up to date and improve it as good as I can.
 ### Planned features
 
 - more bulk requests
-- pytests for the models
 - events
 
 ### Planned utils

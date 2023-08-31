@@ -52,7 +52,7 @@ class BulkRequestModel:
         """
         ...
 
-    async def _async_request(self) -> BulkRequestModel:
+    async def request(self) -> BulkRequestModel:
         """
         asynchronous method that executes the requests
 
@@ -60,18 +60,6 @@ class BulkRequestModel:
         :rtype:     BulkRequestModel
         """
         self._tasks = [request.request() for request in self._requests]
-        ...
-
-    def request(self) -> BulkRequestModel | Coroutine[Any, Any, BulkRequestModel]:
-        """
-        method that executes the request
-
-        this method can be used in an asynchronous context using the ``await`` keyword
-        but can also be used in non-asynchronous context without awaiting the method
-
-        :return:    the instance of the model
-        :rtype:     BulkRequestModel | Coroutine[Any, Any, BulkRequestModel]
-        """
         ...
 
     def __len__(self) -> int:

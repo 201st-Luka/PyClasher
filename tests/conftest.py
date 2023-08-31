@@ -4,8 +4,8 @@ from asyncio import new_event_loop
 
 from pyclasher import Client
 
-from ..constants import (CLASH_OF_CLANS_LOGIN_EMAIL,
-                         CLASH_OF_CLANS_LOGIN_PASSWORD)
+from tests.constants import (CLASH_OF_CLANS_LOGIN_EMAIL,
+                             CLASH_OF_CLANS_LOGIN_PASSWORD)
 
 
 @pytest.fixture(scope="package")

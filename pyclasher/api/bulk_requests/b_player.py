@@ -21,7 +21,7 @@ class PlayerBulkRequest(BulkRequestModel):
         return self._tags
 
     @classmethod
-    async def _async_from_clan(cls, clan):
+    async def from_clan(cls, clan):
         if isinstance(clan, Clan) and clan.member_list is not MISSING:
             members = clan.member_list
         elif isinstance(clan, BaseClan):
@@ -29,15 +29,6 @@ class PlayerBulkRequest(BulkRequestModel):
         else:
             members = await ClanMembersRequest(clan).request()
         return cls.from_member_list(members)
-
-    @classmethod
-    def from_clan(cls, clan):
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return run(cls._async_from_clan(clan))
-        else:
-            return cls._async_from_clan(clan)
 
     @classmethod
     def from_member_list(cls, member_list):
