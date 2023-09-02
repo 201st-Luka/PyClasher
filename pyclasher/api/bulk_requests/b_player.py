@@ -13,7 +13,6 @@ class PlayerBulkRequest(BulkRequestModel):
     def __init__(self, tags):
         self._tags = tags
         self._requests = list(self._request_model(tag) for tag in self.tags)
-        self._main_attribute = self.tags
         return
 
     @property

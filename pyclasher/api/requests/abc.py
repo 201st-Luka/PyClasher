@@ -17,7 +17,6 @@ class RequestModel:
     """
 
     _data = MISSING
-    _main_attribute = None
     _url = None
     _url_kwargs = None
     _len = None

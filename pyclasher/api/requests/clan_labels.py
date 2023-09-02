@@ -8,5 +8,4 @@ class ClanLabelsRequest(IterRequestModel):
 
     def __init__(self):
         super().__init__("labels/clans")
-        self._main_attribute = ""
         return

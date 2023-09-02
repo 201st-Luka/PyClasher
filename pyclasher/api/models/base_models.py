@@ -41,7 +41,6 @@ class IconUrl(ImageUrl):
 class IconUrls(BaseModel):
     def __init__(self, data: dict):
         super().__init__(data)
-        self._main_attribute = self.small
         return
 
     @property

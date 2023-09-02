@@ -6,7 +6,6 @@ from ..enums import ClanWarState
 class WarStatus(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.clan_tag
         return
 
     @property

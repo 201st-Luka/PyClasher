@@ -15,7 +15,6 @@ class PlayerClan(BaseClan):
 class LegendLeagueTournamentSeasonResult(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.id
         return
 
     @property
@@ -136,7 +135,6 @@ class PlayerAchievementProgressList(IterBaseModel):
 class Player(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.tag
         return
 
     @property

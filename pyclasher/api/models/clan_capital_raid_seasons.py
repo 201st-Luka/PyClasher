@@ -5,7 +5,6 @@ from .base_models import BadgeUrls, BaseClanMember, Time
 class ClanCapitalRaidSeasonClanInfo(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.tag
         return
 
     @property
@@ -28,7 +27,6 @@ class ClanCapitalRaidSeasonClanInfo(BaseModel):
 class ClanCapitalRaidSeasonAttacker(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.tag
         return
 
     @property
@@ -43,7 +41,6 @@ class ClanCapitalRaidSeasonAttacker(BaseModel):
 class ClanCapitalRaidSeasonAttack(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.destruction_percent
         return
 
     @property
@@ -66,7 +63,6 @@ class ClanCapitalRaidSeasonAttackList(IterBaseModel):
 class ClanCapitalRaidSeasonDistrict(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.name
         return
 
     @property
@@ -192,7 +188,6 @@ class ClanCapitalRaidSeasonMemberList(IterBaseModel):
 class ClanCapitalRaidSeason(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.raids_completed
         return
 
     @property

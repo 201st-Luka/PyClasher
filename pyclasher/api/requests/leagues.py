@@ -16,5 +16,4 @@ class LeaguesRequest(IterRequestModel):
                              'after': after,
                              'before': before
                          })
-        self._main_attribute = self._len
         return

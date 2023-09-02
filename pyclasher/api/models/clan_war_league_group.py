@@ -38,7 +38,6 @@ class ClanWarLeagueClanMemberList(IterBaseModel):
 class ClanWarLeagueClan(BaseClan):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.tag
         return
 
     @property
@@ -63,7 +62,6 @@ class ClanWarLeagueClanList(IterBaseModel):
 class ClanWarLeagueGroup(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.tag
         return
 
     @property

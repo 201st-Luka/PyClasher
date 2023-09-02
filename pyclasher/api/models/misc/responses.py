@@ -5,7 +5,6 @@ from ..enums import TokenStatus
 class VerifyTokenResponse(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.tag
         return
 
     @property
@@ -24,7 +23,6 @@ class VerifyTokenResponse(BaseModel):
 class DeepLinkCreationResponse(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.link
         return
 
     @property

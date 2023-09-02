@@ -9,14 +9,11 @@ class BulkRequestModel:
 
     :cvar   _request_model:     the request model that is used to make the bulk request
     :type   _request_model:     Any
-    :cvar   _main_attribute:    the main attribute used for the string representation (default is None)
-    :type   _main_attribute:    Any
     :cvar   _requests:          list of requests
     :type   _requests:          list
     """
 
     _request_model: Any = ...
-    _main_attribute: Any = None
     _requests: list = None
 
     @property

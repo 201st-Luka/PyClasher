@@ -20,7 +20,6 @@ class ClanCurrentWarRequest(RequestModel, ClanWar):
                               "clans/{clan_tag}/currentwar",
                               clan_tag=self.clan_tag)
         ClanWar.__init__(self, None)
-        self._main_attribute = self.clan_tag
         return
 
     @classmethod

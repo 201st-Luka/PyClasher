@@ -22,5 +22,4 @@ class LeagueSeasonRequest(IterRequestModel):
                              'after': after,
                              'before': before
                          })
-        self._main_attribute = league_id
         return

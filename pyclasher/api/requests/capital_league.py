@@ -8,5 +8,4 @@ class CapitalLeagueRequest(RequestModel, CapitalLeague):
                               league_id=league_id)
         CapitalLeague.__init__(self, None)
         self.league_id = league_id
-        self._main_attribute = self.league_id
         return

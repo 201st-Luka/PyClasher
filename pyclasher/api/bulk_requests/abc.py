@@ -3,7 +3,6 @@ from asyncio import gather, get_running_loop, run
 
 class BulkRequestModel:
     _request_model = ...
-    _main_attribute = None
     _requests = None
 
     @property
@@ -46,7 +45,7 @@ class BulkRequestModel:
         return next(self._iter)
 
     def __str__(self):
-        return f"{self.__class__.__name__}({self._main_attribute})"
+        return f"{self.__class__.__name__}()"
 
     def __repr__(self):
         props = ', '.join(

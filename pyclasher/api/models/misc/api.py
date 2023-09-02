@@ -4,7 +4,6 @@ from ..abc import BaseModel
 class ClientError(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.reason
         return
 
     @property
@@ -29,7 +28,6 @@ class Replay(BaseModel):
 
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.replay_tag
         return
 
     @property
@@ -46,7 +44,6 @@ class ServiceVersion(BaseModel):
 
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = (self.major, self.minor)
         return
 
     @property

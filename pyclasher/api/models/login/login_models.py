@@ -22,7 +22,6 @@ class Status(BaseModel):
 class Auth(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.uid
         return
 
     @property

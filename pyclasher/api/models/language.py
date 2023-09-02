@@ -4,7 +4,6 @@ from .abc import BaseModel
 class Language(BaseModel):
     def __init__(self, data: dict):
         super().__init__(data)
-        self._main_attribute = self.id
         return
 
     @property
