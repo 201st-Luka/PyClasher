@@ -20,7 +20,6 @@ class ClanCurrentwarLeaguegroupRequest(RequestModel, ClanWarLeagueGroup):
                               "clans/{clan_tag}/currentwar/leaguegroup",
                               clan_tag=self.clan_tag)
         ClanWarLeagueGroup.__init__(self, None)
-        self._main_attribute = self.clan_tag
         return
 
     @classmethod

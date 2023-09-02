@@ -22,7 +22,6 @@ class ClanRequest(RequestModel, Clan):
                               "clans/{clan_tag}",
                               clan_tag=self.clan_tag)
         Clan.__init__(self, None)
-        self._main_attribute = self.clan_tag
         return
 
     @classmethod

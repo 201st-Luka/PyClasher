@@ -9,14 +9,11 @@ class BulkRequestModel:
 
     :cvar   _request_model:     the request model that is used to make the bulk request
     :type   _request_model:     Any
-    :cvar   _main_attribute:    the main attribute used for the string representation (default is None)
-    :type   _main_attribute:    Any
     :cvar   _requests:          list of requests
     :type   _requests:          list
     """
 
     _request_model: Any = ...
-    _main_attribute: Any = None
     _requests: list = None
 
     @property
@@ -52,26 +49,14 @@ class BulkRequestModel:
         """
         ...
 
-    async def _async_request(self) -> BulkRequestModel:
+    async def request(self, client_id: int | str = None) -> BulkRequestModel:
         """
         asynchronous method that executes the requests
 
         :return:    the instance of the bulk request model
         :rtype:     BulkRequestModel
         """
-        self._tasks = [request.request() for request in self._requests]
-        ...
-
-    def request(self) -> BulkRequestModel | Coroutine[Any, Any, BulkRequestModel]:
-        """
-        method that executes the request
-
-        this method can be used in an asynchronous context using the ``await`` keyword
-        but can also be used in non-asynchronous context without awaiting the method
-
-        :return:    the instance of the model
-        :rtype:     BulkRequestModel | Coroutine[Any, Any, BulkRequestModel]
-        """
+        self._tasks = [request.request(client_id) for request in self._requests]
         ...
 
     def __len__(self) -> int:

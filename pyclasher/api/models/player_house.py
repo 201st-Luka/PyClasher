@@ -5,7 +5,6 @@ from .enums import PlayerHouseElementType
 class PlayerHouseElement(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.id
         return
 
     @property

@@ -17,7 +17,6 @@ class PlayerRequest(RequestModel, Player):
     def __init__(self, player_tag):
         self.player_tag = player_tag
         super().__init__("players/{player_tag}", player_tag=self.player_tag)
-        self._main_attribute = self.player_tag
         return
 
     async def verify_token(self, player_token):

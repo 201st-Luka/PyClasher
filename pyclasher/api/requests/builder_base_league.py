@@ -9,5 +9,4 @@ class BuilderBaseLeagueRequest(RequestModel, BuilderBaseLeague):
                               league_id=league_id)
         BuilderBaseLeague.__init__(self, None)
         self.league_id = league_id
-        self._main_attribute = self.league_id
         return

@@ -11,7 +11,6 @@ request_id: int = 0
 
 class RequestModel(ABC):
     _data: dict = MISSING
-    _main_attribute: Any = None
     _url: str = None
     _url_kwargs: dict | None = None
     _len: int = None

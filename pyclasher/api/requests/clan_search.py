@@ -80,5 +80,4 @@ class ClanSearchRequest(IterRequestModel):
                 'before': before
             }
         )
-        self._main_attribute = self.clan_name
         return

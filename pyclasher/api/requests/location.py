@@ -9,5 +9,4 @@ class LocationRequest(RequestModel, Location):
                               location_id=location_id)
         Location.__init__(self, None)
         self.location_id = location_id
-        self._main_attribute = self.location_id
         return

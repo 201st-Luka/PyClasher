@@ -3,7 +3,6 @@ from asyncio import gather, get_running_loop, run
 
 class BulkRequestModel:
     _request_model = ...
-    _main_attribute = None
     _requests = None
 
     @property
@@ -21,18 +20,10 @@ class BulkRequestModel:
             if isinstance(prop, property)
         }
 
-    async def _async_request(self):
-        self._tasks = [request.request() for request in self._requests]
+    async def request(self, client_id=None):
+        self._tasks = [request.request(client_id) for request in self._requests]
         await gather(*self._tasks)
         return self
-
-    def request(self):
-        try:
-            get_running_loop()
-        except RuntimeError:
-            return run(self._async_request())
-        else:
-            return self._async_request()
 
     def __len__(self):
         return len(self._requests)
@@ -54,7 +45,7 @@ class BulkRequestModel:
         return next(self._iter)
 
     def __str__(self):
-        return f"{self.__class__.__name__}({self._main_attribute})"
+        return f"{self.__class__.__name__}()"
 
     def __repr__(self):
         props = ', '.join(

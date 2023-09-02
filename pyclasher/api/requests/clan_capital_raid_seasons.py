@@ -34,7 +34,6 @@ class ClanCapitalRaidSeasonsRequest(IterRequestModel):
                                       'after': after,
                                       'before': before
                                   })
-        self._main_attribute = self.clan_tag
         return
 
     @property

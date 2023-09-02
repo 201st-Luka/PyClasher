@@ -17,5 +17,4 @@ class ClanRankingsRequest(IterRequestModel):
                              'after': after,
                              'before': before
                          })
-        self._main_attribute = self.location_id
         return

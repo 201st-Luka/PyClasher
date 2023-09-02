@@ -1,6 +1,6 @@
 from typing import Iterable, Coroutine, Any, Iterator
 
-from .b_request_model import BulkRequestModel
+from .abc import BulkRequestModel
 from ..models import BaseClan, ClanMemberList, ClanWarMemberList, \
     ClanWarLeagueClanMemberList, \
     ClanCapitalRaidSeasonMemberList
@@ -43,13 +43,13 @@ class PlayerBulkRequest(BulkRequestModel):
         ...
 
     @classmethod
-    def from_clan(cls, clan: BaseClan | str) -> PlayerBulkRequest | Coroutine[Any, Any, PlayerBulkRequest]:
+    async def from_clan(cls, clan: BaseClan | str, client_id: int | str = None) -> PlayerBulkRequest:
         """
         class method to create an instance using a clan or a clan tag
 
         :param cls:     PlayerBulkRequest
         :param clan:    clan or clan tag
-        :rtype:         PlayerBulkRequest | Coroutine[Any, Any, PlayerBulkRequest]
+        :rtype:         PlayerBulkRequest
         """
         ...
 

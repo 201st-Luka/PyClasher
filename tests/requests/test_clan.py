@@ -4,7 +4,8 @@ from pyclasher import (
     ClanRequest, ClanMembersRequest, Missing, ClanCurrentWarRequest,
     ClanWarLogRequest, ClanSearchRequest, ClanCapitalRaidSeasonsRequest,
     ClanCurrentwarLeaguegroupRequest,
-    RequestNotDone, ClanWarleaguesWarsRequest
+    RequestNotDone, ClanWarleaguesWarsRequest,
+    MISSING
 )
 from pyclasher.api.models import (
     ClanType, WarFrequency, BadgeUrls, WarLeague, CapitalLeague, Language,
@@ -243,6 +244,9 @@ async def test_clan_warleagues_wars(event_loop, pyclasher_client):
     else:
         for league_round in league_group.rounds:
             for war in league_round.war_tags:
+                if war == "#0":
+                    continue
+
                 group = ClanWarleaguesWarsRequest(war)
 
                 await group.request("test_client")
@@ -250,7 +254,12 @@ async def test_clan_warleagues_wars(event_loop, pyclasher_client):
                 assert isinstance(group.to_dict(), dict)
                 assert group.war_tag == war
 
-                assert isinstance(group.state, ClanWarLeagueGroupState)
-                assert isinstance(group.clans, ClanWarLeagueClanList)
-                assert isinstance(group.rounds, ClanWarLeagueRoundList)
-                assert isinstance(group.season, str)
+                assert isinstance(group.state, ClanWarState)
+                assert isinstance(group.clan, WarClan)
+                assert isinstance(group.opponent, WarClan)
+
+                assert group.attacks_per_member == MISSING
+                assert isinstance(group.end_time, Time)
+                assert isinstance(group.team_size, int)
+                assert isinstance(group.preparation_start_time, Time)
+                assert isinstance(group.start_time, Time)

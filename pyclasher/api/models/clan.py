@@ -11,7 +11,6 @@ from .location import Location
 class ClanDistrictData(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.id
         return
 
     @property
@@ -34,7 +33,6 @@ class ClanDistrictDataList(IterBaseModel):
 class ClanCapital(BaseModel):
     def __init__(self, data):
         super().__init__(data)
-        self._main_attribute = self.capital_hall_level
         return
 
     @property
