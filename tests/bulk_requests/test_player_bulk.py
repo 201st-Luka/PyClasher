@@ -16,13 +16,14 @@ from ..constants import TEST_CLAN_TAG
 
 @pytest.mark.asyncio
 async def test_player_bulk(pyclasher_client):
-    player_bulk = await PlayerBulkRequest.from_clan(TEST_CLAN_TAG)
+    player_bulk = await PlayerBulkRequest.from_clan(TEST_CLAN_TAG,
+                                                    "test_client")
 
     assert isinstance(player_bulk.tags, Generator)
     for tag in player_bulk.tags:
         assert isinstance(tag, str)
 
-    await player_bulk.request()
+    await player_bulk.request("test_client")
 
     assert isinstance(player_bulk.requests, list)
     for player in player_bulk:
@@ -46,11 +47,12 @@ async def test_player_bulk(pyclasher_client):
         assert isinstance(player.heroes, PlayerItemLevelList)
         assert isinstance(player.labels, LabelList)
         assert isinstance(player.league, (League, Missing))
-        assert isinstance(player.legend_statistics, PlayerLegendStatistics)
-        assert isinstance(player.player_house, PlayerHouse)
+        assert isinstance(player.legend_statistics,
+                          (Missing, PlayerLegendStatistics))
+        assert isinstance(player.player_house, (Missing, PlayerHouse))
         assert isinstance(player.spells, PlayerItemLevelList)
         assert isinstance(player.town_hall_level, int)
         assert isinstance(player.troops, PlayerItemLevelList)
-        assert isinstance(player.town_hall_weapon_level, int)
+        assert isinstance(player.town_hall_weapon_level, (Missing, int))
         assert isinstance(player.versus_battle_wins, int)
         assert isinstance(player.war_preference, WarPreference)
