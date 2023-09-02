@@ -52,14 +52,14 @@ class BulkRequestModel:
         """
         ...
 
-    async def request(self) -> BulkRequestModel:
+    async def request(self, client_id: int | str = None) -> BulkRequestModel:
         """
         asynchronous method that executes the requests
 
         :return:    the instance of the bulk request model
         :rtype:     BulkRequestModel
         """
-        self._tasks = [request.request() for request in self._requests]
+        self._tasks = [request.request(client_id) for request in self._requests]
         ...
 
     def __len__(self) -> int:

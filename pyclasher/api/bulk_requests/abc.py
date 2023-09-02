@@ -21,8 +21,8 @@ class BulkRequestModel:
             if isinstance(prop, property)
         }
 
-    async def request(self):
-        self._tasks = [request.request() for request in self._requests]
+    async def request(self, client_id=None):
+        self._tasks = [request.request(client_id) for request in self._requests]
         await gather(*self._tasks)
         return self
 
