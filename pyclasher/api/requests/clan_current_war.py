@@ -1,5 +1,5 @@
 from .abc import RequestModel
-from ..models import ClanWar, BaseClan
+from ..models import ClanWar, BaseClan, ClanWarState
 
 
 class ClanCurrentWarRequest(RequestModel, ClanWar):
@@ -37,11 +37,16 @@ class ClanCurrentWarRequest(RequestModel, ClanWar):
     async def request(self, client_id=None):
         await super().request(client_id)
 
-        self._data['clan']['members'] = sorted(
-            self._data['clan']['members'],
-            key=lambda member: member['mapPosition']
-        )
-        self._data['opponent']['members'] = sorted(
-            self._data['opponent']['members'],
-            key=lambda member: member['mapPosition']
-        )
+        if (self.state == ClanWarState.IN_WAR
+                or self.state == ClanWarState.WAR
+                or self.state == ClanWarState.PREPARATION
+                or self.state == ClanWarState.ENDED
+        ):
+            self._data['clan']['members'] = sorted(
+                self._data['clan']['members'],
+                key=lambda member: member['mapPosition']
+            )
+            self._data['opponent']['members'] = sorted(
+                self._data['opponent']['members'],
+                key=lambda member: member['mapPosition']
+            )
