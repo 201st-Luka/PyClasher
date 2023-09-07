@@ -28,7 +28,7 @@ pip install git+https://github.com/201st-Luka/PyClasher.git@v1.0.0-alpha1
 
 ---
 
-##### Disclaimer
+## Disclaimer
 This material is unofficial and is not endorsed by Supercell. For more 
 information see Supercell's Fan Content Policy:
 www.supercell.com/fan-content-policy.
