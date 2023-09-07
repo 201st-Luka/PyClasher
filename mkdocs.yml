@@ -1,5 +1,10 @@
 site_name: PyClasher
 site_url: https://201st-Luka.github.io/pyclasher/
+copyright: Copyright &copy; Copyright (c) 2023 - Present 201st-Luka
+repo_url: https://github.com/201st-Luka/PyClasher
+repo_name: 201st-Luka/PyClasher
+edit_uri: edit/main/docs/
+
 
 nav:
   - Home: index.md
@@ -8,28 +13,48 @@ theme:
   name: material
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
-    - toc.integrate
+    - navigation.instant
+    - navigation.tracking
+    - navigation.path
+    - navigation.prune
     - navigation.top
     - search.suggest
+    - search.share
     - search.highlight
     - content.tabs.link
     - content.code.annotation
     - content.code.copy
   language: en
   palette:
-    - scheme: default
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: orange
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: material/brightness-7
         name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       primary: indigo
       accent: orange
-    - scheme: slate
       toggle:
-        icon: material/toggle-switch
+        icon: material/brightness-3
         name: Switch to light mode
-      primary: indigo
-      accent: orange
+  icon: fontawesome/brands/github
 
 plugins:
-  - search
+  - search:
+      lang: en
+
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/j2PAF9Wru8
+      name: Become part of the 201st Community
+    - icon: fontawesome/brands/github
+      link: https://github.com/201st-Luka/PyClasher
+      name: PyClasher on GitHub
