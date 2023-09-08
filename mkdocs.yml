@@ -3,8 +3,7 @@ site_url: https://201st-Luka.github.io/pyclasher/
 copyright: Copyright &copy; Copyright (c) 2023 - Present 201st-Luka
 repo_url: https://github.com/201st-Luka/PyClasher
 repo_name: 201st-Luka/PyClasher
-edit_uri: edit/main/docs/
-
+docs_dir: docs
 
 nav:
   - Home: index.md
@@ -47,6 +46,24 @@ theme:
 plugins:
   - search:
       lang: en
+  - git-committers:
+      repository: 201st-Luka/PyClasher
+      branch: master
+      token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
+  - mkdocstrings:
+      handlers:
+        python:
+          selection:
+            inherited_members: True
+            filters:
+              - "!^_"
+          rendering:
+            members_order: source
+            show_bases: True
+            show_root_toc_entry: False
+            group_by_category: True
+            heading_level: 3
+            show_if_no_docstring: True
 
 extra:
   version:
