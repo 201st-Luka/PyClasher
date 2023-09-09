@@ -1,4 +1,4 @@
 mkdocs
 mkdocs-material
 mkdocs-git-committers-plugin
-mkdocstrings
+mkdocstrings[python]

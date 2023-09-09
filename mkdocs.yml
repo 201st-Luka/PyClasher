@@ -5,9 +5,6 @@ repo_url: https://github.com/201st-Luka/PyClasher
 repo_name: 201st-Luka/PyClasher
 docs_dir: docs
 
-nav:
-  - Home: index.md
-
 theme:
   name: material
   features:
@@ -51,19 +48,13 @@ plugins:
       branch: master
       token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
   - mkdocstrings:
+      enabled: true
+      custom_templates: templates
+      default_handler: python
       handlers:
         python:
-          selection:
-            inherited_members: True
-            filters:
-              - "!^_"
-          rendering:
-            members_order: source
-            show_bases: True
-            show_root_toc_entry: False
-            group_by_category: True
-            heading_level: 3
-            show_if_no_docstring: True
+          options:
+            show_source: false
 
 extra:
   version:

@@ -1,0 +1,6 @@
+nav:
+    - client.md
+    - exceptions.md
+    - api
+    - request_queue
+    - utils
