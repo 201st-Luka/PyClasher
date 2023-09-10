@@ -10,7 +10,6 @@ theme:
   features:
     - navigation.tabs
     - navigation.tabs.sticky
-    - navigation.sections
     - navigation.instant
     - navigation.tracking
     - navigation.path
@@ -54,7 +53,7 @@ plugins:
       handlers:
         python:
           options:
-            show_source: false
+            show_source: true
 
 extra:
   version:

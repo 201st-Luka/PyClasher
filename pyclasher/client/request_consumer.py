@@ -3,9 +3,9 @@ from json import dumps
 
 from aiohttp import ClientSession, ClientTimeout
 
-from ..api.models import ClientError
-from ..exceptions import ApiExceptions, MISSING, RequestTimeout
-from ..utils import ExecutionTimer
+from pyclasher.api.models import ClientError
+from pyclasher.exceptions import ApiExceptions, MISSING, RequestTimeout
+from pyclasher.utils import ExecutionTimer
 
 
 class PConsumer:
