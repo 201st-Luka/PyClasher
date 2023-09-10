@@ -3,23 +3,54 @@ from sys import stderr
 from typing import Iterable
 from urllib.parse import urlparse
 
-from .exceptions import (InvalidType, ClientIsRunning, ClientIsNotRunning,
-                         NoneToken, MISSING, ClientAlreadyInitialised,
-                         PyClasherException)
-from .request_queue import PConsumer, PQueue
-from .utils.login import Login
+from pyclasher.exceptions import (
+    InvalidType,
+    ClientIsRunning,
+    ClientIsNotRunning,
+    NoneToken,
+    MISSING,
+    ClientAlreadyInitialised,
+    PyClasherException
+)
+from .request_queue import PQueue
+from .request_consumer import PConsumer
+
+from pyclasher.utils.login import Login
 
 
 global_client_id = 0
+"""Global variable for counting and identifying clients"""
 
 
 class Client:
+    """
+    this is the class for the ClashOfClans API client
+
+    Attributes:
+        __instances:            the instances of the client
+        base_url:               the base URL for the requests (usually ``https://api.clashofclans.com``)
+        endpoint:               the endpoint URL for the requests (usually ``/v1``)
+        requests_per_second:    the number of requests done per consumer/token per second (usually 5)
+        logger:                 logger to log the requests, ... (usually MISSING)
+        queue:                  the request_queue where the requests are enqueued
+        __consumers:            list of consumers of the request_queue and requests
+        __consume_tasks:        list of tasks of the consumer
+        __temporary_session:    boolean that indicates if the session is temporary or not
+        __tokens:               list of tokens
+        __client_running:       boolean that indicates if the client is running or not
+    """
+
     __instances = None
+    """List of Client instances or None"""
 
     base_url = "https://api.clashofclans.com"
+    """Base url for all requests"""
     endpoint = "/v1"
+    """Endpoint url for all requests"""
     requests_per_second = 5
+    """Maximal number of requests that are executed per second"""
     logger = MISSING
+    """Logger that logs the requests"""
 
     def __new__(cls, *args, **kwargs):
         if cls.__instances is None:
@@ -51,6 +82,24 @@ class Client:
             logger=MISSING,
             swagger_url=None
     ):
+        """
+        initialisation method for the client
+
+        Args:
+            tokens (str | list[str] | None):    the Bearer tokens for the authentication of the ClashOfClans API
+            requests_per_second (int=5):          This integer limits the number of requests done per second (per token).
+                                                This value is important to bypass the rate limit of the ClashOfClans API.
+                                                More tokens allow more requests per second because each token can do
+                                                as many requests per second as specified.
+                                                Defaults to 5.
+            logger (Logger):                    logger for detailed logging
+                                                Defaults to None
+            swagger_url (str):                  swagger url for requests
+                                                Defaults to None
+        Returns:
+            None
+        """
+
         global global_client_id
 
         if logger is None:
