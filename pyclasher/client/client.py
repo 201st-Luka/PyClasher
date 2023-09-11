@@ -24,7 +24,7 @@ global_client_id = 0
 
 class Client:
     """
-    this is the class for the ClashOfClans API client
+    ClashOfClans API client
 
     Attributes:
         __instances:            the instances of the client
@@ -52,24 +52,38 @@ class Client:
     logger = MISSING
     """Logger that logs the requests"""
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *, tokens=None, **kwargs):
+        """
+        Class method to create a new instance of the Client
+
+        Args:
+            tokens (str | list[str] | None):    the Bearer tokens for the authentication of the ClashOfClans API
+            **kwargs:                           other key word arguments
+
+        Notes:
+            This function checks if all initialised clients do not share a
+            token. If so the ecxeption ``ClientAlreadyInitialised`` is raised.
+
+        Raises:
+            InvalidType
+            ClientAlreadyInitialised
+        """
         if cls.__instances is None:
             cls.__instances = [super().__new__(cls)]
             return cls.__instances[0]
-        if 'tokens' in kwargs:
-            if isinstance(kwargs['tokens'], str):
-                tokens = [kwargs['tokens']]
-            elif isinstance(kwargs['tokens'], Iterable):
-                tokens = list(kwargs['tokens'])
-            else:
-                raise InvalidType(kwargs['tokens'],
-                                  (str, Iterable[str]))
-            for token in tokens:
-                for client in Client.__instances:
-                    if client.__tokens is not None:
-                        if token in client.__tokens:
-                            raise ClientAlreadyInitialised
-                        continue
+        if isinstance(tokens, str):
+            tokens = [tokens]
+        elif isinstance(tokens, Iterable):
+            tokens = list(tokens)
+        else:
+            raise InvalidType(tokens,
+                              (str, Iterable[str]))
+        for token in tokens:
+            for client in Client.__instances:
+                if client.__tokens is not None:
+                    if token in client.__tokens:
+                        raise ClientAlreadyInitialised
+                    continue
 
         cls.__instances.append(super().__new__(cls))
         return cls.__instances[-1]
@@ -87,7 +101,7 @@ class Client:
 
         Args:
             tokens (str | list[str] | None):    the Bearer tokens for the authentication of the ClashOfClans API
-            requests_per_second (int=5):          This integer limits the number of requests done per second (per token).
+            requests_per_second (int):        This integer limits the number of requests done per second (per token).
                                                 This value is important to bypass the rate limit of the ClashOfClans API.
                                                 More tokens allow more requests per second because each token can do
                                                 as many requests per second as specified.
@@ -151,7 +165,7 @@ class Client:
 
         logger.info("initialising client via login")
 
-        self = cls([login.temporary_api_token for login in logins],
+        self = cls(tokens=[login.temporary_api_token for login in logins],
                    requests_per_second=requests_per_second,
                    request_timeout=request_timeout,
                    swagger_url=logins[0].swagger_url)

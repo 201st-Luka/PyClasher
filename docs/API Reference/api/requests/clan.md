@@ -1,0 +1,1 @@
+::: pyclasher.api.requests.clan
