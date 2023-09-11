@@ -2,3 +2,4 @@ mkdocs
 mkdocs-material
 mkdocs-git-committers-plugin
 mkdocstrings[python]
+mkdocs-awesome-pages-plugin
