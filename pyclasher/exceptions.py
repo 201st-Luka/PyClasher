@@ -31,7 +31,7 @@ class ApiException(PyClasherException):
     def __init__(self, api_code, client_error=None, *args, **kwargs):
         self.api_code = api_code
         self.client_error = client_error
-        super.__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         return
 
     def __repr__(self):
@@ -52,7 +52,7 @@ class BadRequest(ApiException):
 
 class AccessDenied(ApiException):
     def __init__(self, client_error=None):
-        super().__init__(400, client_error)
+        super().__init__(403, client_error)
         return
 
     def __str__(self):
@@ -63,7 +63,7 @@ class AccessDenied(ApiException):
 
 class NotFound(ApiException):
     def __init__(self, client_error=None):
-        super().__init__(400, client_error)
+        super().__init__(404, client_error)
         return
 
     def __str__(self):
@@ -72,7 +72,7 @@ class NotFound(ApiException):
 
 class Throttled(ApiException):
     def __init__(self, client_error=None):
-        super().__init__(400, client_error)
+        super().__init__(429, client_error)
         return
 
     def __str__(self):
@@ -82,7 +82,7 @@ class Throttled(ApiException):
 
 class UnknownApiException(ApiException):
     def __init__(self, client_error=None):
-        super().__init__(400, client_error)
+        super().__init__(500, client_error)
         return
 
     def __str__(self):
@@ -91,7 +91,7 @@ class UnknownApiException(ApiException):
 
 class Maintenance(ApiException):
     def __init__(self, client_error=None):
-        super().__init__(400, client_error)
+        super().__init__(503, client_error)
         return
 
     def __str__(self):
@@ -99,20 +99,30 @@ class Maintenance(ApiException):
 
 
 class ApiExceptions:
-    BadRequest = BadRequest
-    AccessDenied = AccessDenied
-    NotFound = NotFound
-    Throttled = Throttled
-    UnknownApiException = UnknownApiException
-    Maintenance = Maintenance
+    BadRequest = BadRequest()
+    AccessDenied = AccessDenied()
+    NotFound = NotFound()
+    Throttled = Throttled()
+    UnknownApiException = UnknownApiException()
+    Maintenance = Maintenance()
 
     @classmethod
     def from_api_code(cls, api_code, client_error=None):
-        for key, value in cls.__dict__.items():
-            if value is ApiException:
-                if value().api_code == api_code:
-                    return value(client_error)
-        raise PyClasherException(f"could not find {api_code} in the API "
+        match api_code:
+            case 400:
+                return BadRequest(client_error)
+            case 403:
+                return AccessDenied(client_error)
+            case 404:
+                return NotFound(client_error)
+            case 429:
+                return Throttled(client_error)
+            case 500:
+                return UnknownApiException(client_error)
+            case 503:
+                return Maintenance(client_error)
+            case _:
+                PyClasherException(f"could not find {api_code} in the API "
                                  f"exceptions")
 
 
