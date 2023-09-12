@@ -108,22 +108,21 @@ class ApiExceptions:
 
     @classmethod
     def from_api_code(cls, api_code, client_error=None):
-        match api_code:
-            case 400:
-                return BadRequest(client_error)
-            case 403:
-                return AccessDenied(client_error)
-            case 404:
-                return NotFound(client_error)
-            case 429:
-                return Throttled(client_error)
-            case 500:
-                return UnknownApiException(client_error)
-            case 503:
-                return Maintenance(client_error)
-            case _:
-                PyClasherException(f"could not find {api_code} in the API "
-                                 f"exceptions")
+        if api_code == 400:
+            return BadRequest(client_error)
+        elif api_code == 403:
+            return AccessDenied(client_error)
+        elif api_code == 404:
+            return NotFound(client_error)
+        elif api_code == 429:
+            return Throttled(client_error)
+        elif api_code == 500:
+            return UnknownApiException(client_error)
+        elif api_code == 503:
+            return Maintenance(client_error)
+        else:
+            PyClasherException(f"could not find {api_code} in the API "
+                               f"exceptions")
 
 
 class RequestNotDone(PyClasherException):
