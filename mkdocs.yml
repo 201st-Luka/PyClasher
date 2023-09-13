@@ -1,0 +1,71 @@
+site_name: PyClasher
+site_url: https://201st-Luka.github.io/pyclasher/
+copyright: Copyright &copy; Copyright (c) 2023 - Present 201st-Luka
+repo_url: https://github.com/201st-Luka/PyClasher
+repo_name: 201st-Luka/PyClasher
+docs_dir: docs
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.instant
+    - navigation.tracking
+    - navigation.path
+    - navigation.prune
+    - navigation.top
+    - search.suggest
+    - search.share
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/brightness-3
+        name: Switch to light mode
+  icon: fontawesome/brands/github
+
+plugins:
+  - search:
+      lang: en
+  - git-committers:
+      repository: 201st-Luka/PyClasher
+      branch: master
+      token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
+  - mkdocstrings:
+      enabled: true
+      custom_templates: templates
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: true
+  - awesome-pages
+
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/j2PAF9Wru8
+      name: Become part of the 201st Community
+    - icon: fontawesome/brands/github
+      link: https://github.com/201st-Luka/PyClasher
+      name: PyClasher on GitHub
+
+watch:
+  - pyclasher

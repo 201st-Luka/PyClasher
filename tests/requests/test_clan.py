@@ -4,8 +4,8 @@ from pyclasher import (
     ClanRequest, ClanMembersRequest, Missing, ClanCurrentWarRequest,
     ClanWarLogRequest, ClanSearchRequest, ClanCapitalRaidSeasonsRequest,
     ClanCurrentwarLeaguegroupRequest,
-    RequestNotDone, ClanWarleaguesWarsRequest,
-    MISSING
+    ClanWarleaguesWarsRequest,
+    MISSING, NotFound
 )
 from pyclasher.api.models import (
     ClanType, WarFrequency, BadgeUrls, WarLeague, CapitalLeague, Language,
@@ -221,7 +221,7 @@ async def test_clan_currentwar_leaguegroup(event_loop, pyclasher_client):
         league_group = ClanCurrentwarLeaguegroupRequest(TEST_CLAN_TAG)
 
         await league_group.request("test_client")
-    except RequestNotDone:
+    except NotFound:
         pass
     else:
         assert isinstance(league_group.to_dict(), dict)
@@ -239,7 +239,7 @@ async def test_clan_warleagues_wars(event_loop, pyclasher_client):
         league_group = ClanCurrentwarLeaguegroupRequest(TEST_CLAN_TAG)
 
         await league_group.request("test_client")
-    except RequestNotDone:
+    except NotFound:
         pass
     else:
         for league_round in league_group.rounds:

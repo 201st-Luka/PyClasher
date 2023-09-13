@@ -3,9 +3,9 @@ from json import dumps
 
 from aiohttp import ClientSession, ClientTimeout
 
-from ..api.models import ClientError
-from ..exceptions import ApiExceptions, MISSING, RequestTimeout
-from ..utils import ExecutionTimer
+from pyclasher.api.models import ClientError
+from pyclasher.exceptions import ApiExceptions, MISSING, RequestTimeout
+from pyclasher.utils import ExecutionTimer
 
 
 class PConsumer:
@@ -49,6 +49,12 @@ class PConsumer:
             future.set_result(MISSING)
             status.set_result(None)
             error.set_result(RequestTimeout(self.timeout))
+        except Exception as exception:
+            future.set_result(MISSING)
+            status.set_result(None)
+            error.set_result(exception)
+            raise exception
+
 
     async def consume(self):
         while True:
