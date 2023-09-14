@@ -42,10 +42,6 @@ theme:
 plugins:
   - search:
       lang: en
-  - git-committers:
-      repository: 201st-Luka/PyClasher
-      branch: master
-      token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
   - mkdocstrings:
       enabled: true
       custom_templates: templates

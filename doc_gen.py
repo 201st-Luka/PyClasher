@@ -13,10 +13,11 @@ def create_markdown_structure(package_path, output_path):
 
     Args:
         package_path (str): The path to the Python package.
-        output_path (str): The path where the directory structure and markdown files will be generated.
+        output_path (str):  The path where the directory structure and markdown
+                            files will be generated.
     """
-    for dirpath, dirnames, filenames in os.walk(package_path):
-        relative_dir = os.path.relpath(dirpath, package_path)
+    for dir_path, _, filenames in os.walk(package_path):
+        relative_dir = os.path.relpath(dir_path, package_path)
         output_dir = os.path.join(output_path, relative_dir)
         os.makedirs(output_dir, exist_ok=True)
 
@@ -35,16 +36,29 @@ def create_markdown_structure(package_path, output_path):
                                                   f"{module_name}.md")
 
                 with open(markdown_file_path, 'w') as markdown_file:
-                    print(f"Creating docs for {import_path}")
+                    print(f"Creating markdown file for {import_path}")
                     markdown_file.write(markdown_content)
 
 
+def copy_contributing(package_path, docs_path):
+    source_file = os.path.join(package_path, "CONTRIBUTING.md")
+    dest_file = os.path.join(docs_path, "CONTRIBUTING.md")
+
+    with open(source_file, 'r') as file:
+        print(f"Reading {source_file}...")
+        contributing = file.read()
+
+    with open(dest_file, 'w') as copy:
+        print(f"Writing {dest_file}...")
+        copy.write(contributing)
+
+
 if __name__ == '__main__':
-    project_dir = get_project_dir()
+    project_dir = os.getcwd()
 
     doc_dir = os.path.join(project_dir, "docs")
 
-    api_ref_dir = os.path.join(doc_dir, "docs/API Reference")
+    api_ref_dir = os.path.join(doc_dir, "API Reference")
     pyclasher_dir = os.path.join(project_dir, "pyclasher")
 
     shutil.rmtree(api_ref_dir)
@@ -52,3 +66,4 @@ if __name__ == '__main__':
     os.mkdir(api_ref_dir)
 
     create_markdown_structure(pyclasher_dir, api_ref_dir)
+    copy_contributing(project_dir, doc_dir)
