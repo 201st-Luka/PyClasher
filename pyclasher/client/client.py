@@ -115,6 +115,8 @@ class Client:
                                                 per second because each token
                                                 can do as many requests per
                                                 second as specified.
+            request_timeout (float):            timeout in seconds for one
+                                                request
             logger (Logger):                    logger for detailed logging
             swagger_url (str):                  swagger url for requests
         Raises:

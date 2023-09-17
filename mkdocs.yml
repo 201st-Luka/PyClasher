@@ -52,6 +52,9 @@ plugins:
             show_source: true
   - awesome-pages
 
+markdown_extensions:
+  - admonition
+
 extra:
   version:
     provider: mike
