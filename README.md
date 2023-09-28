@@ -49,6 +49,8 @@ Feel free to contribute to the repository.
 You can fork the repository and commit your changes in a pull request. Please 
 consider to check out the [Discord server][discord_url] if so.
 
+For more information, please see the [CONTRIBUTING.md](CONTRIBUTING.md) file
+
 ---
 
 ## Future

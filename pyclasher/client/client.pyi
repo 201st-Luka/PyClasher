@@ -1,4 +1,5 @@
 from logging import Logger
+from types import TracebackType
 from typing import Iterable
 
 from ..exceptions import MISSING
@@ -128,7 +129,10 @@ class Client:
     async def __aenter__(self) -> Client:
         ...
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> Client:
+    async def __aexit__(self,
+                        exc_type: type[BaseException] | None,
+                        exc_val: BaseException | None,
+                        exc_tb: TracebackType | None) -> Client:
         ...
 
     def __del__(self) -> None:

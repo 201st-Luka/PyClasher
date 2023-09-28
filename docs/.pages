@@ -1,0 +1,7 @@
+nav:
+  - Home: index.md
+  - API Reference: API Reference
+  - Contributing:
+    - CONTRIBUTING.md
+    - contributors.md
+  - Tutorials: Tutorials

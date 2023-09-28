@@ -58,15 +58,17 @@ class Client:
 
         Args:
             tokens (str | list[str] | None):    the Bearer tokens for the authentication of the ClashOfClans API
-            **kwargs:                           other key word arguments
+            **kwargs (Any):                     other key word arguments
 
         Notes:
             This function checks if all initialised clients do not share a
             token. If so the ecxeption ``ClientAlreadyInitialised`` is raised.
 
         Raises:
-            InvalidType
-            ClientAlreadyInitialised
+            InvalidType:                provided tokens are not of type ``str``
+                                        or ``Iterable[str]``
+            ClientAlreadyInitialised:   at least one of the provided tokens is
+                                        equal to a token that is already in use
         """
         if cls.__instances is None:
             cls.__instances = [super().__new__(cls)]
@@ -100,18 +102,26 @@ class Client:
         initialisation method for the client
 
         Args:
-            tokens (str | list[str] | None):    the Bearer tokens for the authentication of the ClashOfClans API
-            requests_per_second (int):        This integer limits the number of requests done per second (per token).
-                                                This value is important to bypass the rate limit of the ClashOfClans API.
-                                                More tokens allow more requests per second because each token can do
-                                                as many requests per second as specified.
-                                                Defaults to 5.
+            tokens (str | list[str] | None):    the Bearer tokens for the
+                                                authentication of the
+                                                ClashOfClans API
+            requests_per_second (int):          This integer limits the number
+                                                of requests done per second
+                                                (per token).
+                                                This value is important to
+                                                bypass the rate limit of the
+                                                ClashOfClans API.
+                                                More tokens allow more requests
+                                                per second because each token
+                                                can do as many requests per
+                                                second as specified.
+            request_timeout (float):            timeout in seconds for one
+                                                request
             logger (Logger):                    logger for detailed logging
-                                                Defaults to None
             swagger_url (str):                  swagger url for requests
-                                                Defaults to None
-        Returns:
-            None
+        Raises:
+            InvalidType:                provided tokens are not of type ``str``
+                                        or ``Iterable[str]``
         """
 
         global global_client_id
@@ -126,8 +136,8 @@ class Client:
             elif isinstance(tokens, Iterable):
                 self.__tokens = list(tokens)
             else:
-                raise TypeError(f"Expected types str, list got {type(tokens)} "
-                                f"instead")
+                raise InvalidType(tokens,
+                                  (str, Iterable[str]))
 
         if swagger_url is not None:
             parsed_url = urlparse(swagger_url)
@@ -156,6 +166,29 @@ class Client:
     @classmethod
     async def from_login(cls, email, password, requests_per_second=5,
                          request_timeout=30, logger=MISSING, login_count=1):
+        """
+        Class method to initialise a client using the authentication of the
+        ClashOfClans API and create tokens using this API.
+
+        Args:
+            email (str):                user email address to log in to the
+                                        ClashOfClans developer portal
+            password (str):             user password for the email
+            requests_per_second (int):  number of requests per token per second
+            request_timeout (float):    seconds until the request is cancelled
+                                        due to a timeout
+            logger (Logger):            logger
+            login_count (int):          number of logins that should be done
+                                        (having more logins results more tokens
+                                        and this leads to more requests that can
+                                        be executed in parallel)
+        Notes:
+            Do not set the ``login_count`` to high, otherwise the account
+            could be banned. 5 works fine.
+
+        Returns:
+            Client: an instance of the pyclasher client
+        """
         if logger is None:
             logger = MISSING
 
@@ -174,6 +207,28 @@ class Client:
         return self
 
     async def start(self, tokens=None):
+        """
+        coroutine method to start the client
+
+        Args:
+            tokens (str | list[str] | None):    the Bearer tokens for the
+                                                authentication of the
+                                                ClashOfClans API
+
+        Notes:
+            The tokens passed to this function have priority so if tokens are
+            set in the client initialisation and also passed to this function,
+            the tokens passed to this function will be used to start the
+            client and the consumer tasks.
+
+            If it is needed to create multiple clients with the same tokens,
+            it is possible to use this function and pass the tokens directly to
+            the different clients.
+
+        Returns:
+            Client: returns itself
+
+        """
         if tokens is None:
             tokens = self.__tokens
 
@@ -206,6 +261,12 @@ class Client:
         return self
 
     async def close(self):
+        """
+        coroutine method to stop the client
+
+        Returns:
+            Client: returns itself
+        """
         self.logger.info("closing client")
         if not self.__client_running:
             self.logger.error("the client is not running")
@@ -224,13 +285,36 @@ class Client:
         return self
 
     async def __aenter__(self):
+        """
+        asynchronous context manager (starting)
+
+        Returns:
+            Client: returns itself
+        """
         return await self.start()
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """
+        asynchronous context manager (stopping)
+
+        Args:
+            exc_type (type[BaseException]): type of the exception or ``None``
+            exc_val (BaseException):        the raised exception or ``None``
+            exc_tb (TracebackType):         the traceback or ``None``
+        """
         await self.close()
         return
 
     def __del__(self):
+        """
+        del method of the client
+
+        Notes:
+            Calling ``client_instance.__del__()`` will instantly delete the
+            client but ``del client_instance`` will initiate the deleting
+            process of the client instance and the client may be accessible
+            for a short time after the call.
+        """
         Client.__instances.remove(self)
         if not len(Client.__instances):
             Client.__instances = None
@@ -245,30 +329,56 @@ class Client:
         return
 
     @property
-    def is_running(self) -> bool:
+    def is_running(self):
+        """
+        Returns:
+            bool:   ``True`` if the client is running
+            bool:   ``False`` if the client is not running
+        """
         return self.__client_running
 
     @property
     def client_id(self):
+        """
+        Getter of the client ID
+
+        Returns:
+            int:    the integer value of the client ID (only if the client ID is
+                    an integer)
+            str:    the string value of the client ID (only if the client ID is
+                    a string)
+        """
         return self._client_id
 
     @client_id.setter
     def client_id(self, new_id):
-        global global_client_id
-        if isinstance(new_id, str) and new_id.isdigit():
-            new_id = int(new_id)
+        """
+        Setter of the client ID
 
-        if not isinstance(new_id, (int, str)):
-            raise TypeError(f"Expected types int, str got {type(new_id)} "
-                            f"instead.")
-        for client in Client.__instances:
-            if client.client_id == new_id:
-                raise ValueError(f"`new_id` {new_id} has already been taken "
-                                 f"and must be different")
+        Args:
+            new_id (str):   new custom ID of the client
+
+        Raises:
+            PyClasherException: the new custom ID must be a string and must not
+                                contain a string value that is a digit
+            PyClasherException: `new_id` must not contain spaces
+            PyClasherException: `new_id` {new_id} has already been
+                                taken and must be different
+        """
+        global global_client_id
+        if not isinstance(new_id, str) or new_id.isdigit():
+            raise PyClasherException("The new custom ID must be a string and "
+                                     "must not contain a string value that is a"
+                                     " digit")
 
         if isinstance(new_id, str):
             if " " in new_id:
                 raise PyClasherException("`new_id` must not contain spaces")
+
+        for client in Client.__instances:
+            if client.client_id == new_id:
+                raise PyClasherException(f"`new_id` {new_id} has already been "
+                                         f"taken and must be different")
 
         self._client_id = new_id
 
@@ -276,6 +386,24 @@ class Client:
 
     @classmethod
     def get_instance(cls, client_id=None):
+        """
+        Getter of a client
+
+        Args:
+            client_id (int | str):  ID of a specific client or ``None``
+
+        Returns:
+            None:       no client initialised
+            Client:     the first client if ``client_id`` is ``None``
+            Client:     the client with the same ID as ``client_id``
+            MISSING:    no client with the same ID as ``client_id`` was found
+
+        Notes:
+            If ``client_id`` is left empty, the method is going to return the
+            first initialised client instance. Otherwise, the method is going to
+            return the client that has the same client ID as specified in
+            ``client_id``.
+        """
         if cls.__instances is None:
             return None
         clients = [client
@@ -292,4 +420,12 @@ class Client:
 
     @classmethod
     def initialized(cls):
+        """
+        Class method that returns a bool indicating if the ``Client``-class has
+        been initialised on or multiple times
+
+        Returns:
+            bool:   ``True`` if a client has been initialised,
+                    ``False`` otherwise
+        """
         return isinstance(cls.__instances, list)
