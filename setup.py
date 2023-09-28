@@ -9,7 +9,7 @@ with open('requirements.txt') as requirements_txt:
 with open('README.md', 'r', encoding='utf-8') as readme_md:
     readme = readme_md.read()
 
-packages = find_packages(where="pyclasher")
+packages = find_packages(exclude=["testing", "tests"])
 
 setup(
     name='pyclasher',
