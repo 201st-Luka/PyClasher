@@ -15,6 +15,7 @@ setup(
     name='pyclasher',
     version=pyclasher.__version__,
     author='201st-Luka',
+    author_email='201stLuka@gmail.com',
     description='pyclasher - an object-oriented wrapper client for Python '
                 'that provides easy access to the requested data',
     long_description=readme,
@@ -24,17 +25,18 @@ setup(
     tests_require=[
         'pytest',
     ],
-    url='https://github.com/your-username/your-repo',
+    url='https://github.com/201st-Luka/PyClasher',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Framework :: AsyncIO',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.10',
         'Topic :: Games/Entertainment',
     ],
     keywords='python async clashofclans api wrapper',
-    python_requires='>=3.11',
+    python_requires='>=3.10',
     package_data={package: ['*.pyi'] for package in packages}
 )
