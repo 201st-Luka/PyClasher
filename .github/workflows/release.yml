@@ -36,7 +36,7 @@ jobs:
           echo "Package version: $VERSION"
           echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
       - name: Upload
-        run: python3 -m twine upload -u __token__ -p ${{ secrets.TEST_PYPI_TOKEN }} --repository testpypi dist/*
+        run: python3 -m twine upload -u __token__ -p ${{ secrets.TEST_PYPI_TOKEN }} --repository testpypi --skip-existing dist/*
       - name: Test
         run: pip install -i -i https://test.pypi.org/simple/ pyclasher==$PACKAGE_VERSION
       - name: Upload
