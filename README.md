@@ -23,10 +23,10 @@ question.
 
 ## Installation
 
-It is possible to install the package from GitHib releases. You can use the 
-following command to add PyClasher to your library:
+The package is available on pypi.org. It is possible to install it via the 
+following command:
 ```bash
-pip install git+https://github.com/201st-Luka/PyClasher.git@v1.0.0-alpha1
+pip install pyclasher
 ```
 
 ---
