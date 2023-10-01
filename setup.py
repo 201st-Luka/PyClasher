@@ -5,6 +5,7 @@ import pyclasher
 
 with open('requirements.txt') as requirements_txt:
     requirements = requirements_txt.read().splitlines()
+    print(requirements)
 
 with open('README.md', 'r', encoding='utf-8') as readme_md:
     readme = readme_md.read()
@@ -16,7 +17,7 @@ setup(
     version=pyclasher.__version__,
     author='201st-Luka',
     author_email='201stLuka@gmail.com',
-    description='pyclasher - an object-oriented wrapper client for Python '
+    description='PyClasher - an object-oriented wrapper client for Python '
                 'that provides easy access to the requested data',
     long_description=readme,
     long_description_content_type='text/markdown',
