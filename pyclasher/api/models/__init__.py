@@ -1,11 +1,7 @@
 """
 ClashOfClans API models
 """
-# abc
-from .abc import (
-    BaseModel,
-    IterBaseModel
-)
+
 # base models, miscellaneous models and enums
 from .base_models import (
     ImageUrl,
@@ -166,11 +162,9 @@ __all__ = (
     'WarClan',
     'PlayerRankingClan',
     'PlayerRanking',
-    'IterBaseModel',
     'BaseClan',
     'ClanWarAttack',
     'Village',
-    'BaseModel',
     'Player',
     'PlayerClan',
     'Location',

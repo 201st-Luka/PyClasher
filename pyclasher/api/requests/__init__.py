@@ -2,7 +2,6 @@
 requests that can be used
 """
 
-from .abc import RequestModel, IterRequestModel, request_id
 from .builder_base_league import BuilderBaseLeagueRequest
 from .builder_base_leagues import BuilderBaseLeaguesRequest
 from .capital_league import CapitalLeagueRequest
@@ -33,35 +32,35 @@ from .player_rankings import PlayerRankingsRequest
 from .war_league import WarLeagueRequest
 from .war_leagues import WarLeaguesRequest
 
-__all__ = (
-    "BuilderBaseLeagueRequest",
-    "BuilderBaseLeaguesRequest",
-    "CapitalLeagueRequest",
-    "CapitalLeaguesRequest",
-    "CapitalRankingsRequest",
-    "ClanRequest",
-    "ClanBuilderBaseRankingsRequest",
-    "ClanCapitalRaidSeasonsRequest",
-    "ClanCurrentWarRequest",
-    "ClanCurrentwarLeaguegroupRequest",
-    "ClanLabelsRequest",
-    "ClanMembersRequest",
-    "ClanRankingsRequest",
-    "ClanSearchRequest",
-    "ClanWarLogRequest",
-    "ClanWarleaguesWarsRequest",
-    "GoldPassRequest",
-    "LeagueRequest",
-    "LeagueSeasonRequest",
-    "LeagueSeasonsRequest",
-    "LeaguesRequest",
-    "LocationRequest",
-    "LocationsRequest",
-    "PlayerRequest",
-    "PlayerBuilderBaseRankingsRequest",
-    "PlayerLabelsRequest",
-    "PlayerRankingsRequest",
-    "WarLeagueRequest",
-    "WarLeaguesRequest"
-)
 
+__all__ = (
+    'WarLeagueRequest',
+    'WarLeaguesRequest',
+    'CapitalLeagueRequest',
+    'CapitalLeaguesRequest',
+    'CapitalRankingsRequest',
+    'BuilderBaseLeagueRequest',
+    'BuilderBaseLeaguesRequest',
+    'PlayerLabelsRequest',
+    'PlayerRankingsRequest',
+    'LeaguesRequest',
+    'LocationRequest',
+    'PlayerRequest',
+    'LocationsRequest',
+    'LeagueSeasonsRequest',
+    'PlayerBuilderBaseRankingsRequest',
+    'LeagueRequest',
+    'ClanRequest',
+    'GoldPassRequest',
+    'LeagueSeasonRequest',
+    'ClanSearchRequest',
+    'ClanRankingsRequest',
+    'ClanLabelsRequest',
+    'ClanMembersRequest',
+    'ClanWarLogRequest',
+    'ClanWarleaguesWarsRequest',
+    'ClanCurrentwarLeaguegroupRequest',
+    'ClanCurrentWarRequest',
+    'ClanCapitalRaidSeasonsRequest',
+    'ClanBuilderBaseRankingsRequest',
+)

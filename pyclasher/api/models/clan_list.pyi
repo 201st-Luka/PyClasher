@@ -5,7 +5,7 @@ from .clan import Clan
 
 
 __all__ = (
-    'ClanList1',
+    'ClanList',
 )
 
 
