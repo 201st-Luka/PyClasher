@@ -1,6 +1,11 @@
 from typing import Any, Coroutine, Iterator, Generator
 
 
+__all__ = (
+    'BulkRequestModel',
+)
+
+
 class BulkRequestModel:
     """
     bulk request base model
@@ -15,6 +20,9 @@ class BulkRequestModel:
 
     _request_model: Any = ...
     _requests: list = None
+
+    def __init__(self):
+        self._tasks: list[Coroutine] = ...
 
     @property
     def request_model(self) -> Any:

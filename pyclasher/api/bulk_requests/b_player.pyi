@@ -1,10 +1,19 @@
-from typing import Iterable, Coroutine, Any, Iterator
+from typing import Iterable, Iterator
 
 from .abc import BulkRequestModel
-from ..models import BaseClan, ClanMemberList, ClanWarMemberList, \
-    ClanWarLeagueClanMemberList, \
+from ..models import (
+    BaseClan,
+    ClanMemberList,
+    ClanWarMemberList,
+    ClanWarLeagueClanMemberList,
     ClanCapitalRaidSeasonMemberList
+)
 from ..requests import PlayerRequest, ClanMembersRequest
+
+
+__all__ = (
+    'PlayerBulkRequest',
+)
 
 
 class PlayerBulkRequest(BulkRequestModel):
