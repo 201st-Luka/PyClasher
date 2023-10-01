@@ -29,6 +29,14 @@ following command:
 pip install pyclasher
 ```
 
+## Documentation
+
+The documentation of this project is available on 
+[PyClasher's GitHub pages][pyclasher_doc].
+
+> **_NOTE:_** The documentation is not fully completed yet. It is still in 
+> progress.
+
 ---
 
 ## Features
@@ -92,3 +100,4 @@ www.supercell.com/fan-content-policy.
 [discord_url]: https://discord.gg/j2PAF9Wru8
 [last_commit_shield]: https://img.shields.io/github/last-commit/201st-Luka/HeadhunterBot
 [headhunterbot_url]: https://github.com/201st-Luka/HeadhunterBot
+[pyclasher_doc]: https://201st-luka.github.io/PyClasher/
