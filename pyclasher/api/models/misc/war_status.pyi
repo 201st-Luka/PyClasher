@@ -5,6 +5,12 @@ from ..base_models import Time
 from ..enums import ClanWarState
 
 
+__all__ = (
+    'WarStatus',
+    'WarStatusList'
+)
+
+
 class WarStatus(BaseModel):
     """
     war status model

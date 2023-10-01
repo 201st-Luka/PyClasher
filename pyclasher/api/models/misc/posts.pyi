@@ -1,3 +1,9 @@
+__all__ = (
+    'VerifyTokenRequest',
+    'DeepLinkCreationRequest'
+)
+
+
 class VerifyTokenRequest:
     """
     verify token request model

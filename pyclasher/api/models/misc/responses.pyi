@@ -2,6 +2,12 @@ from ..abc import BaseModel
 from ..enums import TokenStatus
 
 
+__all__ = (
+    'VerifyTokenResponse',
+    'DeepLinkCreationResponse'
+)
+
+
 class VerifyTokenResponse(BaseModel):
     """
     response model for the verify token request

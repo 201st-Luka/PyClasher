@@ -1,3 +1,9 @@
+__all__ = (
+    'VerifyTokenRequest',
+    'DeepLinkCreationRequest'
+)
+
+
 class VerifyTokenRequest:
     def __init__(self, token):
         self.token = token
