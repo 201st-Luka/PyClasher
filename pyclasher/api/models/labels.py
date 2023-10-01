@@ -2,6 +2,12 @@ from .abc import BaseModel, IterBaseModel
 from .base_models import IconUrls
 
 
+__all__ = (
+    'Label',
+    'LabelList',
+)
+
+
 class Label(BaseModel):
     def __init__(self, data):
         super().__init__(data)

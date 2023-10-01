@@ -3,6 +3,12 @@ from typing import Iterator
 from .abc import BaseModel, IterBaseModel
 
 
+__all__ = (
+    'ClanCapitalRankingList',
+    'ClanCapitalRanking',
+)
+
+
 class ClanCapitalRanking(BaseModel):
     """
     clan capital ranking model

@@ -4,6 +4,13 @@ from .abc import BaseModel, IterBaseModel
 from .enums import PlayerHouseElementType
 
 
+__all__ = (
+    'PlayerHouse',
+    'PlayerHouseElement',
+    'PlayerHouseElementList',
+)
+
+
 class PlayerHouseElement(BaseModel):
     @property
     def id(self) -> int:

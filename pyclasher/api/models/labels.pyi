@@ -4,6 +4,12 @@ from .abc import BaseModel, IterBaseModel
 from .base_models import IconUrls
 
 
+__all__ = (
+    'Label',
+    'LabelList',
+)
+
+
 class Label(BaseModel):
     @property
     def name(self) -> str:

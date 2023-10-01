@@ -2,6 +2,15 @@ from .abc import BaseModel, IterBaseModel
 from .base_models import BaseClanMember, BaseClan
 
 
+__all__ = (
+    'ClanWarAttack',
+    'ClanWarAttackList',
+    'ClanWarMember',
+    'ClanWarMemberList',
+    'WarClan',
+)
+
+
 class ClanWarAttack(BaseModel):
     def __init__(self, data):
         super().__init__(data)

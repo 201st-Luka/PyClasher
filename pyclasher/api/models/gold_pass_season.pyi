@@ -2,6 +2,11 @@ from .abc import BaseModel
 from .base_models import Time
 
 
+__all__ = (
+    'GoldPassSeason',
+)
+
+
 class GoldPassSeason(BaseModel):
     """
     gold pass season model

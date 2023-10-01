@@ -5,6 +5,12 @@ from .leagues import BuilderBaseLeague
 from .player_ranking_clan import PlayerRankingClan
 
 
+__all__ = (
+    'PlayerBuilderBaseRanking',
+    'PlayerBuilderBaseRankingList',
+)
+
+
 class PlayerBuilderBaseRanking(BaseModel):
     @property
     def builder_base_league(self) -> BuilderBaseLeague:

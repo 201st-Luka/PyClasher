@@ -4,6 +4,11 @@ from .abc import IterBaseModel
 from .clan import Clan
 
 
+__all__ = (
+    'ClanList1',
+)
+
+
 class ClanList(IterBaseModel):
     """
     clan list model

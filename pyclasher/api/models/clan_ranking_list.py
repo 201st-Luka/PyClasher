@@ -3,6 +3,12 @@ from .base_models import BadgeUrls
 from .location import Location
 
 
+__all__ = (
+    'ClanRanking',
+    'ClanRankingList',
+)
+
+
 class ClanRanking(BaseModel):
     @property
     def clan_level(self):

@@ -2,6 +2,24 @@ from .abc import BaseModel, IterBaseModel
 from .base_models import BadgeUrls, BaseClanMember, Time
 
 
+__all__ = (
+    'ClanCapitalRaidSeason',
+    'ClanCapitalRaidSeasonClanInfo',
+    'ClanCapitalRaidSeasonAttack',
+    'ClanCapitalRaidSeasonAttacker',
+    'ClanCapitalRaidSeasonAttackList',
+    'ClanCapitalRaidSeasonAttackLogEntry',
+    'ClanCapitalRaidSeasonAttackLogList',
+    'ClanCapitalRaidSeasonDefenseLogEntry',
+    'ClanCapitalRaidSeasonDefenseLogList',
+    'ClanCapitalRaidSeasonDistrict',
+    'ClanCapitalRaidSeasonDistrictList',
+    'ClanCapitalRaidSeasonMember',
+    'ClanCapitalRaidSeasonMemberList',
+    'ClanCapitalRaidSeasons',
+)
+
+
 class ClanCapitalRaidSeasonClanInfo(BaseModel):
     def __init__(self, data):
         super().__init__(data)
