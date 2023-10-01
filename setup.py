@@ -5,12 +5,12 @@ import pyclasher
 
 with open('requirements.txt') as requirements_txt:
     requirements = requirements_txt.read().splitlines()
-    print(requirements)
 
 with open('README.md', 'r', encoding='utf-8') as readme_md:
     readme = readme_md.read()
 
-packages = find_packages(exclude=["testing", "tests"])
+packages = find_packages(exclude=["testing*", "tests*"])
+print(packages)
 
 setup(
     name='pyclasher',
@@ -23,9 +23,9 @@ setup(
     long_description_content_type='text/markdown',
     packages=packages,
     install_requires=requirements,
-    tests_require=[
-        'pytest',
-    ],
+    # tests_require=[
+    #     'pytest',
+    # ],
     url='https://github.com/201st-Luka/PyClasher',
     classifiers=[
         'Development Status :: 5 - Production/Stable',

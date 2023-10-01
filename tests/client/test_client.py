@@ -4,7 +4,8 @@ from asyncio import Queue
 
 from pyclasher import Client
 
-from .constants import CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD
+from ..constants import (CLASH_OF_CLANS_LOGIN_EMAIL,
+                         CLASH_OF_CLANS_LOGIN_PASSWORD)
 
 
 @pytest.mark.tryfirst
