@@ -8,6 +8,11 @@ from ...exceptions import ClientIsNotRunning
 from ...utils.request_methods import RequestMethods
 
 
+__all__ = (
+    'PlayerRequest',
+)
+
+
 class PlayerRequest(RequestModel, Player):
     """
     Get information about a single player by player tag. Player tags can be

@@ -2,6 +2,11 @@ from .abc import IterRequestModel
 from ..models import Location, LocationList
 
 
+__all__ = (
+    'LocationsRequest',
+)
+
+
 class LocationsRequest(IterRequestModel):
     _iter_rtype = Location
     _list_rtype = LocationList

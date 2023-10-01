@@ -2,6 +2,11 @@ from .abc import RequestModel
 from ..models import League
 
 
+__all__ = (
+    'LeagueRequest',
+)
+
+
 class LeagueRequest(RequestModel, League):
     def __init__(self, league_id):
         RequestModel.__init__(self,

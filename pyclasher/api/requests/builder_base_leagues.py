@@ -2,6 +2,11 @@ from .abc import IterRequestModel
 from ..models import BuilderBaseLeagueList, BuilderBaseLeague
 
 
+__all__ = (
+    'BuilderBaseLeaguesRequest',
+)
+
+
 class BuilderBaseLeaguesRequest(IterRequestModel):
     _iter_rtype = BuilderBaseLeague
     _list_rtype = BuilderBaseLeagueList

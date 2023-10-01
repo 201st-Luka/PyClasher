@@ -4,6 +4,11 @@ from .abc import IterRequestModel
 from ..models import CapitalLeagueList, CapitalLeague
 
 
+__all__ = (
+    'CapitalLeaguesRequest',
+)
+
+
 class CapitalLeaguesRequest(IterRequestModel):
     _iter_rtype = CapitalLeague
     _list_rtype = CapitalLeagueList

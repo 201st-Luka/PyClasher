@@ -2,6 +2,11 @@ from .abc import RequestModel
 from ..models import Clan, BaseClan
 
 
+__all__ = (
+    'ClanRequest',
+)
+
+
 class ClanRequest(RequestModel, Clan):
     """
     Get information about a single clan by clan tag.

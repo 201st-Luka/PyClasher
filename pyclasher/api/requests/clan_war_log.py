@@ -7,6 +7,11 @@ from ...exceptions import RequestNotDone
 from ...utils import snake_to_camel
 
 
+__all__ = (
+    'ClanWarLogRequest',
+)
+
+
 class ClanWarLogRequest(IterRequestModel):
     """
     Retrieve clan's clan war log.

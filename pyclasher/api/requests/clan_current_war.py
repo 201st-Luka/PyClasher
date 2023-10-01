@@ -2,6 +2,11 @@ from .abc import RequestModel
 from ..models import ClanWar, BaseClan, ClanWarState
 
 
+__all__ = (
+    'ClanCurrentWarRequest',
+)
+
+
 class ClanCurrentWarRequest(RequestModel, ClanWar):
     """
     Retrieve information about clan's current clan war
