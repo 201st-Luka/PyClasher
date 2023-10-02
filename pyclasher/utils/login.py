@@ -6,6 +6,11 @@ from ..api.models.login import LoginModel
 from ..exceptions import MISSING, LoginNotDone, InvalidLoginData
 
 
+__all__ = (
+    'Login',
+)
+
+
 class Login(LoginModel):
     login_url = "https://developer.clashofclans.com/api/login"
     __response = None

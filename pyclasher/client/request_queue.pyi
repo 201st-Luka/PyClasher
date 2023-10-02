@@ -3,6 +3,11 @@ from asyncio import Queue, Future
 from ..utils.request_methods import RequestMethods
 
 
+__all__ = (
+    'PQueue',
+)
+
+
 class PQueue(Queue):
     async def put(self,
                   future: Future,

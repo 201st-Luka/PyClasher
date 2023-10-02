@@ -8,6 +8,11 @@ from pyclasher.exceptions import ApiExceptions, MISSING, RequestTimeout
 from pyclasher.utils import ExecutionTimer
 
 
+__all__ = (
+    'PConsumer',
+)
+
+
 class PConsumer:
     def __init__(self, queue, token, requests_per_s, request_timeout, url):
         self.queue = queue
@@ -54,7 +59,6 @@ class PConsumer:
             status.set_result(None)
             error.set_result(exception)
             raise exception
-
 
     async def consume(self):
         while True:
