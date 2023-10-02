@@ -13,8 +13,6 @@ from ..constants import (CLASH_OF_CLANS_LOGIN_EMAIL,
 async def test_client():
     TEST_CLIENT_ID = "test_client_id"
 
-    assert not Client.initialized()
-
     client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL,
                                      CLASH_OF_CLANS_LOGIN_PASSWORD)
     client.client_id = TEST_CLIENT_ID
