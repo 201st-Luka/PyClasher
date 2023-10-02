@@ -2,7 +2,7 @@ from typing import Generator
 
 import pytest
 
-from pyclasher.api import League
+from pyclasher.api.models import League
 from pyclasher.api.bulk_requests import PlayerBulkRequest
 from pyclasher.api.models import (
     WarPreference, PlayerItemLevelList, PlayerHouse, PlayerLegendStatistics,
