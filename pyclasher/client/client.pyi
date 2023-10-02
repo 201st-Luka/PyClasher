@@ -5,6 +5,12 @@ from typing import Iterable
 from ..exceptions import MISSING
 from .request_queue import PQueue
 
+
+__all__ = (
+    'Client',
+)
+
+
 global_client_id: int = ...
 
 

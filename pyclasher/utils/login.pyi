@@ -4,6 +4,11 @@ from ..api.models.login import LoginModel
 from ..exceptions import Missing
 
 
+__all__ = (
+    'Login',
+)
+
+
 class Login(LoginModel):
     """
     class to log in via the ClashOfClans login API

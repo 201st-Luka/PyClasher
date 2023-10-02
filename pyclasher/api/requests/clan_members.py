@@ -2,6 +2,11 @@ from .abc import IterRequestModel
 from ..models import ClanMember, ClanMemberList
 
 
+__all__ = (
+    'ClanMembersRequest',
+)
+
+
 class ClanMembersRequest(IterRequestModel):
     """
     List clan members.

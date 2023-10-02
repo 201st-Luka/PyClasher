@@ -6,6 +6,13 @@ from ..abc import BaseModel
 from ....exceptions import Missing
 
 
+__all__ = (
+    'ClientError',
+    'Replay',
+    'ServiceVersion'
+)
+
+
 class ClientError(BaseModel):
     """
     client error model

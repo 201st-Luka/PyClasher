@@ -6,6 +6,13 @@ from ...client import Client
 from ...exceptions import MISSING, Missing
 from ...utils import RequestMethods
 
+
+__all__ = (
+    'RequestModel',
+    'IterRequestModel',
+)
+
+
 request_id: int = 0
 
 

@@ -3,6 +3,12 @@ from .leagues import League
 from .player_ranking_clan import PlayerRankingClan
 
 
+__all__ = (
+    'PlayerRanking',
+    'PlayerRankingList',
+)
+
+
 class PlayerRanking(BaseModel):
     @property
     def league(self):

@@ -2,6 +2,12 @@ from ..abc import BaseModel
 from ..enums import TokenStatus
 
 
+__all__ = (
+    'VerifyTokenResponse',
+    'DeepLinkCreationResponse'
+)
+
+
 class VerifyTokenResponse(BaseModel):
     def __init__(self, data):
         super().__init__(data)

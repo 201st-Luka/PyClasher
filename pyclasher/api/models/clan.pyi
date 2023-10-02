@@ -14,6 +14,14 @@ from .location import Location
 from ...exceptions import Missing
 
 
+__all__ = (
+    'Clan',
+    'ClanCapital',
+    'ClanDistrictData',
+    'ClanDistrictDataList',
+)
+
+
 class ClanDistrictData(BaseModel):
     """
     clan district data model

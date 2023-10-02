@@ -5,6 +5,24 @@ from .base_models import BaseClanMember, BaseClan, Time
 from ...exceptions import Missing
 
 
+__all__ = (
+    'ClanCapitalRaidSeason',
+    'ClanCapitalRaidSeasonClanInfo',
+    'ClanCapitalRaidSeasonAttack',
+    'ClanCapitalRaidSeasonAttacker',
+    'ClanCapitalRaidSeasonAttackList',
+    'ClanCapitalRaidSeasonAttackLogEntry',
+    'ClanCapitalRaidSeasonAttackLogList',
+    'ClanCapitalRaidSeasonDefenseLogEntry',
+    'ClanCapitalRaidSeasonDefenseLogList',
+    'ClanCapitalRaidSeasonDistrict',
+    'ClanCapitalRaidSeasonDistrictList',
+    'ClanCapitalRaidSeasonMember',
+    'ClanCapitalRaidSeasonMemberList',
+    'ClanCapitalRaidSeasons',
+)
+
+
 class ClanCapitalRaidSeasonClanInfo(BaseClan):
     """
     clan capital raid season clan info model

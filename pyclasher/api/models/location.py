@@ -1,6 +1,12 @@
 from .abc import IterBaseModel, BaseModel
 
 
+__all__ = (
+    'Location',
+    'LocationList',
+)
+
+
 class Location(BaseModel):
     def __init__(self, data):
         super().__init__(data)

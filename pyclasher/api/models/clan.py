@@ -8,6 +8,14 @@ from .leagues import WarLeague, CapitalLeague
 from .location import Location
 
 
+__all__ = (
+    'Clan',
+    'ClanCapital',
+    'ClanDistrictData',
+    'ClanDistrictDataList',
+)
+
+
 class ClanDistrictData(BaseModel):
     def __init__(self, data):
         super().__init__(data)

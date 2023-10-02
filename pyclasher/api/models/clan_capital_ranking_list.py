@@ -1,6 +1,12 @@
 from .abc import BaseModel, IterBaseModel
 
 
+__all__ = (
+    'ClanCapitalRankingList',
+    'ClanCapitalRanking',
+)
+
+
 class ClanCapitalRanking(BaseModel):
     @property
     def clan_points(self):

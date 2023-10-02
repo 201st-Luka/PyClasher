@@ -1,9 +1,17 @@
-from asyncio import gather, get_running_loop, run
+from asyncio import gather
+
+
+__all__ = (
+    'BulkRequestModel',
+)
 
 
 class BulkRequestModel:
     _request_model = ...
     _requests = None
+
+    def __init__(self):
+        self._tasks = None
 
     @property
     def request_model(self):
@@ -29,7 +37,8 @@ class BulkRequestModel:
         return len(self._requests)
 
     def __getitem__(self, item):
-        self._requests[0].to_dict()         # test if the `to_dict()` method raises `RequestNotDone`
+        self._requests[0].to_dict()
+        # test if the `to_dict()` method raises `RequestNotDone`
         if isinstance(item, int):
             return self._requests[item]
         if isinstance(item, slice):

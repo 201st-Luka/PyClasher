@@ -2,6 +2,11 @@ from .abc import RequestModel
 from ..models import ClanWar
 
 
+__all__ = (
+    'ClanWarleaguesWarsRequest',
+)
+
+
 class ClanWarleaguesWarsRequest(RequestModel, ClanWar):
     """
     Retrieve information about individual clan war league war

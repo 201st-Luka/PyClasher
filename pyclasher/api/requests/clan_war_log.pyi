@@ -5,6 +5,11 @@ from ..models import ClanWarLog, ClanWarLogEntry
 from ..models.enums import ClanWarResult
 
 
+__all__ = (
+    'ClanWarLogRequest',
+)
+
+
 class ClanWarLogRequest(IterRequestModel):
     clan_tag: str = None
     _iter_rtype = ClanWarLogEntry

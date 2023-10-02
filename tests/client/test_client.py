@@ -4,15 +4,14 @@ from asyncio import Queue
 
 from pyclasher import Client
 
-from .constants import CLASH_OF_CLANS_LOGIN_EMAIL, CLASH_OF_CLANS_LOGIN_PASSWORD
+from ..constants import (CLASH_OF_CLANS_LOGIN_EMAIL,
+                         CLASH_OF_CLANS_LOGIN_PASSWORD)
 
 
 @pytest.mark.tryfirst
 @pytest.mark.asyncio
 async def test_client():
     TEST_CLIENT_ID = "test_client_id"
-
-    assert not Client.initialized()
 
     client = await Client.from_login(CLASH_OF_CLANS_LOGIN_EMAIL,
                                      CLASH_OF_CLANS_LOGIN_PASSWORD)

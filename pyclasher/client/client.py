@@ -18,6 +18,11 @@ from .request_consumer import PConsumer
 from pyclasher.utils.login import Login
 
 
+__all__ = (
+    'Client',
+)
+
+
 global_client_id = 0
 """Global variable for counting and identifying clients"""
 

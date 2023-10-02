@@ -2,6 +2,11 @@ from .abc import IterRequestModel
 from ..models import PlayerRanking, PlayerRankingList, Season
 
 
+__all__ = (
+    'LeagueSeasonRequest',
+)
+
+
 class LeagueSeasonRequest(IterRequestModel):
     _iter_rtype = PlayerRanking
     _list_rtype = PlayerRankingList

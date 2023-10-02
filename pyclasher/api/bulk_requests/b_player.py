@@ -1,5 +1,3 @@
-from asyncio import get_running_loop, run
-
 from .abc import BulkRequestModel
 from ..models import BaseClan
 from ..models import Clan
@@ -7,10 +5,16 @@ from ..requests import PlayerRequest, ClanMembersRequest
 from ...exceptions import MISSING
 
 
+__all__ = (
+    'PlayerBulkRequest'
+)
+
+
 class PlayerBulkRequest(BulkRequestModel):
     _request_model = PlayerRequest
 
     def __init__(self, tags):
+        super().__init__()
         self._tags = tags
         self._requests = list(self._request_model(tag) for tag in self.tags)
         return

@@ -1,6 +1,10 @@
 from .abc import IterRequestModel
 from ..models import ClanCapitalRaidSeasons, ClanCapitalRaidSeason
 
+__all__ = (
+    'ClanCapitalRaidSeasonsRequest',
+)
+
 
 class ClanCapitalRaidSeasonsRequest(IterRequestModel):
     """

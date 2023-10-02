@@ -2,6 +2,11 @@ from .abc import RequestModel
 from ..models import ClanWarLeagueGroup, BaseClan
 
 
+__all__ = (
+    'ClanCurrentwarLeaguegroupRequest',
+)
+
+
 class ClanCurrentwarLeaguegroupRequest(RequestModel, ClanWarLeagueGroup):
     clan_tag: str = None
 

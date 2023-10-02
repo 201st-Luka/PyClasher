@@ -8,6 +8,12 @@ from ...exceptions import PyClasherException
 from ...utils.functions import snake_to_camel
 
 
+__all__ = (
+    'ClanWarLog',
+    'ClanWarLogEntry',
+)
+
+
 class ClanWarLogEntry(BaseModel):
     @property
     def clan(self):

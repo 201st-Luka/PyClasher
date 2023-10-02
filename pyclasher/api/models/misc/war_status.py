@@ -3,6 +3,12 @@ from ..base_models import Time
 from ..enums import ClanWarState
 
 
+__all__ = (
+    'WarStatus',
+    'WarStatusList'
+)
+
+
 class WarStatus(BaseModel):
     def __init__(self, data):
         super().__init__(data)

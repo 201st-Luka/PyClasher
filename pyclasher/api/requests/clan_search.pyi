@@ -4,6 +4,11 @@ from .abc import IterRequestModel
 from ..models import ClanList, WarFrequency, Locations, Labels, Clan
 
 
+__all__ = (
+    'ClanSearchRequest',
+)
+
+
 class ClanSearchRequest(IterRequestModel):
     clan_name: str = None
     _iter_rtype = Clan

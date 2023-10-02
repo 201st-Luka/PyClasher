@@ -8,6 +8,13 @@ from ...exceptions import (NoClient, ClientIsNotRunning, RequestNotDone,
                            MISSING, InvalidClientId)
 from ...utils.request_methods import RequestMethods
 
+
+__all__ = (
+    'RequestModel',
+    'IterRequestModel',
+)
+
+
 request_id = 0
 
 

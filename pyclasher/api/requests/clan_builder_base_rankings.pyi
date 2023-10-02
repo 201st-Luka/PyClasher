@@ -5,6 +5,11 @@ from ..models import ClanBuilderBaseRanking, ClanBuilderBaseRankingList, \
     Location
 
 
+__all__ = (
+    'ClanBuilderBaseRankingsRequest',
+)
+
+
 class ClanBuilderBaseRankingsRequest(IterRequestModel):
     _iter_rtype = ClanBuilderBaseRanking
     _list_rtype = ClanBuilderBaseRankingList

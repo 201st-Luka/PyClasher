@@ -6,6 +6,12 @@ from .enums import ClanWarResult
 from .war_clan import WarClan
 
 
+__all__ = (
+    'ClanWarLog',
+    'ClanWarLogEntry',
+)
+
+
 class ClanWarLogEntry(BaseModel):
     """
     clan war log entry model

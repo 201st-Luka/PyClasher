@@ -1,6 +1,11 @@
 from ...exceptions import InvalidSeasonFormat
 
 
+__all__ = (
+    'Season',
+)
+
+
 class Season:
     def __init__(self, year, month):
         self.year = year

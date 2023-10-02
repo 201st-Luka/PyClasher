@@ -1,6 +1,11 @@
 from .abc import BaseModel
 
 
+__all__ = (
+    'Language',
+)
+
+
 class Language(BaseModel):
     def __init__(self, data: dict):
         super().__init__(data)

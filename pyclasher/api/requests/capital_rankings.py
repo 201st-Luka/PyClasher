@@ -2,6 +2,11 @@ from .abc import IterRequestModel
 from ..models import ClanCapitalRanking, ClanCapitalRankingList, Location
 
 
+__all__ = (
+    'CapitalRankingsRequest',
+)
+
+
 class CapitalRankingsRequest(IterRequestModel):
     _iter_rtype = ClanCapitalRanking
     _list_rtype = ClanCapitalRankingList

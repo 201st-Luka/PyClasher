@@ -1,6 +1,14 @@
 from ..abc import BaseModel
 
 
+__all__ = (
+    'Status',
+    'Auth',
+    'Developer',
+    'LoginModel'
+)
+
+
 class Status(BaseModel):
     """
     class representing the status of the ClashOfClans API login

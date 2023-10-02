@@ -4,6 +4,11 @@ from .abc import IterRequestModel
 from ..models import ClanMember, ClanMemberList
 
 
+__all__ = (
+    'ClanMembersRequest',
+)
+
+
 class ClanMembersRequest(IterRequestModel):
     _iter_rtype = ClanMember
     _list_rtype = ClanMemberList

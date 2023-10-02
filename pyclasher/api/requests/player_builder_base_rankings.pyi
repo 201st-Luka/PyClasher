@@ -5,6 +5,11 @@ from ..models import PlayerBuilderBaseRanking, PlayerBuilderBaseRankingList, \
     Location
 
 
+__all__ = (
+    'PlayerBuilderBaseRankingsRequest',
+)
+
+
 class PlayerBuilderBaseRankingsRequest(IterRequestModel):
     _iter_rtype = PlayerBuilderBaseRanking
     _list_rtype = PlayerBuilderBaseRankingList

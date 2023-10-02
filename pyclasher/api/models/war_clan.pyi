@@ -4,6 +4,15 @@ from .abc import BaseModel, IterBaseModel
 from .base_models import BaseClanMember, BaseClan
 
 
+__all__ = (
+    'ClanWarAttack',
+    'ClanWarAttackList',
+    'ClanWarMember',
+    'ClanWarMemberList',
+    'WarClan',
+)
+
+
 class ClanWarAttack(BaseModel):
     @property
     def order(self) -> int:

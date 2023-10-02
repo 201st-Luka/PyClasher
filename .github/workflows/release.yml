@@ -35,9 +35,9 @@ jobs:
           VERSION=$(python3 -c "import pyclasher; print(pyclasher.__version__)")
           echo "Package version: $VERSION"
           echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
-      - name: Upload
+      - name: Upload to test.pypi.org
         run: python3 -m twine upload -u __token__ -p ${{ secrets.TEST_PYPI_TOKEN }} --repository testpypi --skip-existing dist/*
-      - name: Test
+      - name: Test of release
         run: pip install -i https://test.pypi.org/simple/ pyclasher==$PACKAGE_VERSION
-      - name: Upload
+      - name: Upload to pypi.org
         run: python3 -m twine upload -u __token__ -p ${{ secrets.PYPI_TOKEN }} --repository pypi dist/*

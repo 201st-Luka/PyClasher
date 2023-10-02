@@ -2,6 +2,11 @@ from .abc import RequestModel
 from ..models import ClanWarLeagueGroup
 
 
+__all__ = (
+    'ClanCurrentwarLeaguegroupRequest',
+)
+
+
 class ClanCurrentwarLeaguegroupRequest(RequestModel, ClanWarLeagueGroup):
     """
     Retrieve information about clan's current clan war league group

@@ -2,6 +2,11 @@ from asyncio import sleep
 from time import perf_counter
 
 
+__all__ = (
+    'ExecutionTimer',
+)
+
+
 class ExecutionTimer:
     def __init__(self, min_time=0):
         self._min_time = min_time

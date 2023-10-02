@@ -4,6 +4,11 @@ from .enums import ClanWarState
 from .war_clan import WarClan
 
 
+__all__ = (
+    'ClanWar',
+)
+
+
 class ClanWar(BaseModel):
     @property
     def clan(self) -> WarClan:

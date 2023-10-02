@@ -5,6 +5,11 @@ from aiohttp import ClientSession
 from .request_queue import PQueue
 
 
+__all__ = (
+    'PConsumer',
+)
+
+
 class PConsumer:
     """
     consumer class that consumes the requests and returns the responses of the ClashOfClans API

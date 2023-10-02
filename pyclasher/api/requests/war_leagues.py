@@ -2,6 +2,11 @@ from .abc import IterRequestModel
 from ..models import WarLeagueList, WarLeague
 
 
+__all__ = (
+    'WarLeaguesRequest',
+)
+
+
 class WarLeaguesRequest(IterRequestModel):
     _iter_rtype = WarLeague
     _list_rtype = WarLeagueList

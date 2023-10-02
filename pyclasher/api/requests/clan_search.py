@@ -2,6 +2,11 @@ from .abc import IterRequestModel
 from ..models import ClanList, WarFrequency, Locations, Labels, Clan
 
 
+__all__ = (
+    'ClanSearchRequest',
+)
+
+
 class ClanSearchRequest(IterRequestModel):
     """
     Search all clans by name and/or filtering the results using various criteria.

@@ -4,6 +4,12 @@ from typing import Any
 from ...exceptions import RequestNotDone, MISSING
 
 
+__all__ = (
+    'BaseModel',
+    'IterBaseModel'
+)
+
+
 class BaseModel(ABC):
     def __new__(cls, data=None):
         if data is MISSING:

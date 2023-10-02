@@ -2,6 +2,11 @@ from .abc import IterBaseModel
 from .clan_member import ClanMember
 
 
+__all__ = (
+    'ClanMemberList',
+)
+
+
 class ClanMemberList(IterBaseModel):
     _iter_rtype = ClanMember
 

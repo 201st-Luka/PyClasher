@@ -4,6 +4,11 @@ from .leagues import League, BuilderBaseLeague
 from .player_house import PlayerHouse
 
 
+__all__ = (
+    'ClanMember',
+)
+
+
 class ClanMember(BaseClanMember):
     @property
     def league(self):

@@ -7,6 +7,12 @@ from .abc import IterBaseModel, BaseModel
 from ...exceptions import Missing
 
 
+__all__ = (
+    'Location',
+    'LocationList',
+)
+
+
 class Location(BaseModel):
     """
     location model

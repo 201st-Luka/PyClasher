@@ -1,6 +1,11 @@
 from asyncio import Queue
 
 
+__all__ = (
+    'PQueue',
+)
+
+
 class PQueue(Queue):
     async def put(self,
                   future,

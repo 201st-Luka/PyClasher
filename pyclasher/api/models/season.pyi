@@ -1,3 +1,8 @@
+__all__ = (
+    'Season',
+)
+
+
 class Season:
     def __init__(self, year: int, month: int):
         self.year = year
