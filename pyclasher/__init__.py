@@ -1,5 +1,5 @@
 """
-pyclasher ClashOfClans API wrapper client
+PyClasher -  ClashOfClans API wrapper client
 
 This wrapper client has been created and developed by 201st-Luka.
 
