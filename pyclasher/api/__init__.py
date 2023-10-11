@@ -1,3 +1,8 @@
+"""
+API modules
+"""
+
+
 from .bulk_requests import PlayerBulkRequest
 from .requests import (
     BuilderBaseLeagueRequest,

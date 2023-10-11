@@ -1,3 +1,10 @@
+"""
+client.py file
+
+This file contains the client class.
+"""
+
+
 from asyncio import create_task, run
 from sys import stderr
 from typing import Iterable
@@ -104,7 +111,7 @@ class Client:
             swagger_url=None
     ):
         """
-        initialisation method for the client
+        Initialisation method for the client
 
         Args:
             tokens (str | list[str] | None):    the Bearer tokens for the

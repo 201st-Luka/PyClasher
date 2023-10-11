@@ -25,8 +25,16 @@ class Login(LoginModel):
     developer portal
 
     Attributes:
-        login_url (str):    URL of the ClashOfClans developer portal API
-        __response (dict):  dictionary that saves the response of the API
+        login_url (str):
+            URL of the ClashOfClans developer portal API
+        __response (dict):
+            dictionary that saves the response of the API
+        email (str):
+            email address that has an account on the ClashOfClans
+            developer portal
+        __password (str):
+            password of the ``email`` of the ClashOfClans developer portal
+
 
     Notes:
         This is only intended for testing purpose and not made for
@@ -47,11 +55,6 @@ class Login(LoginModel):
                 arguments
             **kwargs:
                 key word arguments
-            email (str):
-                email address that has an account on the ClashOfClans
-                developer portal
-            __password (str):
-                password of the ``email`` of the ClashOfClans developer portal
         """
         return super().__new__(cls)
 

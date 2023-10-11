@@ -9,7 +9,7 @@ This wrapper client has been created and developed by 201st-Luka.
 .. author:: 201st-Luka
 """
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 from .api.bulk_requests import *
 from .api.requests import *

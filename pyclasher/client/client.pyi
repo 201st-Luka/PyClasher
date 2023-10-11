@@ -1,3 +1,11 @@
+"""
+client.pyi file
+
+
+This file contains the type hints for the client class.
+"""
+
+
 from logging import Logger
 from types import TracebackType
 from typing import Iterable
@@ -56,7 +64,7 @@ class Client:
             swagger_url: str = None
     ) -> None:
         """
-        initialisation method for the client
+        Initialisation method for the client
 
         Args:
             tokens (str | list[str] | None):    the Bearer tokens for the authentication of the ClashOfClans API

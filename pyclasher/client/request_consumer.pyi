@@ -1,3 +1,10 @@
+"""
+request_consumer.pyi file
+
+This file contains the type hints of the consumer of the request queue.
+"""
+
+
 from asyncio import Future
 
 from aiohttp import ClientSession
@@ -12,14 +19,25 @@ __all__ = (
 
 class PConsumer:
     """
-    consumer class that consumes the requests and returns the responses of the ClashOfClans API
+    Consumer class that executes the requests that are enqueued in the
+    request queue.
 
-    :ivar   queue:          the request_queue where the requests are enqueued
-    :type   queue:          Queue
-    :ivar   r_p_s:          allowed number of requests that can be done with one consumer in one second
-    :type   r_p_s:          int
-    :ivar   url:            the base URL for the requests
-    :type   url:            str
+    Attributes:
+        queue (PQueue):
+            the PQueue object that the consumer should consume
+        header (dict):
+            the header dictionary that is sent in every request (it contains
+            the ClashOfClans API token)
+        r_p_s (int):
+            the maximal number of requests that can be executed in a second
+        timeout (float):
+            the maximal duration (in seconds) a single request is allowed
+            to take before getting cancelled
+        wait (float):
+            the waiting duration after every request of this consumer
+            (``1 / r_p_s``)
+        session (ClientSession):
+            the aiohttp client session that is used to do the requests
     """
 
     def __init__(self,
@@ -30,20 +48,21 @@ class PConsumer:
                  url: str
                  ) -> None:
         """
-        initialisation of the request consumer
+        Initialisation method of the consumer class.
 
-        :param  queue:              the request_queue where the requests are enqueued
-        :type   queue:              Queue
-        :param  token:              one ClashOfClans API token
-        :type   token:              str
-        :param  requests_per_s:     allowed number of requests that can be done with one consumer in one second
-        :type   requests_per_s:     int
-        :param  request_timeout:    seconds until the request is cancelled due to a timeout
-        :type   request_timeout:    float
-        :param  url:                the base URL for the requests
-        :type   url:                str
-        :return:                    None
-        :rtype:                     None
+        Args:
+            queue (PQueue):
+                the PQueue object that the consumer should consume
+            token (str):
+                the ClashOfClans API token that the consumer should use to
+                request the data
+            requests_per_s (int):
+                the maximal number of requests that can be executed in a second
+            request_timeout (float | None):
+                the maximal duration (in seconds) a single request is allowed
+                to take before getting cancelled
+            url (str):
+                the URL the requests should be sent to (TLD)
         """
         self.queue = queue
         self.header = {
@@ -60,39 +79,47 @@ class PConsumer:
 
     async def _request(self,
                        future: Future,
-                       url: str, method: str,
+                       url: str,
+                       method: str,
                        body: dict | None,
                        status: Future,
                        error: Future
                        ) -> None:
         """
-        asynchronous method that executes one request
+        coroutine method that executes a request
 
-        :param  future:         the future object of the response
-        :param  url:            the request's parsed url
-        :param  method:         the request method (post or get)
-        :param  body:           optional body (for post requests)
-        :return:                None
-        :rtype:                 None
-        :raise  ApiException:   if the request fails
+        Args:
+            future (asyncio.Future):
+                asyncio future object of the request
+            url (str):
+                parsed URL of the request
+            method (RequestMethod):
+                request method
+            body (dict | None):
+                body that contains some additional information
+            status (asyncio.Future):
+                asyncio future object of the request status
+            error (asyncio.Future):
+                asyncio future object of a possible request error
+
+        Raises:
+            Exception: If any uncaught exception arrives during the request,
+            this method will catch and reraise the exception
         """
         ...
 
     async def consume(self) -> None:
         """
-        asynchronous method that is used as a consuming task that consumes requests forever until stopped
+        coroutine method that stats the consumer unless stopped
 
-        :return:    None
-        :rtype:     None
-        .. note::   uses an infinite while loop, only run it as an asyncio task
+        Notes:
+            This method uses an infinite while loop, only run it as an asyncio
+            task.
         """
         ...
 
     async def close(self) -> None:
         """
-        asynchronous method that closed the consumer
-
-        :return:    None
-        :rtype:     None
+        coroutine method to close the consumer and terminate its sessions
         """
         ...
