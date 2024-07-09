@@ -1,15 +1,14 @@
 """
 pyclasher ClashOfClans API wrapper client
 
-This wrapper client has been created and developed by 201st-Luka.
+This wrapper client was created and is developed by 201st-Luka.
 
-`GitHub <https://github.com/201st-Luka/PyClasher>`_
-`Wiki <https://github.com/201st-Luka/PyClasher/wiki>`_
-
-.. author:: 201st-Luka
+References:
+    GitHub: https://github.com/201st-Luka/PyClasher
+    Wiki:   https://github.com/201st-Luka/PyClasher/wiki
 """
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 from .api import *
 from .client import Client

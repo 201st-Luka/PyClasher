@@ -1,8 +1,5 @@
 """
 This file contains the exception classes for the `PyClasher` package.
-
-Authors:
-    201st-Luka
 """
 from typing import Any
 
