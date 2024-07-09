@@ -1,0 +1,18 @@
+[project]
+name = "pyclasher"
+version = "1.0.1"
+authors = [
+    { name = "201st-Luka", email = "201stLuka@gmail.com" }
+]
+description = "PyClasher is the name of the asynchronous ClashOfClans API. It is an object-oriented wrapper client that provides easy access to the requested data."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: MIT License",
+    "Operating System:: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/201st-Luka/PyClasher"
+Issues = "https://github.com/201st-Luka/PyClasher/issues"
