@@ -53,13 +53,32 @@ class BaseModel:
 
     def _get_data(self, item: str) -> None | Missing | dict | list | int | str | float | bool:
         """
-        getter for the data class attribute that handles errors if the data is not defined
+        Getter for the data class attribute that handles errors if the data is not defined
 
-        :param item:            the key of the dict item
-        :type item:             str
-        :return:                the value of the key or MISSING
-        :rtype:                 dict | list | int | str | float | bool | None | MISSING
-        :raises RequestNotDone: if the data is not defined (MISSING)
+        Args:
+            item (str): the key of the dict item
+
+        Returns:
+            dict:
+                The value of the key or MISSING
+            list:
+                The value of the key or MISSING
+            int:
+                The value of the key or MISSING
+            str:
+                The value of the key or MISSING
+            float:
+                The value of the key or MISSING
+            bool:
+                The value of the key or MISSING
+            None:
+                The value of the key or MISSING
+            MISSING:
+                The value of the key or MISSING
+
+        Raises:
+             RequestNotDone:
+                If the data is not defined (MISSING)
         """
         ...
 
