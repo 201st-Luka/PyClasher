@@ -3,16 +3,16 @@ from random import randint
 import pytest
 
 from pyclasher import MISSING
-from pyclasher.api.requests import (
-    LocationsRequest, LocationRequest, ClanRankingsRequest,
-    ClanBuilderBaseRankingsRequest, PlayerRankingsRequest,
-    PlayerBuilderBaseRankingsRequest, CapitalRankingsRequest
-)
-from pyclasher.api.models import (
+from pyclasher.old_api.models import (
     LocationList, Paging, PlayerRankingList, ClanRankingList,
     ClanCapitalRankingList, PlayerBuilderBaseRankingList,
     ClanBuilderBaseRankingList, League, PlayerRankingClan, Location,
     BadgeUrls, BuilderBaseLeague
+)
+from pyclasher.old_api.requests import (
+    LocationsRequest, LocationRequest, ClanRankingsRequest,
+    ClanBuilderBaseRankingsRequest, PlayerRankingsRequest,
+    PlayerBuilderBaseRankingsRequest, CapitalRankingsRequest
 )
 
 

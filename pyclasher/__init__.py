@@ -10,7 +10,6 @@ References:
 
 __version__ = '1.0.1'
 
-from .api import *
 from .client import Client
 from .exceptions import (
     PyClasherException, ApiException, ApiExceptions, UnknownApiException,
@@ -20,6 +19,7 @@ from .exceptions import (
     ClientAlreadyInitialised, LoginNotDone, InvalidLoginData, InvalidType,
     InvalidTimeFormat, InvalidSeasonFormat, NoneToken
 )
+from .old_api import *
 
 __all__ = (
     "PlayerBulkRequest",

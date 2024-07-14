@@ -1,4 +1,4 @@
-from typing import Any, Coroutine, Iterator, Generator
+from typing import Any, Iterator, Generator
 
 
 class BulkRequestModel:

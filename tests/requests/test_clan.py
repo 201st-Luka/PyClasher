@@ -7,7 +7,7 @@ from pyclasher import (
     ClanWarleaguesWarsRequest,
     MISSING, NotFound
 )
-from pyclasher.api.models import (
+from pyclasher.old_api.models import (
     ClanType, WarFrequency, BadgeUrls, WarLeague, CapitalLeague, Language,
     ClanCapital, LabelList, Location, ClanMemberList, Paging,
     BuilderBaseLeague, League, PlayerHouse, ClanRole, ClanMember,
@@ -16,7 +16,6 @@ from pyclasher.api.models import (
     ClanCapitalRaidSeasonAttackLogList, ClanCapitalRaidSeasonDefenseLogList,
     ClanWarLeagueGroupState, ClanWarLeagueClanList, ClanWarLeagueRoundList
 )
-
 from ..constants import TEST_CLAN_TAG, TEST_CLAN_NAME
 
 

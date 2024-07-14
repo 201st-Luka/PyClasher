@@ -72,7 +72,7 @@ on the Discord server for contribution.
 (`pip install mkdocs-awesome-pages-plugin`)
     You can simply do
     ```bash
-    pip install -r requirements-docs.txt
+    pip install -r requirements-dev.txt
     ```
   In total, you should have installed 7 packages.
 

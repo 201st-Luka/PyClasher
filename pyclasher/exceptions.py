@@ -3,7 +3,7 @@ This file contains the exception classes for the `PyClasher` package.
 """
 from typing import Any
 
-from pyclasher.api.models.misc.api import ClientError
+from pyclasher.old_api.models.misc.api import ClientError
 
 
 class Missing:
@@ -417,5 +417,12 @@ class InvalidClientId(PyClasherException):
     Exception that is raised if a client ID is not valid. It can already been
     taken, or it can be equal to an ID that is in the range of 0 to
     ``global_client_id``.
+    """
+    pass
+
+
+class InvalidModelParams(PyClasherException):
+    """
+    Exception that is raised if a ``ModelDecorator`` is used with invalid parameters.
     """
     pass

@@ -1,4 +1,4 @@
-from typing import Iterable, Coroutine, Any, Iterator
+from typing import Iterable, Iterator
 
 from .abc import BulkRequestModel
 from ..models import BaseClan, ClanMemberList, ClanWarMemberList, \

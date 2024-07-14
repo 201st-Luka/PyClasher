@@ -1,4 +1,4 @@
-from asyncio import gather, get_running_loop, run
+from asyncio import gather
 
 
 class BulkRequestModel:

@@ -7,8 +7,8 @@ from typing import Coroutine, Any
 
 from aiohttp import request
 
-from ..api.models.login import LoginModel
-from ..exceptions import MISSING, LoginNotDone, InvalidLoginData, Missing
+from pyclasher.exceptions import MISSING, LoginNotDone, InvalidLoginData, Missing
+from pyclasher.old_api.models.login import LoginModel
 
 
 class Login(LoginModel):

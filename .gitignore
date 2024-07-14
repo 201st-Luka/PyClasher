@@ -7,3 +7,4 @@ tests/.pytest_cache
 /pyclasher.egg-info/
 /testing/
 /.github/pyclasher_preview.xcf
+/*/generated/

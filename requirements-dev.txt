@@ -1,0 +1,8 @@
+mkdocs
+mkdocs-material
+mkdocstrings[python]
+mkdocs-awesome-pages-plugin
+pytest~=8.2.2
+aiohttp~=3.9.5
+requests~=2.32.3
+PyYAML~=6.0.1

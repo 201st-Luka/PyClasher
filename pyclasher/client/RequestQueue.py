@@ -1,6 +1,6 @@
 from asyncio import Queue, Future
 
-from ..utils.request_methods import RequestMethods
+from ..utils import RequestMethods
 
 
 class PQueue(Queue):
@@ -11,7 +11,7 @@ class PQueue(Queue):
                   body: dict | None,
                   status: Future,
                   error: Future) -> None:
-        ...
-
-    async def get(self) -> tuple[Future, str, RequestMethods, dict | None, Future, Future]:
-        ...
+        # TODO change PQueue to asyncio.Queue
+        return await super().put(
+            (future, request_url, request_method, body, status, error)
+        )

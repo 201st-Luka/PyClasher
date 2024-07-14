@@ -1,19 +1,19 @@
-import pytest
 from random import randint, choices
 
+import pytest
+
 from pyclasher import MISSING
-from pyclasher.api.models import (
+from pyclasher.old_api.models import (
     LeagueList, CapitalLeagueList, BuilderBaseLeagueList, WarLeagueList,
     Paging, IconUrls, LeagueSeasonList, LeagueSeason, PlayerRankingList,
     PlayerRankingClan, Season
 )
-from pyclasher.api.requests import (
+from pyclasher.old_api.requests import (
     LeaguesRequest, CapitalLeaguesRequest, BuilderBaseLeaguesRequest,
     WarLeaguesRequest, LeagueRequest, CapitalLeagueRequest,
     BuilderBaseLeagueRequest, WarLeagueRequest, LeagueSeasonRequest,
     LeagueSeasonsRequest
 )
-
 
 Seasons = (
     "2015-07", "2015-08", "2015-09", "2015-10", "2015-11", "2015-12",

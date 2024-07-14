@@ -2,15 +2,14 @@ from typing import Generator
 
 import pytest
 
-from pyclasher.api import League
-from pyclasher.api.bulk_requests import PlayerBulkRequest
-from pyclasher.api.models import (
+from pyclasher.exceptions import Missing
+from pyclasher.old_api import League
+from pyclasher.old_api.bulk_requests import PlayerBulkRequest
+from pyclasher.old_api.models import (
     WarPreference, PlayerItemLevelList, PlayerHouse, PlayerLegendStatistics,
     LabelList, ClanRole, BuilderBaseLeague, PlayerAchievementProgressList,
     PlayerClan
 )
-from pyclasher.exceptions import Missing
-
 from ..constants import TEST_CLAN_TAG
 
 
