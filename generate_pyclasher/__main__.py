@@ -26,9 +26,9 @@ if __name__ == '__main__':
     email, password = environ.get("EMAIL") or parsed_args.email, environ.get("PASSWORD") or parsed_args.password
 
     if not email:
-        raise ValueError("Email is required, provide it as an argument or as an environment variable ('EMAIL').")
+        exit("Email is required, provide it as an argument or as an environment variable ('EMAIL').")
     if not password:
-        raise ValueError("Password is required, provide it as an argument or as an environment variable ('PASSWORD').")
+        exit("Password is required, provide it as an argument or as an environment variable ('PASSWORD').")
 
     with NamedTemporaryFile("w", encoding="utf-8", delete_on_close=False) as tmp_file:
         run(get_yaml(email, password, tmp_file.name))
