@@ -6,10 +6,6 @@ from aiohttp import ClientSession
 from .generate import generate
 
 
-def create_session():
-    return
-
-
 async def login(session: ClientSession, email: str, password: str):
     async with session.post("/api/login", json={
         "email": email,
