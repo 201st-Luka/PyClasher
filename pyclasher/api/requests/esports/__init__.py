@@ -1,0 +1,3 @@
+"""
+Esports related APIs
+"""
