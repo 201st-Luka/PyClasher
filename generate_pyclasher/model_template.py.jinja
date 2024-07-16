@@ -1,0 +1,11 @@
+"""
+``{{ class_name }}`` class
+"""
+
+{% for module, module_values in imports.items() %}from {{ module_values['import_level'] * '.' }}.{{ module }} import {{ ", ".join(module_values['imports']) }}
+{% endfor %}
+
+@ModelWrapper(main_attributes={{ main_attributes }}, exclude_annotations={{ exclude_annotations }})
+class{{ class_name }}(Model):
+    {% for annotation in annotations %}{{ annotation['name'] }}: {{ annotation['type'] }}
+    {% endfor %}
