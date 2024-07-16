@@ -5,9 +5,9 @@
 from ...model_abc import Model, ModelWrapper
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['tag'], exclude_annotations=None)
 class PlayerClan(Model):
-    tag: str
+    badge_urls: dict
     clan_level: int
     name: str
-    badge_urls: dict
+    tag: str

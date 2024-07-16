@@ -3,11 +3,11 @@
 """
 
 from .String import String
-from ...model_abc import ArrayIterator, Model, ModelWrapper
+from ...model_abc import Model, ModelWrapper, ArrayIterator
 
 
 @ModelWrapper(main_attributes=None, exclude_annotations=None)
 class DeepLinkCreationRequest(Model):
-    player_tags: ArrayIterator[String]
     clan_tag: str
     opponent_clan_tag: str
+    player_tags: ArrayIterator[String]

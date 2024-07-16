@@ -8,19 +8,19 @@ from .PlayerHouse import PlayerHouse
 from ...model_abc import Model, ModelWrapper
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['tag'], exclude_annotations=None)
 class ClanMember(Model):
-    league: League
     builder_base_league: BuilderBaseLeague
-    tag: str
-    name: str
-    role: str
-    town_hall_level: int
-    exp_level: int
+    builder_base_trophies: int
     clan_rank: int
-    previous_clan_rank: int
     donations: int
     donations_received: int
-    trophies: int
-    builder_base_trophies: int
+    exp_level: int
+    league: League
+    name: str
     player_house: PlayerHouse
+    previous_clan_rank: int
+    role: str
+    tag: str
+    town_hall_level: int
+    trophies: int

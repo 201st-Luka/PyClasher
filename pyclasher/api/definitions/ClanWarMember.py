@@ -3,15 +3,15 @@
 """
 
 from .ClanWarAttack import ClanWarAttack
-from ...model_abc import ArrayIterator, Model, ModelWrapper
+from ...model_abc import Model, ModelWrapper, ArrayIterator
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['tag'], exclude_annotations=None)
 class ClanWarMember(Model):
-    tag: str
-    name: str
-    map_position: int
-    townhall_level: int
-    opponent_attacks: int
-    best_opponent_attack: ClanWarAttack
     attacks: ArrayIterator[ClanWarAttack]
+    best_opponent_attack: ClanWarAttack
+    map_position: int
+    name: str
+    opponent_attacks: int
+    tag: str
+    townhall_level: int

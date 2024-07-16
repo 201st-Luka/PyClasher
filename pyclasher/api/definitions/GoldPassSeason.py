@@ -5,7 +5,7 @@
 from ...model_abc import Model, ModelWrapper
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['start_time'], exclude_annotations=None)
 class GoldPassSeason(Model):
-    start_time: str
     end_time: str
+    start_time: str

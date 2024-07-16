@@ -3,13 +3,13 @@
 """
 
 from .ClanWarLeagueClanMember import ClanWarLeagueClanMember
-from ...model_abc import ArrayIterator, Model, ModelWrapper
+from ...model_abc import Model, ModelWrapper, ArrayIterator
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['tag'], exclude_annotations=None)
 class ClanWarLeagueClan(Model):
-    tag: str
-    clan_level: int
-    name: str
-    members: ArrayIterator[ClanWarLeagueClanMember]
     badge_urls: dict
+    clan_level: int
+    members: ArrayIterator[ClanWarLeagueClanMember]
+    name: str
+    tag: str

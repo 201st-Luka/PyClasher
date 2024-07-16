@@ -4,13 +4,13 @@
 
 from .ClanWarLeagueClan import ClanWarLeagueClan
 from .ClanWarLeagueRound import ClanWarLeagueRound
-from ...model_abc import ArrayIterator, Model, ModelWrapper
+from ...model_abc import Model, ModelWrapper, ArrayIterator
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['tag'], exclude_annotations=None)
 class ClanWarLeagueGroup(Model):
-    tag: str
-    state: str
-    season: str
     clans: ArrayIterator[ClanWarLeagueClan]
     rounds: ArrayIterator[ClanWarLeagueRound]
+    season: str
+    state: str
+    tag: str

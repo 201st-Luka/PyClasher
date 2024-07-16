@@ -3,17 +3,17 @@
 """
 
 from .ClanWarMember import ClanWarMember
-from ...model_abc import ArrayIterator, Model, ModelWrapper
+from ...model_abc import Model, ModelWrapper, ArrayIterator
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['tag'], exclude_annotations=None)
 class WarClan(Model):
-    destruction_percentage: float
-    tag: str
-    name: str
+    attacks: int
     badge_urls: dict
     clan_level: int
-    attacks: int
-    stars: int
+    destruction_percentage: float
     exp_earned: int
     members: ArrayIterator[ClanWarMember]
+    name: str
+    stars: int
+    tag: str

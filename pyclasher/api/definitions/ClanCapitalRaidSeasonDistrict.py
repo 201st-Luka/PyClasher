@@ -3,16 +3,16 @@
 """
 
 from .ClanCapitalRaidSeasonAttack import ClanCapitalRaidSeasonAttack
-from ...model_abc import ArrayIterator, Model, ModelWrapper
+from ...model_abc import Model, ModelWrapper, ArrayIterator
 
 
 @ModelWrapper(main_attributes=None, exclude_annotations=None)
 class ClanCapitalRaidSeasonDistrict(Model):
-    stars: int
-    name: str
-    id: int
-    destruction_percent: int
     attack_count: int
-    total_looted: int
     attacks: ArrayIterator[ClanCapitalRaidSeasonAttack]
+    destruction_percent: int
     district_hall_level: int
+    id: int
+    name: str
+    stars: int
+    total_looted: int

@@ -8,12 +8,12 @@ from ...model_abc import Model, ModelWrapper
 
 @ModelWrapper(main_attributes=None, exclude_annotations=None)
 class ClanRanking(Model):
+    badge_urls: dict
     clan_level: int
     clan_points: int
     location: Location
     members: int
-    tag: str
     name: str
-    rank: int
     previous_rank: int
-    badge_urls: dict
+    rank: int
+    tag: str

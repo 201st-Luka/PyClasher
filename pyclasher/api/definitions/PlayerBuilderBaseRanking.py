@@ -10,10 +10,10 @@ from ...model_abc import Model, ModelWrapper
 @ModelWrapper(main_attributes=None, exclude_annotations=None)
 class PlayerBuilderBaseRanking(Model):
     builder_base_league: BuilderBaseLeague
-    clan: PlayerRankingClan
-    tag: str
-    name: str
-    exp_level: int
-    rank: int
-    previous_rank: int
     builder_base_trophies: int
+    clan: PlayerRankingClan
+    exp_level: int
+    name: str
+    previous_rank: int
+    rank: int
+    tag: str

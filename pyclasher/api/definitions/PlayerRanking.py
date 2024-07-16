@@ -7,15 +7,15 @@ from .PlayerRankingClan import PlayerRankingClan
 from ...model_abc import Model, ModelWrapper
 
 
-@ModelWrapper(main_attributes=None, exclude_annotations=None)
+@ModelWrapper(main_attributes=['tag'], exclude_annotations=None)
 class PlayerRanking(Model):
-    league: League
-    clan: PlayerRankingClan
     attack_wins: int
+    clan: PlayerRankingClan
     defense_wins: int
-    tag: str
-    name: str
     exp_level: int
-    rank: int
+    league: League
+    name: str
     previous_rank: int
+    rank: int
+    tag: str
     trophies: int
