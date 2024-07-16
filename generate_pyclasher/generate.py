@@ -1,22 +1,35 @@
+from json import load
 from os import mkdir, makedirs
 from os.path import join
+
+from jinja2 import Template
 
 from .helper_functions import convert_operation_id, camel_to_snake_case
 
 EXCEPTIONAL_TAGS = ['labels']
 EXCEPTIONAL_PATHS = {
     'leagues': [
-        'capitalleagues',
-        'clanwarleagues',
-        'builderbaseleagues',
-        'warleagues',
+        "capitalleagues",
+        "clanwarleagues",
+        "builderbaseleagues",
+        "warleagues",
     ]
+}
+EXCEPTIONAL_DEFINITIONS = {
+    'JsonLocalizedName': "str",
+    'JsonNode': "dict",
+    'Float': "float",
+    'String': "str",
+    'string': "str",
+    'integer': "int",
+    'boolean': "bool",
+    'object': "dict",
 }
 
 
-def generate_tags(yaml, generated_path: str):
+def generate_requests(yaml, generated_path: str):
     for tag in yaml['tags']:
-        path = join(generated_path, 'tags', tag['name'])
+        path = join(generated_path, 'requests', tag['name'])
 
         makedirs(path)
 
@@ -24,7 +37,7 @@ def generate_tags(yaml, generated_path: str):
             init_py.write(f"\"\"\"\n{tag['description']}\n\"\"\"")
 
     for tag in EXCEPTIONAL_TAGS:
-        path = join(generated_path, 'tags', tag)
+        path = join(generated_path, 'requests', tag)
 
         makedirs(path)
 
@@ -47,33 +60,78 @@ def generate_definitions(yaml, generated_path: str):
     path = join(generated_path, 'definitions')
     mkdir(path)
 
+    with open(join("generate_pyclasher", "main_attribute_mapping.json"), "r",
+              encoding="utf-8") as main_attribute_mapping_file:
+        main_attribute_mapping = load(main_attribute_mapping_file)
+
+    jinja_template = Template(open("generate_pyclasher/model_template.py.jinja", "r", encoding="utf-8").read())
+
+    init_imports = []
+
     for def_key, def_value in yaml['definitions'].items():
-        if def_value['type'] == 'object' and 'properties' in def_value:
-            with open(join(path, def_key + ".py"), "w", encoding="utf-8") as definition_py:
-                definition_py.write(f"class {def_key}:\n")
+        if def_key in EXCEPTIONAL_DEFINITIONS or def_key.endswith("List"):
+            continue
 
-                for prop_key, prop_value in def_value['properties'].items():
-                    key = camel_to_snake_case(prop_key)
+        file_import_level = 2
+        annotations = []
+        imports = {'model_abc': {
+            'import_level': 2,
+            'imports': {'Model', 'ModelWrapper'}
+        }}
 
-                    if 'type' in prop_value:
-                        type_ = prop_value['type']
+        if def_value['type'] == 'object':
+            for prop_key, prop_value in def_value['properties'].items():
+                if prop_key in EXCEPTIONAL_DEFINITIONS:
+                    continue
 
-                        match type_:
-                            case "string":
-                                type_ = "str"
-                            case "integer":
-                                type_ = "int"
-                            case "boolean":
-                                type_ = "bool"
-                            case "object":
-                                type_ = "dict"
+                annotation = {'name': camel_to_snake_case(prop_key)}
+
+                if 'type' in prop_value:
+                    type_ = prop_value['type']
+
+                    if type_ in EXCEPTIONAL_DEFINITIONS:
+                        type_ = EXCEPTIONAL_DEFINITIONS[type_]
+
+                    annotation['type'] = type_
+
+                else:
+                    type_ = prop_value['$ref'].removeprefix('#/definitions/')
+
+                    if type_ in EXCEPTIONAL_DEFINITIONS:
+                        type_ = EXCEPTIONAL_DEFINITIONS[type_]
+                        annotation['type'] = type_
                     else:
-                        type_ = prop_value['$ref'].removeprefix('#/definitions/')
-                    definition_py.write(f"    {key}: {type_}\n")
+                        if type_.endswith("List"):
+                            type_ = type_.removesuffix("List")
+
+                            annotation['type'] = f"ArrayIterator[{type_}]"
+                            imports['model_abc']['imports'].add('ArrayIterator')
+                        else:
+                            annotation['type'] = type_
+
+                        imports.setdefault(type_, {'import_level': 0, 'imports': set()})['imports'].add(type_)
+
+                annotations.append(annotation)
+
+        init_imports.append(def_key)
+
+        with open(join(path, def_key + ".py"), "w", encoding="utf-8") as definition_py:
+            definition_py.writelines(jinja_template.generate(
+                class_name=def_key,
+                file_import_level=file_import_level,
+                main_attributes=main_attribute_mapping.get(def_key),
+                exclude_annotations=None,
+                description=None,
+                annotations=sorted(annotations, key=lambda x: x['name']),
+                imports=imports
+            ))
+
+    with open(join(path, "__init__.py"), "w", encoding="utf-8") as init_py:
+        init_py.writelines((f"from .{init_import} import {init_import}\n" for init_import in init_imports))
 
 
 def generate_paths(yaml, generated_path: str):
-    path = join(generated_path, 'tags')
+    path = join(generated_path, 'requests')
 
     for path_key, path_value in yaml['paths'].items():
         request_url = path_key.strip("/").split('/')
@@ -107,7 +165,14 @@ def generate_paths(yaml, generated_path: str):
 
 
 def generate(yaml, generated_path: str):
-    generate_tags(yaml, generated_path)
+    print("Generating requests...")
+    generate_requests(yaml, generated_path)
+
+    print("Generating responses...")
     generate_responses(yaml, generated_path)
+
+    print("Generating definitions...")
     generate_definitions(yaml, generated_path)
+
+    print("Generating paths...")
     generate_paths(yaml, generated_path)

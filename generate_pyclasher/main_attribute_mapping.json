@@ -1,0 +1,83 @@
+{
+  "BuilderBaseLeague": [
+    "id"
+  ],
+  "CapitalLeague": [
+    "id"
+  ],
+  "Clan": [
+    "tag"
+  ],
+  "ClanMember": [
+    "tag"
+  ],
+  "ClanWar": [
+    "clan",
+    "opponent"
+  ],
+  "ClanWarLeagueClan": [
+    "tag"
+  ],
+  "ClanWarLeagueClanMember": [
+    "tag"
+  ],
+  "ClanWarLeagueGroup": [
+    "tag"
+  ],
+  "ClanWarLogEntry": [
+    "clan",
+    "opponent",
+    "end_time"
+  ],
+  "ClanWarMember": [
+    "tag"
+  ],
+  "ClientError": [
+    "reason"
+  ],
+  "DeepLinkCreationResponse": [
+    "link"
+  ],
+  "GoldPassSeason": [
+    "start_time"
+  ],
+  "Label": [
+    "id"
+  ],
+  "Language": [
+    "id"
+  ],
+  "League": [
+    "id"
+  ],
+  "LeagueSeason": [
+    "id"
+  ],
+  "Location": [
+    "id"
+  ],
+  "Player": [
+    "tag"
+  ],
+  "PlayerClan": [
+    "tag"
+  ],
+  "PlayerHouseElement": [
+    "id"
+  ],
+  "PlayerRanking": [
+    "tag"
+  ],
+  "PlayerRankingClan": [
+    "tag"
+  ],
+  "Replay": [
+    "replay_tag"
+  ],
+  "WarClan": [
+    "tag"
+  ],
+  "WarLeague": [
+    "id"
+  ]
+}
