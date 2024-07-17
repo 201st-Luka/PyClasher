@@ -6,7 +6,7 @@
 {% endfor %}
 
 @ModelWrapper(primary_attributes={{ primary_attributes }}, exclude_annotations={{ exclude_annotations }})
-class{{ class_name }}{% if parents %}({{ ', '.join(parents) }}){% endif %}:
+class {{ class_name }}{% if parents %}({{ ', '.join(parents) }}){% endif %}:
     {% if annotations %}{% for annotation in annotations %}{{ annotation['name'] }}: {{ annotation['type'] }}
     {% endfor %}{% else %}pass
 
