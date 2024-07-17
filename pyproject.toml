@@ -16,3 +16,7 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/201st-Luka/PyClasher"
 Issues = "https://github.com/201st-Luka/PyClasher/issues"
+
+[tool.black]
+line-length = 120
+target-version = ["py38", "py39", "py310", "py311", "py312"]
