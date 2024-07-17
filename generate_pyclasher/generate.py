@@ -53,12 +53,34 @@ def generate_responses(yaml, generated_path: str):
     path = join(generated_path, 'responses')
     mkdir(path)
 
+    jinja_template = Template(open(join("generate_pyclasher", "jinja_templates", "response_template.py.jinja"), "r",
+                                   encoding="utf-8").read())
+
+    init_imports = []
+
+    imports = {
+        'definitions': {
+            'import_level': 1,
+            'imports': {"ClientError"}
+        }
+    }
+
     # generate responses
     for resp_key, resp_value in yaml['responses'].items():
-        with open(join(path, resp_key + ".py"), "w", encoding="utf-8") as response_py:
-            response_py.write(f"class {resp_key}:\n")
-            response_py.write(f"    \"\"\"{resp_value['description']}\"\"\"\n")
-            response_py.write("    pass\n")
+        resp = resp_key.removesuffix("Spec")
+        init_imports.append(resp)
+
+        with open(join(path, resp + ".py"), "w", encoding="utf-8") as response_py:
+            response_py.writelines(jinja_template.generate(
+                imports=imports,
+                class_name=resp,
+                parents=["ClientError"],
+                description=resp_value['description']
+            ))
+
+    with open(join(path, "__init__.py"), "w", encoding="utf-8") as init_py:
+        init_py.writelines((f"from .{init_import} import {init_import}\n"
+                            for init_import in sorted(init_imports)))
 
 
 def generate_definitions(yaml, generated_path: str):
