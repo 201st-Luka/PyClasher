@@ -1,3 +1,0 @@
-"""
-Access player specific information
-"""

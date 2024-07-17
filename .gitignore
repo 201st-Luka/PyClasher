@@ -8,3 +8,4 @@ tests/.pytest_cache
 /testing/
 /.github/pyclasher_preview.xcf
 /generate_pyclasher/api.yaml
+/pyclasher/api
