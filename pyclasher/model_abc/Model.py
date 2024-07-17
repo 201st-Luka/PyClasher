@@ -78,10 +78,11 @@ class Model(ABC):
     def __str__(self) -> str:
         if self._data is MISSING:
             return f"{self.__class__.__name__}(RequestNotDone)"
-        if hasattr(self, '_main_attributes'):
-            main_attrs = [self.__dict__[main_attr].__get__(self) for main_attr in self._main_attributes]
+        if hasattr(self, '_primary_attributes'):
+            primary_attrs = [self.__dict__[primary_attr].__get__(self) for primary_attr in self._primary_attributes]
             return (f"{self.__class__.__name__}"
-                    f"({', '.join((f'{main_attrs}={self.__dict__[main_attr].__get__(self)}' for main_attr in self._main_attributes))})")
+                    f"({', '.join((f'{primary_attrs}={self.__dict__[primary_attr].__get__(self)}'
+                                   for primary_attr in self._primary_attributes))})")
         return f"{self.__class__.__name__}()"
 
     def _get_properties(self) -> dict[str, int | str | float | list | dict] | 'Missing' | None:

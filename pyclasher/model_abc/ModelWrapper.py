@@ -16,26 +16,26 @@ class ModelWrapper:
     Class decorator (class) for API models
 
     Attributes:
-        __main_attributes (str | list[str]):
+        __primary_attributes (str | list[str]):
             main attributes that identify the decorated class
         __exclude_annotations (str | list[str]):
             annotations that are excluded from being converted to properties (they are ignored)
     """
 
-    def __init__(self, main_attributes: str | list[str] = None, exclude_annotations: str | list[str] = None) -> None:
+    def __init__(self, primary_attributes: str | list[str] = None, exclude_annotations: str | list[str] = None) -> None:
         """
         Args:
-            main_attributes (str | list[str]):
+            primary_attributes (str | list[str]):
                 main attributes that identify the decorated class
             exclude_annotations (str | list[str]):
                 annotations that are excluded from being converted to properties (they are ignored)
         """
-        if main_attributes:
-            assert isinstance(main_attributes, (str, list[str]))
+        if primary_attributes:
+            assert isinstance(primary_attributes, (str, list[str]))
         if exclude_annotations:
             assert isinstance(exclude_annotations, (str, list[str]))
 
-        self.__main_attributes = main_attributes
+        self.__primary_attributes = primary_attributes
         self.__exclude_annotations = exclude_annotations or []
 
     def __call__(self, cls: T) -> T:
@@ -82,16 +82,17 @@ class ModelWrapper:
             setattr(cls, annotation_key, property(fget=fget))
 
         # set main attributes
-        if self.__main_attributes:
+        if self.__primary_attributes:
             main_attr_dict = {}
-            if isinstance(self.__main_attributes, str):
-                if self.__main_attributes in self.__dict__:
-                    main_attr_dict[self.__main_attributes] = getattr(cls, self.__main_attributes)
+            if isinstance(self.__primary_attributes, str):
+                if self.__primary_attributes in self.__dict__:
+                    main_attr_dict[self.__primary_attributes] = getattr(cls, self.__primary_attributes)
                 else:
-                    raise InvalidModelParams(f"Main attribute definition '{self.__main_attributes}' failed because it "
+                    raise InvalidModelParams(
+                        f"Main attribute definition '{self.__primary_attributes}' failed because it "
                                              "is not an attribute of the class object.")
-            elif isinstance(self.__main_attributes, list):
-                for main_attr in self.__main_attributes:
+            elif isinstance(self.__primary_attributes, list):
+                for main_attr in self.__primary_attributes:
                     if main_attr in self.__dict__:
                         main_attr_dict[main_attr] = getattr(cls, main_attr)
                     else:
@@ -99,6 +100,6 @@ class ModelWrapper:
                             f"Main attribute definition '{main_attr}' failed because it "
                             "is not an attribute of the class object.")
 
-            setattr(cls, '_main_attributes', main_attr_dict)
+            setattr(cls, '_primary_attributes', main_attr_dict)
 
         return cls
