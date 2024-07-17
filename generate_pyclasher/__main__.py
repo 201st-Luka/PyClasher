@@ -7,7 +7,8 @@ from tempfile import NamedTemporaryFile
 
 from yaml import safe_load
 
-from . import get_yaml, generate_api
+from . import get_yaml
+from .generate import generate_api
 
 # parse arguments
 parser = ArgumentParser(
