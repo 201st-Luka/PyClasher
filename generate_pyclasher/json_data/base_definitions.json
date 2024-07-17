@@ -1,14 +1,8 @@
 {
   "BaseLeague": {
     "fields": {
-      "id": {
-        "type": "integer",
-        "description": "The unique identifier of the league."
-      },
-      "name": {
-        "type": "string",
-        "description": "The name of the league."
-      }
+      "id": "int",
+      "name": "str"
     },
     "description": "The base definition of a league.",
     "primary_attributes": [
@@ -23,18 +17,9 @@
   },
   "BaseClan": {
     "fields": {
-      "tag": {
-        "type": "string",
-        "description": "The clan's tag."
-      },
-      "name": {
-        "type": "string",
-        "description": "The clan's name."
-      },
-      "badge_urls": {
-        "type": "object",
-        "description": "The URLs for the clan's badge."
-      }
+      "tag": "str",
+      "name": "str",
+      "badgeUrls": "dict"
     },
     "description": "The base definition of a clan.",
     "primary_attributes": [
@@ -42,23 +27,14 @@
     ],
     "children": [
       "Clan",
+      "ClanRanking",
       "ClanWarLeagueClan"
     ]
   },
   "BasePlayer": {
     "fields": {
-      "tag": {
-        "type": "string",
-        "description": "The player's tag."
-      },
-      "name": {
-        "type": "string",
-        "description": "The player's name."
-      },
-      "town_hall_level": {
-        "type": "integer",
-        "description": "The player's town hall level."
-      }
+      "tag": "str",
+      "name": "str"
     },
     "description": "The base definition of a player.",
     "primary_attributes": [
@@ -68,7 +44,9 @@
       "ClanMember",
       "ClanWarMember",
       "ClanWarLeagueClanMember",
-      "Player"
+      "Player",
+      "PlayerBuilderBaseRanking",
+      "PlayerRanking"
     ]
   }
 }

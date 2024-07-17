@@ -92,6 +92,11 @@ def generate_definitions(yaml, generated_path: str):
               encoding="utf-8") as primary_attribute_mapping_file:
         primary_attribute_mapping = load(primary_attribute_mapping_file)
 
+    # load base definitions
+    with open(join("generate_pyclasher", "json_data", "base_definitions.json"), "r",
+              encoding="utf-8") as base_definitions_file:
+        base_definitions = load(base_definitions_file)
+
     # load jinja template
     jinja_template = Template(open(join("generate_pyclasher", "jinja_templates", "definition_template.py.jinja"), "r",
                                    encoding="utf-8").read())
@@ -106,14 +111,28 @@ def generate_definitions(yaml, generated_path: str):
 
         annotations = []
         imports = {'model_abc': {
-            'import_level': 2,
+            'import_level': 3,
             'imports': {"Model", "ModelWrapper"}
         }}
 
+        # get parent
+        parents = ["Model"]
+        parent_fields = []
+        for base_def, base_values in base_definitions.items():
+            if def_key in base_values['children']:
+                parents.append(base_def)
+                imports[base_def] = {
+                    'import_level': 1,
+                    'imports': {base_def}
+                }
+                parent_fields.extend(base_values['fields'].keys())
+
         # generate annotations
         if def_value['type'] == 'object':
+            if def_key == "Clan":
+                pass
             for prop_key, prop_value in def_value['properties'].items():
-                if prop_key in EXCEPTIONAL_DEFINITIONS:
+                if prop_key in EXCEPTIONAL_DEFINITIONS or prop_key in parent_fields:
                     continue
 
                 # generate annotation
@@ -143,7 +162,7 @@ def generate_definitions(yaml, generated_path: str):
                         else:
                             annotation['type'] = type_
 
-                        imports.setdefault(type_, {'import_level': 0, 'imports': set()})['imports'].add(type_)
+                        imports.setdefault(type_, {'import_level': 1, 'imports': set()})['imports'].add(type_)
 
                 annotations.append(annotation)
 
@@ -157,7 +176,32 @@ def generate_definitions(yaml, generated_path: str):
                 exclude_annotations=None,
                 description=None,
                 annotations=sorted(annotations, key=lambda x: x['name']),
-                imports=imports
+                imports=imports,
+                parents=parents,
+                sorted=sorted
+            ))
+
+    # generate base definitions
+    for base_def, base_values in base_definitions.items():
+        with open(join(path, base_def + ".py"), "w", encoding="utf-8") as base_definition_py:
+            base_definition_py.writelines(jinja_template.generate(
+                class_name=base_def,
+                imports={
+                    'abc': {
+                        'import_level': 0,
+                        'imports': {"ABC"}
+                    },
+                    'model_abc': {
+                        'import_level': 3,
+                        'imports': {"Model", "ModelWrapper"}
+                    }
+                },
+                primary_attributes=sorted((camel_to_snake_case(field) for field in base_values['fields'].keys())),
+                parents=["ABC", "Model"],
+                annotations=sorted([{'name': field, 'type': type_} for field, type_ in base_values['fields'].items()],
+                                   key=lambda x: x['name']),
+                exclude_annotations=None,
+                sorted=sorted
             ))
 
     # write module __init__.py file
