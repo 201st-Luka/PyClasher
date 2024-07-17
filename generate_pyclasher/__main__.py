@@ -9,18 +9,19 @@ from yaml import safe_load
 
 from . import get_yaml, generate
 
-if __name__ == '__main__':
-    # parse arguments
-    parser = ArgumentParser(
-        prog="generate_pyclasher",
-        description="Generate the API models of the Clash of Clans API wrapper",
-        epilog="The generated models are placed in the 'generated' directory",
-    )
-    parser.add_argument("--path", help="The path to the generated directory", required=True)
-    parser.add_argument("-e", "--email", help="The email address of the Clash of Clans developer account")
-    parser.add_argument("-p", "--password", help="The password of the Clash of Clans developer account")
+# parse arguments
+parser = ArgumentParser(
+    prog="generate_pyclasher",
+    description="Generate the API models of the Clash of Clans API wrapper",
+    epilog="The generated models are placed in the 'generated' directory",
+)
+parser.add_argument("--path", help="The path to the generated directory", required=True)
+parser.add_argument("-e", "--email", help="The email address of the Clash of Clans developer account")
+parser.add_argument("-p", "--password", help="The password of the Clash of Clans developer account")
 
-    parsed_args = parser.parse_args()
+parsed_args = parser.parse_args()
+
+if __name__ == '__main__':
 
     # get path
     generate_path = parsed_args.path
