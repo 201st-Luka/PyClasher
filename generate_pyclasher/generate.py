@@ -141,7 +141,8 @@ def generate_definitions(yaml, generated_path: str):
 
     # write module __init__.py file
     with open(join(path, "__init__.py"), "w", encoding="utf-8") as init_py:
-        init_py.writelines((f"from .{init_import} import {init_import}\n" for init_import in init_imports))
+        init_py.writelines((f"from .{init_import} import {init_import}\n"
+                            for init_import in sorted(init_imports)))
 
 
 def generate_paths(yaml, generated_path: str):

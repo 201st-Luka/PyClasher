@@ -17,7 +17,7 @@ class ModelWrapper:
 
     Attributes:
         __primary_attributes (str | list[str]):
-            main attributes that identify the decorated class
+            primary attributes that identify the decorated class
         __exclude_annotations (str | list[str]):
             annotations that are excluded from being converted to properties (they are ignored)
     """
@@ -26,7 +26,7 @@ class ModelWrapper:
         """
         Args:
             primary_attributes (str | list[str]):
-                main attributes that identify the decorated class
+                primary attributes that identify the decorated class
             exclude_annotations (str | list[str]):
                 annotations that are excluded from being converted to properties (they are ignored)
         """
@@ -81,25 +81,25 @@ class ModelWrapper:
                 fget = make_getter(snake_to_camel(annotation_key))
             setattr(cls, annotation_key, property(fget=fget))
 
-        # set main attributes
+        # set primary attributes
         if self.__primary_attributes:
-            main_attr_dict = {}
+            primary_attr_dict = {}
             if isinstance(self.__primary_attributes, str):
                 if self.__primary_attributes in self.__dict__:
-                    main_attr_dict[self.__primary_attributes] = getattr(cls, self.__primary_attributes)
+                    primary_attr_dict[self.__primary_attributes] = getattr(cls, self.__primary_attributes)
                 else:
                     raise InvalidModelParams(
-                        f"Main attribute definition '{self.__primary_attributes}' failed because it "
-                                             "is not an attribute of the class object.")
+                        f"Primary attribute definition '{self.__primary_attributes}' failed because it "
+                        "is not an attribute of the class object.")
             elif isinstance(self.__primary_attributes, list):
-                for main_attr in self.__primary_attributes:
-                    if main_attr in self.__dict__:
-                        main_attr_dict[main_attr] = getattr(cls, main_attr)
+                for primary_attr in self.__primary_attributes:
+                    if primary_attr in self.__dict__:
+                        primary_attr_dict[primary_attr] = getattr(cls, primary_attr)
                     else:
                         raise InvalidModelParams(
-                            f"Main attribute definition '{main_attr}' failed because it "
+                            f"Primary attribute definition '{primary_attr}' failed because it "
                             "is not an attribute of the class object.")
 
-            setattr(cls, '_primary_attributes', main_attr_dict)
+            setattr(cls, '_primary_attributes', primary_attr_dict)
 
         return cls
