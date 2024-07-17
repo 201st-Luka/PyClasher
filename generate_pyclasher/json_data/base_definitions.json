@@ -1,0 +1,74 @@
+{
+  "BaseLeague": {
+    "fields": {
+      "id": {
+        "type": "integer",
+        "description": "The unique identifier of the league."
+      },
+      "name": {
+        "type": "string",
+        "description": "The name of the league."
+      }
+    },
+    "description": "The base definition of a league.",
+    "primary_attributes": [
+      "id"
+    ],
+    "children": [
+      "BuilderBaseLeague",
+      "CapitalLeague",
+      "League",
+      "WarLeague"
+    ]
+  },
+  "BaseClan": {
+    "fields": {
+      "tag": {
+        "type": "string",
+        "description": "The clan's tag."
+      },
+      "name": {
+        "type": "string",
+        "description": "The clan's name."
+      },
+      "badge_urls": {
+        "type": "object",
+        "description": "The URLs for the clan's badge."
+      }
+    },
+    "description": "The base definition of a clan.",
+    "primary_attributes": [
+      "tag"
+    ],
+    "children": [
+      "Clan",
+      "ClanWarLeagueClan"
+    ]
+  },
+  "BasePlayer": {
+    "fields": {
+      "tag": {
+        "type": "string",
+        "description": "The player's tag."
+      },
+      "name": {
+        "type": "string",
+        "description": "The player's name."
+      },
+      "town_hall_level": {
+        "type": "integer",
+        "description": "The player's town hall level."
+      }
+    },
+    "description": "The base definition of a player.",
+    "primary_attributes": [
+      "tag"
+    ],
+    "children": [
+      "ClanMember",
+      "ClanWarMember",
+      "ClanWarLeagueClanMember",
+      "Player"
+    ]
+  }
+}
