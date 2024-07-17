@@ -71,7 +71,8 @@ def generate_definitions(yaml, generated_path: str):
         primary_attribute_mapping = load(primary_attribute_mapping_file)
 
     # load jinja template
-    jinja_template = Template(open("generate_pyclasher/model_template.py.jinja", "r", encoding="utf-8").read())
+    jinja_template = Template(open(join("generate_pyclasher", "jinja_templates", "definition_template.py.jinja"), "r",
+                                   encoding="utf-8").read())
 
     # imports if the module __init__.py file
     init_imports = []
@@ -81,11 +82,10 @@ def generate_definitions(yaml, generated_path: str):
         if def_key in EXCEPTIONAL_DEFINITIONS or def_key.endswith("List"):
             continue
 
-        file_import_level = 2
         annotations = []
         imports = {'model_abc': {
             'import_level': 2,
-            'imports': {'Model', 'ModelWrapper'}
+            'imports': {"Model", "ModelWrapper"}
         }}
 
         # generate annotations
@@ -131,7 +131,6 @@ def generate_definitions(yaml, generated_path: str):
         with open(join(path, def_key + ".py"), "w", encoding="utf-8") as definition_py:
             definition_py.writelines(jinja_template.generate(
                 class_name=def_key,
-                file_import_level=file_import_level,
                 primary_attributes=primary_attribute_mapping.get(def_key),
                 exclude_annotations=None,
                 description=None,
