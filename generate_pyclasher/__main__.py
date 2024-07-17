@@ -7,7 +7,7 @@ from tempfile import NamedTemporaryFile
 
 from yaml import safe_load
 
-from . import get_yaml, generate
+from . import get_yaml, generate_api
 
 # parse arguments
 parser = ArgumentParser(
@@ -49,4 +49,4 @@ if __name__ == '__main__':
             yaml_file = safe_load(file)
 
         # generate the models
-        generate(yaml_file, generate_path)
+        generate_api(yaml_file, generate_path)

@@ -250,7 +250,7 @@ def generate_paths(yaml, generated_path: str):
                     raise Exception(f"Invalid path {path_key}.")
 
 
-def generate(yaml, generated_path: str):
+def generate_api(yaml, generated_path: str):
     print("Generating requests...")
     generate_requests(yaml, generated_path)
 
@@ -262,3 +262,9 @@ def generate(yaml, generated_path: str):
 
     print("Generating paths...")
     generate_paths(yaml, generated_path)
+
+    with open(join(generated_path, "__init__.py"), "w", encoding="utf-8") as init_py:
+        init_py.write(f"\"\"\"\nGenerated API models, requests and responses\n\"\"\"\n\n\n")
+        init_py.write("from .definitions import *\n")
+        init_py.write("from .requests import *\n")
+        init_py.write("from .responses import *\n")
