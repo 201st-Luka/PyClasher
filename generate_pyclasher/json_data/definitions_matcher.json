@@ -1,0 +1,10 @@
+{
+    "JsonLocalizedName": "str",
+    "JsonNode": "dict",
+    "Float": "float",
+    "String": "str",
+    "string": "str",
+    "integer": "int",
+    "boolean": "bool",
+    "object": "dict"
+}

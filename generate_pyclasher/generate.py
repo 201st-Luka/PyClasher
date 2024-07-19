@@ -6,28 +6,6 @@ from jinja2 import Template
 
 from .helper_functions import convert_operation_id, camel_to_snake_case
 
-EXCEPTIONAL_TAGS = [
-    'labels'
-]
-EXCEPTIONAL_PATHS = {
-    'leagues': [
-        "capitalleagues",
-        "clanwarleagues",
-        "builderbaseleagues",
-        "warleagues",
-    ]
-}
-EXCEPTIONAL_DEFINITIONS = {
-    'JsonLocalizedName': "str",
-    'JsonNode': "dict",
-    'Float': "float",
-    'String': "str",
-    'string': "str",
-    'integer': "int",
-    'boolean': "bool",
-    'object': "dict",
-}
-
 
 def generate_requests(yaml, generated_path: str):
     # generate requests
@@ -37,10 +15,12 @@ def generate_requests(yaml, generated_path: str):
         makedirs(path)
 
         with open(join(path, "__init__.py"), "w", encoding="utf-8") as init_py:
-            init_py.write(f"\"\"\"\n{tag['description']}\n\"\"\"")
+            init_py.write(f"\"\"\"\n{tag['description'].replace("\n", "\n    ")}\n\"\"\"")
 
     # generate exceptional requests to avoid errors in the future
-    for tag in EXCEPTIONAL_TAGS:
+    with open(join("generate_pyclasher", "json_data", "extra_tags.json"), "r", encoding="utf-8") as extra_tags_file:
+        extra_tags = load(extra_tags_file)
+    for tag in extra_tags:
         path = join(generated_path, 'requests', tag)
 
         makedirs(path)
@@ -75,7 +55,7 @@ def generate_responses(yaml, generated_path: str):
                 imports=imports,
                 class_name=resp,
                 parents=["ClientError"],
-                description=resp_value['description']
+                description=resp_value['description'].replace("\n", "\n    "),
             ))
 
     with open(join(path, "__init__.py"), "w", encoding="utf-8") as init_py:
@@ -105,8 +85,11 @@ def generate_definitions(yaml, generated_path: str):
     init_imports = []
 
     # generate definitions
+    with open(join("generate_pyclasher", "json_data", "definitions_matcher.json"), "r",
+              encoding="utf-8") as definitions_matcher_file:
+        definitions_matcher = load(definitions_matcher_file)
     for def_key, def_value in yaml['definitions'].items():
-        if def_key in EXCEPTIONAL_DEFINITIONS or def_key.endswith("List"):
+        if def_key in definitions_matcher or def_key.endswith("List"):
             continue
 
         annotations = []
@@ -132,7 +115,7 @@ def generate_definitions(yaml, generated_path: str):
             if def_key == "Clan":
                 pass
             for prop_key, prop_value in def_value['properties'].items():
-                if prop_key in EXCEPTIONAL_DEFINITIONS or prop_key in parent_fields:
+                if prop_key in definitions_matcher or prop_key in parent_fields:
                     continue
 
                 # generate annotation
@@ -142,16 +125,16 @@ def generate_definitions(yaml, generated_path: str):
                 if 'type' in prop_value:
                     type_ = prop_value['type']
 
-                    if type_ in EXCEPTIONAL_DEFINITIONS:
-                        type_ = EXCEPTIONAL_DEFINITIONS[type_]
+                    if type_ in definitions_matcher:
+                        type_ = definitions_matcher[type_]
 
                     annotation['type'] = type_
 
                 else:
                     type_ = prop_value['$ref'].removeprefix('#/definitions/')
 
-                    if type_ in EXCEPTIONAL_DEFINITIONS:
-                        type_ = EXCEPTIONAL_DEFINITIONS[type_]
+                    if type_ in definitions_matcher:
+                        type_ = definitions_matcher[type_]
                         annotation['type'] = type_
                     else:
                         if type_.endswith("List"):
@@ -238,7 +221,10 @@ def generate_paths(yaml, generated_path: str):
         # if the path is exceptional
         except FileNotFoundError:
             # check if the path is exceptional
-            for tag_key, tag_values in EXCEPTIONAL_PATHS.items():
+            with open(join("generate_pyclasher", "json_data", "exceptional_paths.json"),
+                      "r", encoding="utf-8") as exceptional_paths_file:
+                exceptional_paths = load(exceptional_paths_file)
+            for tag_key, tag_values in exceptional_paths.items():
                 if request_url[0] in tag_values:
                     # write path file
                     with open(join(path, tag_key, operation_id + ".py"), "w", encoding="utf-8") as path_py:
