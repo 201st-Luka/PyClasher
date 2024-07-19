@@ -22,6 +22,7 @@ parser.add_argument("-p", "--password", help="The password of the Clash of Clans
 
 parsed_args = parser.parse_args()
 
+
 if __name__ == '__main__':
 
     # get path
