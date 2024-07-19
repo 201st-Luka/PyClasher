@@ -110,7 +110,7 @@ def generate_definitions(yaml, generated_path: str):
             continue
 
         annotations = []
-        imports = {'api_abc': {
+        imports = {'base': {
             'import_level': 3,
             'imports': {"Model", "ModelWrapper"}
         }}
@@ -158,7 +158,7 @@ def generate_definitions(yaml, generated_path: str):
                             type_ = type_.removesuffix("List")
 
                             annotation['type'] = f"ArrayIterator[{type_}]"
-                            imports['api_abc']['imports'].add('ArrayIterator')
+                            imports['base']['imports'].add('ArrayIterator')
                         else:
                             annotation['type'] = type_
 
@@ -191,7 +191,7 @@ def generate_definitions(yaml, generated_path: str):
                         'import_level': 0,
                         'imports': {"ABC"}
                     },
-                    'api_abc': {
+                    'base': {
                         'import_level': 3,
                         'imports': {"Model", "ModelWrapper"}
                     }
