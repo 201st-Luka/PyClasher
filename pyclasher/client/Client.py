@@ -18,7 +18,7 @@ from ..exceptions import (
     ClientIsNotRunning,
     NoneToken,
     MISSING,
-    ClientAlreadyInitialised,
+    TokenAlreadyUsed,
     PyClasherException
 )
 
@@ -79,13 +79,12 @@ class Client:
         elif isinstance(tokens, Iterable):
             tokens = list(tokens)
         else:
-            raise InvalidType(tokens,
-                              (str, Iterable[str]))
+            raise InvalidType(tokens, (str, Iterable[str]))
         for token in tokens:
             for client in Client.__instances:
                 if client.__tokens is not None:
                     if token in client.__tokens:
-                        raise ClientAlreadyInitialised
+                        raise TokenAlreadyUsed
                     continue
 
         cls.__instances.append(super().__new__(cls))
@@ -420,7 +419,7 @@ class Client:
         return None
 
     @classmethod
-    def initialized(cls) -> bool:
+    def is_initialised(cls) -> bool:
         """
         Class method that returns a bool indicating if the ``Client``-class has
         been initialised on or multiple times

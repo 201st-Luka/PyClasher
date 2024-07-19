@@ -328,7 +328,7 @@ class ClientIsNotRunning(PyClasherException):
         return "The client is not running."
 
 
-class ClientAlreadyInitialised(PyClasherException):
+class TokenAlreadyUsed(PyClasherException):
     """
     Exception that is raised if a new client was created but there is another client that has at least one equal token.
     """
