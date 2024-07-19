@@ -1,5 +1,6 @@
 {
   "BaseLeague": {
+    "simple_name": "League",
     "fields": {
       "id": "int",
       "name": "str"
@@ -16,6 +17,7 @@
     ]
   },
   "BaseClan": {
+    "simple_name": "Clan",
     "fields": {
       "tag": "str",
       "name": "str",
@@ -32,6 +34,7 @@
     ]
   },
   "BasePlayer": {
+    "simple_name": "Player",
     "fields": {
       "tag": "str",
       "name": "str"
