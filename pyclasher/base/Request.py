@@ -18,6 +18,22 @@ request_id_counter = 0
 class Request:
     """
     Class for creating requests to the ClashOfClans API
+
+    Attributes:
+        _request_id (int):
+            the request id
+        _url (str):
+            the url of the request
+        request_method (RequestMethods):
+            request method
+        _body (dict):
+            additional data that is to be sent with the request
+        _url_kwargs (dict):
+            the url kwargs that are to replace in the url
+        client (Client | int | str):
+            the client or its client ID that is used to make the request
+        _data (dict):
+            the response data of the request
     """
 
     def __init__(self,
@@ -52,6 +68,8 @@ class Request:
         """The url of the request"""
         self.request_method = request_method
         """The request method"""
+        self._body = body
+        """The additional data that is to be sent with the request"""
         self._url_kwargs = kwargs
         """The url kwargs that are to replace in the url"""
         self.client = client if isinstance(client, Client) else Client.get_instance(client)
@@ -171,7 +189,7 @@ class Request:
         # put request in queue
         await self.client.queue.put((
             future, self.__make_request_url(),
-            self.request_method, None,
+            self.request_method, self._body,
             status,
             error
         ))
