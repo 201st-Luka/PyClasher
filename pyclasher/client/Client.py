@@ -2,7 +2,7 @@
 ``Client`` class
 """
 
-from asyncio import create_task, run
+from asyncio import create_task, run, Queue
 from logging import Logger
 from sys import stderr
 from types import TracebackType
@@ -11,7 +11,6 @@ from urllib.parse import urlparse
 
 from .Login import Login
 from .RequestConsumer import PConsumer
-from .RequestQueue import PQueue
 from ..exceptions import (
     InvalidType,
     ClientIsRunning,
@@ -33,16 +32,26 @@ class Client:
     Attributes:
         __instances (list['Client']):
             the instances of the client
-        base_url (str):               the base URL for the requests (usually ``https://api.clashofclans.com``)
-        endpoint (str):               the endpoint URL for the requests (usually ``/v1``)
-        requests_per_second (int):    the number of requests done per consumer/token per second (usually 5)
-        logger (logging.Logger):                 logger to log the requests, ... (usually MISSING)
-        queue (PQueue):                  the request_queue where the requests are enqueued
-        __consumers (PConsumer):            list of consumers of the request_queue and requests
-        __consume_tasks (asyncio.Task):        list of tasks of the consumer
-        __temporary_session (bool):    boolean that indicates if the session is temporary or not
-        __tokens (list[str]):               list of tokens
-        __client_running (bool):       boolean that indicates if the client is running or not
+        base_url (str):
+            the base URL for the requests (usually ``https://api.clashofclans.com``)
+        endpoint (str):
+            the endpoint URL for the requests (usually ``/v1``)
+        requests_per_second (int):
+            the number of requests done per consumer/token per second (usually 5)
+        logger (logging.Logger):
+            logger to log the requests, ... (usually MISSING)
+        queue (asyncio.Queue):
+            the request_queue where the requests are enqueued
+        __consumers (PConsumer):
+            list of consumers of the request_queue and requests
+        __consume_tasks (asyncio.Task):
+            list of tasks of the consumer
+        __temporary_session (bool):
+            boolean that indicates if the session is temporary or not
+        __tokens (list[str]):
+            list of tokens
+        __client_running (bool):
+            boolean that indicates if the client is running or not
     """
 
     __instances = None
@@ -141,7 +150,7 @@ class Client:
 
         self.logger.debug("client initialised")
 
-        self.queue = PQueue()
+        self.queue = Queue()
         self.request_timeout = request_timeout
 
         self.__client_running = False

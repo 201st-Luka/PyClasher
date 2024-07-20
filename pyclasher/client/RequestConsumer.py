@@ -2,12 +2,11 @@
 ``PConsumer`` class
 """
 
-from asyncio import create_task, TimeoutError as aTimeoutError, Future
+from asyncio import create_task, TimeoutError as aTimeoutError, Future, Queue
 from json import dumps
 
 from aiohttp import ClientSession, ClientTimeout
 
-from .RequestQueue import PQueue
 from ..exceptions import ApiExceptions, MISSING, RequestTimeout
 from ..old_api.models import ClientError
 from ..utils import ExecutionTimer
@@ -18,7 +17,7 @@ class PConsumer:
     Consumer class that consumes the requests and returns the responses of the ClashOfClans API
 
     Attributes:
-        queue (PQueue):
+        queue (asyncio.Queue):
             the request_queue where the requests are enqueued
         header (dict[str, str]):
             request header
@@ -35,14 +34,14 @@ class PConsumer:
     """
 
     def __init__(self,
-                 queue: PQueue,
+                 queue: Queue,
                  token: str,
                  requests_per_s: int,
                  request_timeout: float | None,
                  url: str) -> None:
         """
         Args:
-            queue (PQueue):
+            queue (asyncio.Queue):
                 the request_queue where the requests are enqueued
             token (str):
                 one ClashOfClans API token
