@@ -11,8 +11,8 @@ class RequestMethods(Enum):
     Enum that contains the request method types
 
     Attributes:
-        REQUEST (str):  get request
+        GET (str):  get request
         POST (str):     post request
     """
-    REQUEST = "get"
+    GET = "get"
     POST = "post"
