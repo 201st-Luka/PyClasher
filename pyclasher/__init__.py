@@ -16,7 +16,7 @@ from .exceptions import (
     MISSING, Missing, RequestNotDone, RequestTimeout, BadRequest, NotFound,
     Throttled, Maintenance, AccessDenied, NoClient, InvalidClientId,
     ClientIsRunning, ClientIsNotRunning, ClientRunningOverwrite,
-    ClientAlreadyInitialised, LoginNotDone, InvalidLoginData, InvalidType,
+    TokenAlreadyUsed, LoginNotDone, InvalidLoginData, InvalidType,
     InvalidTimeFormat, InvalidSeasonFormat, NoneToken
 )
 from .old_api import *
@@ -76,7 +76,7 @@ __all__ = (
     "ClientIsRunning",
     "ClientIsNotRunning",
     "ClientRunningOverwrite",
-    "ClientAlreadyInitialised",
+    "TokenAlreadyUsed",
     "LoginNotDone",
     "InvalidLoginData",
     "InvalidType",
