@@ -196,44 +196,71 @@ def generate_definitions(yaml, generated_path: str):
 def generate_paths(yaml, generated_path: str):
     path = join(generated_path, 'requests')
 
+    jinja_template = Template(open(join("generate_pyclasher", "jinja_templates", "path_template.py.jinja"), "r",
+                                   encoding="utf-8").read())
+    with open(join("generate_pyclasher", "json_data", "definitions_matcher.json"), "r",
+              encoding="utf-8") as definitions_matcher_file:
+        definitions_matcher = load(definitions_matcher_file)
+
+    init_imports = []
+
     # generate paths
     for path_key, path_value in yaml['paths'].items():
-        request_url = path_key.strip("/").split('/')
-
-        # get operation id, summary and description
         if 'get' in path_value:
-            operation_id = convert_operation_id(path_value['get']['operationId'])
-            summary = path_value['get']['summary']
-            description = path_value['get']['description']
+            mode = 'get'
         elif 'post' in path_value:
-            operation_id = path_value['post']['operationId']
-            summary = path_value['post']['summary']
-            description = path_value['post']['description']
+            mode = 'post'
         else:
             raise Exception(f"Invalid request method for path {path_key}: {path_value}.")
 
-        # write path file
-        try:
-            with open(join(path, request_url[0], operation_id + ".py"), "w", encoding="utf-8") as path_py:
-                path_py.write(f"class {operation_id}:\n")
-                path_py.write(f"    \"\"\"{summary}\n\n{description}\"\"\"\n")
-                path_py.write("    pass\n")
-        # if the path is exceptional
-        except FileNotFoundError:
-            # check if the path is exceptional
-            with open(join("generate_pyclasher", "json_data", "exceptional_paths.json"),
-                      "r", encoding="utf-8") as exceptional_paths_file:
-                exceptional_paths = load(exceptional_paths_file)
-            for tag_key, tag_values in exceptional_paths.items():
-                if request_url[0] in tag_values:
-                    # write path file
-                    with open(join(path, tag_key, operation_id + ".py"), "w", encoding="utf-8") as path_py:
-                        path_py.write(f"class {operation_id}:\n")
-                        path_py.write(f"    \"\"\"{summary}\n\n{description}\"\"\"\n")
-                        path_py.write("    pass\n")
-                    break
+        # write to file
+        class_name = convert_operation_id(path_value[mode]['operationId'])
+        init_imports.append(class_name)
+        with open(join(path, path_value[mode]['tags'][0], class_name + ".py"), "w",
+                  encoding="utf-8") as path_py:
+            args, kwargs, body, imports = [], [], None, []
+            for param in path_value[mode].get('parameters', []):
+                if param['in'] == 'path':
+                    args.append({
+                        'name': camel_to_snake_case(param['name']),
+                        'type': definitions_matcher[param['type']],
+                        'description': param['description'],
+                    })
+                elif param['in'] == 'query':
+                    kwargs.append({
+                        'name': param['name'],
+                        'type': definitions_matcher[param['type']],
+                        'description': param['description'],
+                    })
+                elif param['in'] == 'body':
+                    type_ = param['schema']['$ref'].removeprefix('#/definitions/')
+                    body = {
+                        'name': param['name'],
+                        'type': type_,
+                        'description': param['description'],
+                    }
+                    imports.append({
+                        'import_level': 1,
+                        'imports': {type_}
+                    })
                 else:
-                    raise Exception(f"Invalid path {path_key}.")
+                    raise Exception(f"Invalid parameter location for path {path_key}: {param}.")
+            path_py.writelines(jinja_template.generate(
+                class_name=class_name,
+                summary=path_value[mode]['summary'],
+                parent=path_value[mode]['responses']['200']['schema']['$ref'].removeprefix('#/definitions/'),
+                description=path_value[mode]['description'].replace("\n", "\n    "),
+                raw_url=path_key,
+                url_args=args,
+                url_kwargs=kwargs,
+                body=body,
+                imports=imports
+            ))
+
+    # write module __init__.py file
+    with open(join(path, "__init__.py"), "w", encoding="utf-8") as init_py:
+        init_py.writelines((f"from .{init_import} import {init_import}\n"
+                            for init_import in sorted(init_imports)))
 
 
 def generate_api(yaml, generated_path: str):
@@ -251,6 +278,7 @@ def generate_api(yaml, generated_path: str):
 
     with open(join(generated_path, "__init__.py"), "w", encoding="utf-8") as init_py:
         init_py.write(f"\"\"\"\nGenerated API models, requests and responses\n\"\"\"\n\n\n")
-        init_py.write("from .definitions import *\n")
         init_py.write("from .requests import *\n")
         init_py.write("from .responses import *\n")
+
+    print("Done.")

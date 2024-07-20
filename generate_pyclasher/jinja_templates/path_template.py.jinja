@@ -1,0 +1,43 @@
+"""
+``{{ class_name }}`` class
+
+{{ summary }}
+"""
+
+
+from ....base import Request
+from ...definitions import {{ parent }} as {{ parent }}Model
+{% for import in imports %}from
+
+{ %
+for import in imports %}from
+
+from ...definitions import
+
+{{parent}} as {{parent}}
+Model
+from ....base import Request
+{{ import['import_level'] * '.' }}{{ import['module'] }} import {{ ', '.join(import['imports']) }}
+{% endfor %}
+
+class {{ class_name }}(Request, {{ parent }}Model):
+    {% if description %}"""
+    {{ description }}
+    """{% endif %}
+
+    def __init__(self, {% for arg in url_args %}{{ arg['name'] }}: {{ arg['type'] }}, {% endfor %}{% for kwarg in kwargs %}{{ arg['name'] }}: {{ arg['type'] }} = None{% endfor %}client: Client = None) -> None:
+        """
+        Args:
+            {% for arg in url_args %}{{ arg['name'] }} ({{ arg['type'] }}):
+                {{ arg['description'] }}{% endfor %}
+            client (Client):
+                The client that is used to make the request
+        """
+        Request.__init__(
+            self,
+            "{{ raw_url }}",
+            {% for arg in url_args %}{{ arg['name'] }}={{ arg['name'] }},
+            {% endfor %}client=client
+        )
+        {{ parent }}Model.__init__(self, None)
+
