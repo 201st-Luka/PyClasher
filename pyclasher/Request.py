@@ -94,11 +94,12 @@ class Request(IRequest, Model):
 
         # create futures
         future, status, error = Future(), Future(), Future()
+        request_url = self._make_request_url()
 
         client.logger.debug(f"Requesting {self._request_id}")
 
         # put request in queue
-        await client.queue.put((future, self._make_request_url(), self.request_mode, self._body, status, error))
+        await client.queue.put((future, request_url, self.request_mode, self._body, status, error))
 
         # wait and get data, status and error
         self._data, req_status, req_error = await future, await status, await error
