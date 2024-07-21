@@ -2,7 +2,7 @@
 ``IterativeRequest`` class
 """
 
-from asyncio import Future
+from asyncio import Future, get_running_loop
 
 from .Client import Client
 from .base import ArrayModel
@@ -68,6 +68,9 @@ class IterativeRequest[T](IRequest, ArrayModel[T]):
                 raise NoClient
 
         client = Client.check_client(client)
+
+        if get_running_loop() != client.event_loop:
+            raise RuntimeError("Client and request must run on the same event loop")
 
         # create futures
         future, status, error = Future(), Future(), Future()

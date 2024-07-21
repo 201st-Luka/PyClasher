@@ -2,7 +2,7 @@
 ``Client`` class
 """
 
-from asyncio import create_task, run, Queue
+from asyncio import create_task, run, Queue, get_running_loop, AbstractEventLoop
 from logging import Logger
 from sys import stderr
 from types import TracebackType
@@ -161,7 +161,7 @@ class Client:
 
         global_client_id += 1
 
-        self._event_client = False
+        self._event_loop = None
 
         return
 
@@ -238,8 +238,11 @@ class Client:
             the different clients.
 
         Returns:
-            Client: returns itself
+            Client:
+                returns itself
         """
+        self._event_loop = get_running_loop()
+
         if tokens is None:
             tokens = self.__tokens
 
@@ -275,6 +278,9 @@ class Client:
         Returns:
             Client: returns itself
         """
+        if get_running_loop() != self._event_loop:
+            raise RuntimeError("Cannot close the client from a different event loop")
+
         self.logger.info("closing client")
         if not self.__client_running:
             self.logger.error("the client is not running")
@@ -289,8 +295,20 @@ class Client:
             await consumer.close()
         self.__consumers = None
 
+        self._event_loop = None
+
         self.logger.debug("client closed")
         return self
+
+    @property
+    def event_loop(self) -> AbstractEventLoop:
+        """
+        Getter of the event loop
+
+        Returns:
+            AbstractEventLoop: the event loop
+        """
+        return self._event_loop
 
     async def __aenter__(self) -> "Client":
         """
@@ -413,7 +431,7 @@ class Client:
         """
         if cls.__instances is None:
             return None
-        clients = [client for client in cls.__instances if not client._event_client]
+        clients = [client for client in cls.__instances]
         if len(clients):
             if client_id is None:
                 return clients[0]

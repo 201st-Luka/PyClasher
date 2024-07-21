@@ -4,12 +4,12 @@
 This class is used in subclasses to make and execute requests to the ClashOfClans API.
 """
 
-from asyncio import Future
+from asyncio import Future, get_running_loop
 
 from .Client import Client
 from .base import Model
 from .base.IRequest import IRequest
-from .exceptions import NoClient, ClientIsNotRunning, MISSING, InvalidClientId
+from .exceptions import NoClient, MISSING
 from .utils.RequestMode import RequestMode
 
 
@@ -82,21 +82,23 @@ class Request(IRequest, Model):
                 if the client id is invalid
         """
         # check client
-        self.client = Client.get_instance(client)
-        if self.client is None:
-            raise NoClient
-        if self.client is MISSING:
-            raise InvalidClientId(f"Cannot find a client with the client_id {client}.")
-        if not self.client.is_running:
-            raise ClientIsNotRunning
+        if client is None:
+            client = self.client
+            if client is MISSING and client is None:
+                raise NoClient
+
+        client = Client.check_client(client)
+
+        if get_running_loop() != client.event_loop:
+            raise RuntimeError("Client and request must run on the same event loop")
 
         # create futures
         future, status, error = Future(), Future(), Future()
 
-        self.client.logger.debug(f"Requesting {self._request_id}")
+        client.logger.debug(f"Requesting {self._request_id}")
 
         # put request in queue
-        await self.client.queue.put((future, self._make_request_url(), self.request_mode, self._body, status, error))
+        await client.queue.put((future, self._make_request_url(), self.request_mode, self._body, status, error))
 
         # wait and get data, status and error
         self._data, req_status, req_error = await future, await status, await error
@@ -105,7 +107,6 @@ class Request(IRequest, Model):
         if req_status != 200:
             raise req_error
 
-        self.client.logger.debug(f"Request {self._request_id} done")
+        client.logger.debug(f"Request {self._request_id} done")
 
-        self.client = None
         return self
