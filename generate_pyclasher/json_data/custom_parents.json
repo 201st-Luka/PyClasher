@@ -1,0 +1,11 @@
+{
+  "definitions": {
+    "ClientError": {
+      "parent": "PyClasherException",
+      "import": "exceptions",
+      "import_level": 3
+    }
+  },
+  "paths": {},
+  "responses": {}
+}

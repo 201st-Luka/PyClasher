@@ -5,22 +5,13 @@
 """
 
 
-from ....base import Request
-from ...definitions import {{ parent }} as {{ parent }}Model
-{% for import in imports %}from
-
-{ %
-for import in imports %}from
-
-from ...definitions import
-
-{{parent}} as {{parent}}
-Model
-from ....base import Request
-{{ import['import_level'] * '.' }}{{ import['module'] }} import {{ ', '.join(import['imports']) }}
+from ....{{ request_type }} import {{ request_type }}
+from ....exceptions import MISSING
+{% if parent %}from ...definitions import {{ parent }} as {{ parent }}Model
+{% endif %}{% for import in imports %}from {{ import['import_level'] * '.' }}{{ import['module'] }} import {{ ', '.join(import['imports']) }}
 {% endfor %}
 
-class {{ class_name }}(Request, {{ parent }}Model):
+class {{ class_name }}({{ request_type }}{% if generic %}[{{ generic }}]{% endif %}{% if parent %}, {{ parent }}Model{% endif %}):
     {% if description %}"""
     {{ description }}
     """{% endif %}
@@ -33,11 +24,12 @@ class {{ class_name }}(Request, {{ parent }}Model):
             client (Client):
                 The client that is used to make the request
         """
-        Request.__init__(
+        {{ request_type }}.__init__(
             self,
             "{{ raw_url }}",
             {% for arg in url_args %}{{ arg['name'] }}={{ arg['name'] }},
-            {% endfor %}client=client
+            {% endfor %}{% if generic %}type_={{ generic }},
+            {% endif %}client=client
         )
-        {{ parent }}Model.__init__(self, None)
+        {{ parent }}Model.__init__(self, {% if generic %}{{ generic }}, {% endif %}MISSING)
 

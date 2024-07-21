@@ -30,7 +30,8 @@
     "children": [
       "Clan",
       "ClanRanking",
-      "ClanWarLeagueClan"
+      "ClanWarLeagueClan",
+      "PlayerClan"
     ]
   },
   "BasePlayer": {
