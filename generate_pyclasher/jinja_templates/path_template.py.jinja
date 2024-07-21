@@ -6,7 +6,8 @@
 
 
 from ....{{ request_type }} import {{ request_type }}
-from ....exceptions import MISSING
+from ....Client import Client{% if parent %}
+from ....exceptions import MISSING{% endif %}
 {% if parent %}from ...definitions import {{ parent }} as {{ parent }}Model
 {% endif %}{% for import in imports %}from {{ import['import_level'] * '.' }}{{ import['module'] }} import {{ ', '.join(import['imports']) }}
 {% endfor %}
@@ -30,6 +31,6 @@ class {{ class_name }}({{ request_type }}{% if generic %}[{{ generic }}]{% endif
             {% for arg in url_args %}{{ arg['name'] }}={{ arg['name'] }},
             {% endfor %}{% if generic %}type_={{ generic }},
             {% endif %}client=client
-        )
-        {{ parent }}Model.__init__(self, {% if generic %}{{ generic }}, {% endif %}MISSING)
+        ){% if parent %}
+        {{ parent }}Model.__init__(self, MISSING){% endif %}
 
