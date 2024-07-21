@@ -7,8 +7,8 @@ from typing import Coroutine, Any
 
 from aiohttp import request
 
-from pyclasher.exceptions import MISSING, LoginNotDone, InvalidLoginData, Missing
-from pyclasher.old_api.models.login import LoginModel
+from exceptions import MISSING, LoginNotDone, InvalidLoginData, Missing
+from .LoginModel import LoginModel
 
 
 class Login(LoginModel):
@@ -27,11 +27,9 @@ class Login(LoginModel):
         __password (str):
             The password that is used on the official ClashOfClans developer site with the ``email`` address
     """
+
     login_url = "https://developer.clashofclans.com/api/login"
     __response: dict = None
-
-    def __new__(cls, *args, **kwargs) -> LoginModel | 'Login':
-        return super().__new__(cls)
 
     def __init__(self, email: str, password: str) -> None:
         """
@@ -90,7 +88,7 @@ class Login(LoginModel):
         else:
             return MISSING
 
-    def login(self) -> Coroutine[Any, Any, 'Login'] | 'Login':
+    def login(self) -> Coroutine[Any, Any, "Login"] | "Login":
         """
         Method to execute the login process
 
@@ -107,10 +105,9 @@ class Login(LoginModel):
         """
 
         async def async_login():
-            async with request("post", self.login_url, json={
-                "email": self.email,
-                "password": self.__password
-            }) as response:
+            async with request(
+                "post", self.login_url, json={"email": self.email, "password": self.__password}
+            ) as response:
                 if response.status == 200:
                     self._data = await response.json()
                     return self
