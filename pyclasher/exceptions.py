@@ -1,9 +1,8 @@
 """
 This file contains the exception classes for the `PyClasher` package.
 """
-from typing import Any
 
-from pyclasher.old_api.models.misc.api import ClientError
+from typing import Any
 
 
 class Missing:
@@ -19,17 +18,18 @@ class Missing:
     """
 
     return_string = "MISSING"
+    """The string that is returned when the ``str`` function is called on the ``MISSING`` object"""
 
-    def __call__(self, *args, **kwargs) -> 'Missing':
+    def __call__(self, *args, **kwargs) -> "Missing":
         return self
 
-    def __getitem__(self, item) -> 'Missing':
+    def __getitem__(self, item) -> "Missing":
         return self
 
-    def __getattr__(self, item) -> 'Missing':
+    def __getattr__(self, item) -> "Missing":
         return self
 
-    def __add__(self, other) -> Any | 'Missing':
+    def __add__(self, other) -> Any:
         if isinstance(other, Missing):
             return self
         return other
@@ -55,195 +55,8 @@ class PyClasherException(Exception):
     """
     Exception class that is subclassed by every exception to the ``pyclasher`` package
     """
+
     pass
-
-
-class ApiException(PyClasherException):
-    """
-    Exception class that is subclassed by every API exception
-
-    Attributes:
-        api_code (int):             API status code of the request
-        client_error (ClientError): optional ``ClientError`` information that is provided by the request
-    """
-
-    def __init__(self, api_code: int, client_error: ClientError = None) -> None:
-        """
-        Args:
-            api_code (int):             API status code of the request
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-        """
-        self.api_code = api_code
-        self.client_error = client_error
-        super().__init__()
-        return
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.api_code})"
-
-    def __str__(self) -> str:
-        return f"an API error occurred"
-
-
-class BadRequest(ApiException):
-    """
-    Client provided incorrect parameters for the request.
-    """
-
-    def __init__(self, client_error: ClientError = None) -> None:
-        """
-        Args:
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-        """
-        super().__init__(400, client_error)
-        return
-
-    def __str__(self) -> str:
-        return "Client provided incorrect parameters for the request."
-
-
-class AccessDenied(ApiException):
-    """
-    Access denied, either because of missing/incorrect credentials or used API token does not grant access to the
-    requested resource.
-    """
-
-    def __init__(self, client_error: ClientError = None) -> None:
-        """
-        Args:
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-        """
-        super().__init__(403, client_error)
-        return
-
-    def __str__(self) -> str:
-        return ("Access denied, either because of missing/incorrect credentials or used API token does not grant "
-                "access to the requested resource.")
-
-
-class NotFound(ApiException):
-    """
-    Resource was not found.
-    """
-
-    def __init__(self, client_error: ClientError = None) -> None:
-        """
-        Args:
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-        """
-        super().__init__(404, client_error)
-        return
-
-    def __str__(self) -> str:
-        return "Resource was not found."
-
-
-class Throttled(ApiException):
-    """
-    Request was throttled, because amount of requests was above the threshold defined for the used API token.
-    """
-
-    def __init__(self, client_error: ClientError = None) -> None:
-        """
-        Args:
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-        """
-        super().__init__(429, client_error)
-        return
-
-    def __str__(self) -> str:
-        return ("Request was throttled, because amount of requests was above the threshold defined for the used API "
-                "token.")
-
-
-class UnknownApiException(ApiException):
-    """
-    Unknown error happened when handling the request.
-    """
-
-    def __init__(self, client_error: ClientError = None):
-        """
-        Args:
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-        """
-        super().__init__(500, client_error)
-        return
-
-    def __str__(self) -> str:
-        return "Unknown error happened when handling the request."
-
-
-class Maintenance(ApiException):
-    """
-    Service is temporarily unavailable because of maintenance.
-    """
-
-    def __init__(self, client_error: ClientError = None):
-        """
-        Args:
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-        """
-        super().__init__(503, client_error)
-        return
-
-    def __str__(self) -> str:
-        return "Service is temporarily unavailable because of maintenance."
-
-
-class ApiExceptions:
-    """
-    Collection of the ApiExceptions
-
-    Attributes:
-        BadRequest (BadRequest):                    ``BadRequest`` instance
-        AccessDenied (AccessDenied):                ``AccessDenied`` instance
-        NotFound (NotFound):                        ``NotFound`` instance
-        Throttled (Throttled):                      ``Throttled`` instance
-        UnknownApiException (UnknownApiException):  ``UnknownApiException`` instance
-        Maintenance (Maintenance):                  ``Maintenance`` instance
-    """
-
-    BadRequest = BadRequest()
-    AccessDenied = AccessDenied()
-    NotFound = NotFound()
-    Throttled = Throttled()
-    UnknownApiException = UnknownApiException()
-    Maintenance = Maintenance()
-
-    @classmethod
-    def from_api_code(cls,
-                      api_code: int,
-                      client_error: ClientError = None) -> ApiException | PyClasherException:
-        """
-        Class method to create a subclass of ``ApiException`` using the API code and the optional client error
-        information that is provided by the request itself.
-
-        Args:
-            api_code (int):             API status code of the request
-            client_error (ClientError): optional ``ClientError`` information that is provided by the request
-
-        Returns:
-            returns a subclass of ``ApiException``
-
-        Raises:
-            PyClasherException: ``api_code`` is not 400, 403, 404, 429, 500, 503
-        """
-
-        # cannot use a ``match ...: case ...:`` here because it is not supported for Python version 3.9 and below
-        if api_code == 400:
-            return BadRequest(client_error)
-        elif api_code == 403:
-            return AccessDenied(client_error)
-        elif api_code == 404:
-            return NotFound(client_error)
-        elif api_code == 429:
-            return Throttled(client_error)
-        elif api_code == 500:
-            return UnknownApiException(client_error)
-        elif api_code == 503:
-            return Maintenance(client_error)
-        else:
-            PyClasherException(f"could not find {api_code} in the API exceptions")
 
 
 class RequestNotDone(PyClasherException):
@@ -262,8 +75,10 @@ class NoneToken(PyClasherException):
     """
 
     def __str__(self) -> str:
-        return ("The token must be passed to the client. You can do this in the initialisation process or pass the "
-                "tokens to the start function.")
+        return (
+            "The token must be passed to the client. You can do this in the initialisation process or pass the "
+            "tokens to the start function."
+        )
 
 
 class InvalidLoginData(PyClasherException):
@@ -387,8 +202,10 @@ class InvalidSeasonFormat(PyClasherException):
     """
 
     def __str__(self) -> str:
-        return ("The season string is not valid. It must be follow the following format: <yyyy-mm> where <yyyy> is "
-                "the year and <mm> is the month.")
+        return (
+            "The season string is not valid. It must be follow the following format: <yyyy-mm> where <yyyy> is "
+            "the year and <mm> is the month."
+        )
 
 
 class RequestTimeout(PyClasherException):
@@ -418,6 +235,7 @@ class InvalidClientId(PyClasherException):
     taken, or it can be equal to an ID that is in the range of 0 to
     ``global_client_id``.
     """
+
     pass
 
 
@@ -425,4 +243,5 @@ class InvalidModelParams(PyClasherException):
     """
     Exception that is raised if a ``ModelDecorator`` is used with invalid parameters.
     """
+
     pass
