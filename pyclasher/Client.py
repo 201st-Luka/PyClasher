@@ -9,16 +9,17 @@ from types import TracebackType
 from typing import Iterable
 from urllib.parse import urlparse
 
-from .Login import Login
 from .RequestConsumer import PConsumer
-from ..exceptions import (
+from .exceptions import (
     InvalidType,
     ClientIsRunning,
     ClientIsNotRunning,
     NoneToken,
     MISSING,
     TokenAlreadyUsed,
-    PyClasherException
+    PyClasherException,
+    NoClient,
+    InvalidClientId,
 )
 
 global_client_id = 0
@@ -62,7 +63,7 @@ class Client:
     endpoint = "/v1"
     """Endpoint url for all requests"""
 
-    def __new__(cls, *, tokens: str | Iterable[str] = None, **kwargs) -> 'Client':
+    def __new__(cls, *, tokens: str | Iterable[str] = None, **kwargs) -> "Client":
         """
         Args:
             tokens (str | Iterable[str] | None):
@@ -100,12 +101,12 @@ class Client:
         return cls.__instances[-1]
 
     def __init__(
-            self,
-            tokens: str | Iterable[str] = None,
-            requests_per_second: int = 5,
-            request_timeout: float | None = 30,
-            logger: Logger = MISSING,
-            swagger_url: str = None
+        self,
+        tokens: str | Iterable[str] = None,
+        requests_per_second: int = 5,
+        request_timeout: float | None = 30,
+        logger: Logger = MISSING,
+        swagger_url: str = None,
     ) -> None:
         """
         Args:
@@ -138,13 +139,12 @@ class Client:
             elif isinstance(tokens, Iterable):
                 self.__tokens = list(tokens)
             else:
-                raise InvalidType(tokens,
-                                  (str, Iterable[str]))
+                raise InvalidType(tokens, (str, Iterable[str]))
 
         if swagger_url is not None:
             parsed_url = urlparse(swagger_url)
             self.base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
-            self.endpoint = parsed_url.path[:-1]
+            self.endpoint = parsed_url.path.removesuffix("/")
 
         self.requests_per_second = requests_per_second
 
@@ -166,14 +166,15 @@ class Client:
         return
 
     @classmethod
-    async def from_login(cls,
-                         email: str,
-                         password: str,
-                         requests_per_second: int = 5,
-                         request_timeout: float | None = 30,
-                         logger: Logger = MISSING,
-                         login_count: int = 1
-                         ) -> 'Client':
+    async def from_login(
+        cls,
+        email: str,
+        password: str,
+        requests_per_second: int = 5,
+        request_timeout: float | None = 30,
+        logger: Logger = MISSING,
+        login_count: int = 1,
+    ) -> "Client":
         """
         Class method to initialise a client using the authentication of the
         ClashOfClans API and create tokens using this API.
@@ -199,24 +200,26 @@ class Client:
         Returns:
             Client: an instance of the pyclasher client
         """
+        from .login.Login import Login  # import here to avoid circular import
+
         if logger is None:
             logger = MISSING
 
-        logins = [
-            await Login(email, password).login() for _ in range(login_count)
-        ]
+        logins = [await Login(email, password).login() for _ in range(login_count)]
 
         logger.info("initialising client via login")
 
-        self = cls(tokens=[login.temporary_api_token for login in logins],
-                   requests_per_second=requests_per_second,
-                   request_timeout=request_timeout,
-                   swagger_url=logins[0].swagger_url)
+        self = cls(
+            tokens=[login.temporary_api_token for login in logins],
+            requests_per_second=requests_per_second,
+            request_timeout=request_timeout,
+            swagger_url=logins[0].swagger_url,
+        )
         self.logger = logger
         self.__temporary_session = True
         return self
 
-    async def start(self, tokens: str | Iterable[str] = None) -> 'Client':
+    async def start(self, tokens: str | Iterable[str] = None) -> "Client":
         """
         coroutine method to start the client
 
@@ -257,18 +260,15 @@ class Client:
         self.logger.info("starting client")
 
         self.__consumers = [
-            PConsumer(self.queue, token, self.requests_per_second,
-                      self.request_timeout, self.base_url)
+            PConsumer(self.queue, token, self.requests_per_second, self.request_timeout, self.base_url)
             for token in tokens
         ]
-        self.__consume_tasks = [
-            create_task(consumer.consume()) for consumer in self.__consumers
-        ]
+        self.__consume_tasks = [create_task(consumer.consume()) for consumer in self.__consumers]
         self.logger.debug("client started")
 
         return self
 
-    async def close(self) -> 'Client':
+    async def close(self) -> "Client":
         """
         coroutine method to stop the client
 
@@ -292,7 +292,7 @@ class Client:
         self.logger.debug("client closed")
         return self
 
-    async def __aenter__(self) -> 'Client':
+    async def __aenter__(self) -> "Client":
         """
         asynchronous context manager (starting)
 
@@ -301,10 +301,9 @@ class Client:
         """
         return await self.start()
 
-    async def __aexit__(self,
-                        exc_type: type[BaseException] | None,
-                        exc_val: BaseException | None,
-                        exc_tb: TracebackType | None):
+    async def __aexit__(
+        self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: TracebackType | None
+    ):
         """
         asynchronous context manager (stopping)
 
@@ -376,9 +375,9 @@ class Client:
         """
         global global_client_id
         if not isinstance(new_id, str) or new_id.isdigit():
-            raise PyClasherException("The new custom ID must be a string and "
-                                     "must not contain a string value that is a"
-                                     " digit")
+            raise PyClasherException(
+                "The new custom ID must be a string and " "must not contain a string value that is a" " digit"
+            )
 
         if isinstance(new_id, str):
             if " " in new_id:
@@ -386,15 +385,14 @@ class Client:
 
         for client in Client.__instances:
             if client.client_id == new_id:
-                raise PyClasherException(f"`new_id` {new_id} has already been "
-                                         f"taken and must be different")
+                raise PyClasherException(f"`new_id` {new_id} has already been " f"taken and must be different")
 
         self._client_id = new_id
 
         return
 
     @classmethod
-    def get_instance(cls, client_id: int | str = None) -> 'Client' | None:
+    def get_instance(cls, client_id: int | str = None) -> "Client":
         """
         Getter of a client
 
@@ -415,9 +413,7 @@ class Client:
         """
         if cls.__instances is None:
             return None
-        clients = [client
-                   for client in cls.__instances
-                   if not client._event_client]
+        clients = [client for client in cls.__instances if not client._event_client]
         if len(clients):
             if client_id is None:
                 return clients[0]
@@ -437,3 +433,35 @@ class Client:
             bool:   ``True`` if a client has been initialised, ``False`` otherwise
         """
         return isinstance(cls.__instances, list)
+
+    @staticmethod
+    def check_client(client: int | str) -> "Client":
+        """
+        Static method to check if a client is running
+
+        Args:
+            client (Client | int | str):
+                the client or its ID
+
+        Returns:
+            Client:
+                the client if it is valid and running
+
+        Raises:
+            NoClient:
+                if the client is not found
+            ClientIsNotRunning:
+                if the client is not running
+            InvalidClientId:
+                if the client id is invalid
+        """
+        if isinstance(client, (int, str)):
+            client = Client.get_instance(client)
+        if client is None:
+            raise NoClient
+        if client is MISSING:
+            raise InvalidClientId(f"Cannot find a client with the client_id {client}.")
+        if not client.is_running:
+            raise ClientIsNotRunning
+
+        return client

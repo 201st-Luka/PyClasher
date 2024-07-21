@@ -2,17 +2,17 @@
 ``RequestMethods`` enum class
 """
 
-
 from enum import Enum
 
 
-class RequestMethods(Enum):
+class RequestMode(Enum):
     """
-    Enum that contains the request method types
+    Enum that contains the request modes
 
     Attributes:
         GET (str):  get request
         POST (str):     post request
     """
+
     GET = "get"
     POST = "post"

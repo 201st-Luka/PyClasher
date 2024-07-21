@@ -7,9 +7,9 @@ from json import dumps
 
 from aiohttp import ClientSession, ClientTimeout
 
-from ..exceptions import ApiExceptions, MISSING, RequestTimeout
-from ..old_api.models import ClientError
-from ..utils import ExecutionTimer
+from .api.responses import *
+from .exceptions import MISSING, RequestTimeout
+from .utils import ExecutionTimer
 
 
 class PConsumer:
@@ -33,12 +33,7 @@ class PConsumer:
             aiohttp client session that is used to execute the requests
     """
 
-    def __init__(self,
-                 queue: Queue,
-                 token: str,
-                 requests_per_s: int,
-                 request_timeout: float | None,
-                 url: str) -> None:
+    def __init__(self, queue: Queue, token: str, requests_per_s: int, request_timeout: float | None, url: str) -> None:
         """
         Args:
             queue (asyncio.Queue):
@@ -53,27 +48,17 @@ class PConsumer:
                 the base URL for the requests
         """
         self.queue = queue
-        self.header = {
-            'Authorization': f'Bearer {token}'
-        }
+        self.header = {"Authorization": f"Bearer {token}"}
         self.r_p_s = requests_per_s
         self.timeout = request_timeout
         self.wait = 1 / self.r_p_s
         self.url = url
-        self.session = ClientSession(
-            base_url=url,
-            headers=self.header,
-            timeout=ClientTimeout(total=self.timeout)
-        )
+        self.session = ClientSession(base_url=url, headers=self.header, timeout=ClientTimeout(total=self.timeout))
         return
 
-    async def _request(self,
-                       future: Future,
-                       url: str,
-                       method: str,
-                       body: dict | None,
-                       status: Future,
-                       error: Future) -> None:
+    async def _request(
+        self, future: Future, url: str, method: str, body: dict | None, status: Future, error: Future
+    ) -> None:
         """
         Coroutine that executes one request
 
@@ -97,18 +82,27 @@ class PConsumer:
         """
         try:
             async with self.session.request(
-                    method=method,
-                    url=url,
-                    data=None if body is None else dumps(body)
+                method=method, url=url, data=None if body is None else dumps(body)
             ) as response:
                 response_json = await response.json()
 
                 if response.status == 200:
                     error.set_result(None)
                 else:
-                    error.set_result(ApiExceptions.from_api_code(
-                        response.status, ClientError(response_json)
-                    ))
+                    match response.status:
+                        case 400:
+                            exception_cls = BadRequest
+                        case 403:
+                            exception_cls = Forbidden
+                        case 404:
+                            exception_cls = NotFound
+                        case 429:
+                            exception_cls = RequestThrottled
+                        case 500:
+                            exception_cls = UnknownException
+                        case 503:
+                            exception_cls = InMaintenance
+                    error.set_result(exception_cls(response_json))
 
                 future.set_result(response_json)
                 status.set_result(response.status)
@@ -135,11 +129,7 @@ class PConsumer:
             future, url, method, body, status, error = await self.queue.get()
 
             async with ExecutionTimer(self.wait):
-                await create_task(
-                    self._request(
-                        future, url, method.value, body, status, error
-                    )
-                )
+                await create_task(self._request(future, url, method.value, body, status, error))
 
                 self.queue.task_done()
 
