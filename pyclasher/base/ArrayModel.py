@@ -4,8 +4,10 @@
 
 from typing import Iterator
 
+from ..exceptions import Missing
 
-class ArrayIterator[T]:
+
+class ArrayModel[T]:
     """
     Class to iterate over an array of items
 
@@ -16,7 +18,7 @@ class ArrayIterator[T]:
             Type of the items in the array
     """
 
-    def __init__(self, data: dict[str, list[dict]], type_: type[T]) -> None:
+    def __init__(self, data: dict[str, list[dict]] | Missing | None, type_: type[T]) -> None:
         """
         Args:
             data (dict[str, list[dict]]):
@@ -24,7 +26,7 @@ class ArrayIterator[T]:
             type_ (type[T]):
                 Type of the items in the array
         """
-        self._items = data['items']
+        self._items = data["items"]
         self._type = type_
 
     def __iter__(self) -> Iterator[T]:

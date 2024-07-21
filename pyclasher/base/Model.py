@@ -2,12 +2,10 @@
 ``Model`` class
 """
 
-from abc import ABC
-
-from pyclasher.exceptions import MISSING, Missing, RequestNotDone
+from ..exceptions import MISSING, Missing, RequestNotDone
 
 
-class Model(ABC):
+class Model:
     """
     Abstract base class for API models
 
@@ -16,7 +14,7 @@ class Model(ABC):
             Data dictionary of the API response
     """
 
-    def __new__(cls, *args, data: dict | Missing = None, **kwargs) -> Missing | 'Model':
+    def __new__(cls, *args, data: dict | Missing = None, **kwargs) -> "Model":
         """
         Args:
             data (dict | Missing):
@@ -34,7 +32,7 @@ class Model(ABC):
         """
         self._data = data
 
-    def get_dict(self) -> dict[str, int | str | float | list | dict] | None:
+    def to_dict(self) -> dict[str, int | str | float | list | dict] | None:
         """
         Return the data dictionary of the model
 
@@ -44,7 +42,7 @@ class Model(ABC):
         """
         return self._data
 
-    def _get_data(self, item: str) -> int | str | float | list | dict | 'Missing' | None:
+    def _get_data(self, item: str) -> int | str | float | list | dict | Missing | None:
         """
         Data accessor that handles wrong or the absence of data
 
@@ -78,32 +76,35 @@ class Model(ABC):
     def __str__(self) -> str:
         if self._data is MISSING:
             return f"{self.__class__.__name__}(RequestNotDone)"
-        if hasattr(self, '_primary_attributes'):
-            primary_attrs = [self.__dict__[primary_attr].__get__(self) for primary_attr in self._primary_attributes]
-            return (f"{self.__class__.__name__}"
-                    f"({', '.join((f'{primary_attrs}={self.__dict__[primary_attr].__get__(self)}'
-                                   for primary_attr in self._primary_attributes))})")
+        if hasattr(self, "_primary_attributes"):
+            return (
+                f"{self.__class__.__name__}"
+                f"({', '.join((f'{primary_attr}={self._primary_attributes[primary_attr].__get__(self)}'
+                               for primary_attr in self._primary_attributes))})"
+            )
         return f"{self.__class__.__name__}()"
 
-    def _get_properties(self) -> dict[str, int | str | float | list | dict] | 'Missing' | None:
+    def _get_properties(self) -> dict[str, int | str | float | list | dict] | Missing | None:
         """
         Return a dictionary containing the names of properties and their values
 
         Returns:
             dict[str, int | str | float | list | dict]:
                 Dictionary containing the names of properties and their values
+            MISSING:
+                The request was not executed before accessing the data
+            None:
+                The data dictionary is None (most likely because the ``RequestNotDone`` exception is wanted to be
+                suppressed by a subclass)
         """
-        if isinstance(self._data, dict):
-            return {
-                name: prop.__get__(self)
-                for name, prop in vars(type(self)).items()
-                if isinstance(prop, property)
-            }
+        if isinstance(self._data, dict) and hasattr(self, "_properties"):
+            return {name: prop.__get__(self) for name, prop in self._properties.items()}
         return self._data
 
     def __repr__(self) -> str:
-        props = ', '.join(
-            ('='.join((key, str(value)))
-             for key, value in self._get_properties().items())  # map all properties in the object representation
+        props = ", ".join(
+            (
+                "=".join((key, str(value))) for key, value in self._get_properties().items()
+            )  # map all properties in the object representation
         )
         return f"{self.__class__.__name__}({props})"
