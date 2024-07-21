@@ -86,6 +86,8 @@ class IterativeRequest[T](IRequest, ArrayModel[T]):
         # raise error if status is not 200
         if req_status != 200:
             raise req_error
+        else:
+            self._items = self._items["items"]
 
         client.logger.debug(f"Request {self._request_id} done")
 
