@@ -17,7 +17,10 @@ class {{ class_name }}({{ request_type }}{% if generic %}[{{ generic }}]{% endif
     {{ description }}
     """{% endif %}
 
-    def __init__(self, {% for arg in url_args %}{{ arg['name'] }}: {{ arg['type'] }}, {% endfor %}{% for kwarg in kwargs %}{{ arg['name'] }}: {{ arg['type'] }} = None{% endfor %}client: Client = None) -> None:
+    def __init__(self,
+                 {% for arg in url_args %}{{ arg['name'] }}: {{ arg['type'] }},
+                 {% endfor %}{% for kwarg in url_kwargs %}{{ kwarg['name'] }}: {{ kwarg['type'] }} = None,
+                 {% endfor %}client: Client = None) -> None:
         """
         Args:
             {% for arg in url_args %}{{ arg['name'] }} ({{ arg['type'] }}):
@@ -29,7 +32,10 @@ class {{ class_name }}({{ request_type }}{% if generic %}[{{ generic }}]{% endif
             self,
             "{{ raw_url }}",
             {% for arg in url_args %}{{ arg['name'] }}={{ arg['name'] }},
-            {% endfor %}{% if generic %}type_={{ generic }},
+            {% endfor %}{% if url_kwargs %}kwargs={
+                {% for kwarg in url_kwargs %}"{{ kwarg['original_name'] }}": {{ kwarg['name'] }},
+                {% endfor %}},
+            {% endif %}{% if generic %}type_={{ generic }},
             {% endif %}client=client
         ){% if parent %}
         {{ parent }}Model.__init__(self, MISSING){% endif %}

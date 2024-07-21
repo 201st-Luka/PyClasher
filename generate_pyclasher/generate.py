@@ -268,7 +268,8 @@ def generate_paths(yaml, generated_path: str):
                 case "query":
                     kwargs.append(
                         {
-                            "name": param["name"],
+                            "original_name": param["name"],
+                            "name": camel_to_snake_case(param["name"]),
                             "type": definitions_matcher[param["type"]],
                             "description": param["description"],
                         }
