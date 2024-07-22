@@ -1,0 +1,106 @@
+{
+  "classes": {
+    "BuilderBaseLeague": {
+      "parameter_type_overrides": {
+        "args": {
+          "leagueId": [
+            "int",
+            "str"
+          ]
+        }
+      }
+    },
+    "CapitalLeague": {
+      "parameter_type_overrides": {
+        "args": {
+          "leagueId": [
+            "int",
+            "str"
+          ]
+        }
+      }
+    },
+    "League": {
+      "parameter_type_overrides": {
+        "args": {
+          "leagueId": [
+            "int",
+            "str"
+          ]
+        }
+      }
+    },
+    "WarLeague": {
+      "parameter_type_overrides": {
+        "args": {
+          "leagueId": [
+            "int",
+            "str"
+          ]
+        }
+      }
+    }
+  },
+  "parameters": {
+    "clanTag": {
+      "class_methods": {
+        "from_base_clan": {
+          "args": [
+            {
+              "name": "clan",
+              "type": "BaseClan",
+              "description": "The BaseClan object to create the {class_name} object from."
+            }
+          ],
+          "description": "Create a new {class_name} request object from a BaseClan object.",
+          "return": {
+            "type": "\"{class_name}\"",
+            "description": "The new {class_name} request object."
+          },
+          "body": [
+            "return {class_name}(clan.tag{kwargs_string})"
+          ]
+        }
+      },
+      "imports": [
+        {
+          "module": "definitions.BaseClan",
+          "import_level": 3,
+          "imports": [
+            "BaseClan"
+          ]
+        }
+      ]
+    },
+    "playerTag": {
+      "class_methods": {
+        "from_base_player": {
+          "args": [
+            {
+              "name": "player",
+              "type": "BasePlayer",
+              "description": "The BasePlayer object to create the {class_name} object from."
+            }
+          ],
+          "description": "Create a new {class_name} request object from a BasePlayer object.",
+          "return": {
+            "type": "\"{class_name}\"",
+            "description": "The new {class_name} request object."
+          },
+          "body": [
+            "return {class_name}(player.tag{kwargs_string})"
+          ]
+        }
+      },
+      "imports": [
+        {
+          "module": "definitions.BasePlayer",
+          "import_level": 3,
+          "imports": [
+            "BasePlayer"
+          ]
+        }
+      ]
+    }
+  }
+}

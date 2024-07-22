@@ -4,7 +4,13 @@ from os.path import join
 
 from jinja2 import Template
 
-from .helper_functions import convert_operation_id, camel_to_snake_case, find_array_sub_definition, format_request_url
+from .helper_functions import (
+    convert_operation_id,
+    camel_to_snake_case,
+    find_array_sub_definition,
+    format_request_url,
+    screaming_snake_to_camel,
+)
 
 
 def generate_tags(yaml, generated_path: str):
@@ -102,17 +108,17 @@ def generate_definitions(yaml, generated_path: str):
             continue
 
         annotations = []
-        imports = {"base": {"import_level": 3, "imports": {"Model", "ModelWrapper"}}}
+        imports = {"base": {"import_level": 3, "imports": {"ObjectModel", "ModelWrapper"}}}
 
         # get parent
-        parents = ["Model"]
+        parents = ["ObjectModel"]
         parent_fields = []
 
         # check if custom parent
         custom_parent = custom_parents.get(def_key)
         if custom_parent is not None:
-            if "Model" in parents:
-                parents.remove("Model")
+            if "ObjectModel" in parents:
+                parents.remove("ObjectModel")
             parents.append(custom_parent["parent"])
             imports[custom_parent["import"]] = {
                 "import_level": custom_parent["import_level"],
@@ -121,8 +127,8 @@ def generate_definitions(yaml, generated_path: str):
 
         for base_def, base_values in base_definitions.items():
             if def_key in base_values["children"]:
-                if "Model" in parents:
-                    parents.remove("Model")
+                if "ObjectModel" in parents:
+                    parents.remove("ObjectModel")
                 parents.append(base_def)
                 imports[base_def] = {"import_level": 1, "imports": {base_def}}
                 parent_fields.extend(base_values["fields"].keys())
@@ -198,11 +204,11 @@ def generate_definitions(yaml, generated_path: str):
             base_definition_py.writelines(
                 jinja_template.generate(
                     class_name=base_def,
-                    imports={"base": {"import_level": 3, "imports": {"Model", "ModelWrapper"}}},
+                    imports={"base": {"import_level": 3, "imports": {"ObjectModel", "ModelWrapper"}}},
                     primary_attributes=sorted(
                         (camel_to_snake_case(field) for field in base_values["primary_attributes"])
                     ),
-                    parents=["Model"],
+                    parents=["ObjectModel"],
                     annotations=sorted(
                         [
                             {"name": camel_to_snake_case(field), "type": type_}
@@ -220,16 +226,50 @@ def generate_definitions(yaml, generated_path: str):
         init_py.writelines((f"from .{init_import} import {init_import}\n" for init_import in sorted(init_imports)))
 
 
+def generate_enums(yaml, generated_path: str):
+    path = join(generated_path, "enums")
+    mkdir(path)
+
+    with open(join("generate_pyclasher", "json_data", "enum_mapping.json"), "r", encoding="utf-8") as enum_mapping_file:
+        enum_mapping = load(enum_mapping_file)
+
+    jinja_template = Template(
+        open(join("generate_pyclasher", "jinja_templates", "enum_template.py.jinja"), "r", encoding="utf-8").read()
+    )
+
+    enums = {}
+    for def_name, def_value in yaml["definitions"].items():
+        for prop_name, prop_value in def_value.get("properties", {}).items():
+            enum_value = prop_value.get("enum")
+            if enum_value is not None:
+                enums[enum_mapping[prop_name][def_name]] = enum_value
+    for enum_name, enum_items in enums.items():
+        with open(join(path, enum_name + ".py"), "w", encoding="utf-8") as enum_py:
+            enum_py.writelines(
+                jinja_template.generate(
+                    class_name=enum_name, items={name: screaming_snake_to_camel(name) for name in enum_items}
+                )
+            )
+
+    with open(join(path, "__init__.py"), "w", encoding="utf-8") as init_py:
+        init_py.write(f'"""\nGenerated enums\n"""\n\n\n')
+        init_py.writelines((f"from .{enum_name} import {enum_name}\n" for enum_name in sorted(enums.keys())))
+
+
 def generate_paths(yaml, generated_path: str):
     path = join(generated_path, "requests")
 
-    jinja_template = Template(
-        open(join("generate_pyclasher", "jinja_templates", "path_template.py.jinja"), "r", encoding="utf-8").read()
-    )
     with open(
         join("generate_pyclasher", "json_data", "definitions_matcher.json"), "r", encoding="utf-8"
     ) as definitions_matcher_file:
         definitions_matcher = load(definitions_matcher_file)
+    with open(
+        join("generate_pyclasher", "json_data", "custom_paths.json"), "r", encoding="utf-8"
+    ) as custom_parents_file:
+        custom_parents = load(custom_parents_file)
+    jinja_template = Template(
+        open(join("generate_pyclasher", "jinja_templates", "path_template.py.jinja"), "r", encoding="utf-8").read()
+    )
 
     tags_init_import = {}
 
@@ -246,7 +286,7 @@ def generate_paths(yaml, generated_path: str):
         class_name = convert_operation_id(path_value[mode]["operationId"])
         tag = path_value[mode]["tags"][0]
         tags_init_import.setdefault(tag, []).append(class_name)
-        args, kwargs, body, imports, generic = [], [], None, [], None
+        args, kwargs, body, imports, generic, methods = [], [], None, [], None, []
         parent = path_value[mode]["responses"]["200"]["schema"]["$ref"].removeprefix("#/definitions/")
         if yaml["definitions"][parent]["type"] == "array":
             generic = find_array_sub_definition(parent, yaml["definitions"])
@@ -285,6 +325,43 @@ def generate_paths(yaml, generated_path: str):
                 case _:
                     raise Exception(f"Invalid parameter location for path {path_key}: {param}.")
 
+        for param in path_value[mode].get("parameters", []):
+            custom_paths = custom_parents["parameters"].get(param["name"], {})
+            class_methods = custom_paths.get("class_methods", {})
+            for c_m_name, c_m_def in class_methods.items():
+                kwargs_string = (
+                    ", " + ", ".join((f"{kwarg['name']}={kwarg['name']}" for kwarg in kwargs)) if kwargs else ""
+                )
+                methods.append(
+                    {
+                        "name": c_m_name,
+                        "args": [{"name": "cls", "type": None}] + c_m_def["args"],
+                        "kwargs": kwargs,
+                        "return": {
+                            "type": c_m_def["return"]["type"].format(class_name=class_name),
+                            "description": c_m_def["return"]["description"].format(class_name=class_name),
+                        },
+                        "description": c_m_def["description"].format(class_name=class_name),
+                        "body": [
+                            line.format(class_name=class_name, kwargs_string=kwargs_string) for line in c_m_def["body"]
+                        ],
+                        "decorator": "classmethod",
+                    }
+                )
+            if "imports" in custom_paths:
+                imports.extend(custom_paths["imports"])
+
+        if class_name in custom_parents["classes"]:
+            parameter_type_overrides = custom_parents["classes"][class_name].get("parameter_type_overrides", {})
+            pto_args = parameter_type_overrides.get("args", {})
+            for arg, types in pto_args.items():
+                index = 0
+                for i, a in enumerate(args):
+                    if a["name"] == arg:
+                        index = i
+                        break
+                args[index]["type"] = " | ".join(types)
+
         with open(join(path, tag, class_name + ".py"), "w", encoding="utf-8") as path_py:
             path_py.writelines(
                 jinja_template.generate(
@@ -299,6 +376,7 @@ def generate_paths(yaml, generated_path: str):
                     url_kwargs=kwargs,
                     body=body,
                     imports=imports,
+                    methods=methods,
                 )
             )
 
@@ -321,6 +399,9 @@ def generate_api(yaml, generated_path: str):
 
     print("Generating definitions...")
     generate_definitions(yaml, generated_path)
+
+    print("Generating enums...")
+    generate_enums(yaml, generated_path)
 
     print("Generating paths...")
     generate_paths(yaml, generated_path)

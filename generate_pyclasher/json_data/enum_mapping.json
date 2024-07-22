@@ -1,0 +1,34 @@
+{
+  "warState": {
+    "WarStatus": "ClanWarState"
+  },
+  "state": {
+    "ClanWar": "ClanWarState",
+    "ClanWarLeagueGroup": "LeagueWarState"
+  },
+  "role": {
+    "ClanMember": "MemberRole",
+    "Player": "MemberRole"
+  },
+  "type": {
+    "PlayerHouseElement": "HouseElementType",
+    "Clan": "ClanType"
+  },
+  "warFrequency": {
+    "Clan": "WarFrequency"
+  },
+  "battleModifier": {
+    "ClanWar": "BattleModifier",
+    "ClanWarLogEntry": "BattleModifier"
+  },
+  "result": {
+    "ClanWarLogEntry": "WarResult"
+  },
+  "warPreference": {
+    "Player": "WarPreference"
+  },
+  "village": {
+    "PlayerAchievementProgress": "Village",
+    "PlayerItemLevel": "Village"
+  }
+}

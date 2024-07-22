@@ -30,3 +30,8 @@ def format_request_url(raw_url: str) -> str:
         return raw_url
     else:
         return raw_url[:start] + camel_to_snake_case(raw_url[start:end]) + raw_url[end:]
+
+
+def screaming_snake_to_camel(screaming_snake_str: str) -> str:
+    words = screaming_snake_str.lower().split("_")
+    return words[0] + "".join(word.capitalize() for word in words[1:])
