@@ -1,3 +1,4 @@
 from .ArrayModel import ArrayModel
 from .ObjectModel import ObjectModel
 from .ModelWrapper import ModelWrapper
+from .EnumModel import EnumModel
