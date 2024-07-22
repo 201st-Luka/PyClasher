@@ -1,0 +1,15 @@
+"""
+``{{ class_name }}`` class
+"""
+
+
+from ...base import EnumModel
+
+
+class {{ class_name }}(EnumModel):
+    """
+    {{ class_name }} enum class
+    """
+
+    {% for name, value in items.items() %}{{ name }} = "{{ value }}"
+    {% endfor %}
