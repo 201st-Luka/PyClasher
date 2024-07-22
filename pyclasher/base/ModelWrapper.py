@@ -81,7 +81,7 @@ class ModelWrapper:
             except TypeError:
 
                 def getter(self_: T):
-                    return ArrayModel(data=self_._get_data(key), type_=type_.__args__[0])
+                    return ArrayModel(items=self_._get_data(key), type_=type_.__args__[0])
 
                 return getter
 

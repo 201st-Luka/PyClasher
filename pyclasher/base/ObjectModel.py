@@ -14,7 +14,7 @@ class ObjectModel:
             Data dictionary of the API response
     """
 
-    def __new__(cls, *args, data: dict | Missing = None, **kwargs) -> "Model":
+    def __new__(cls, *args, data: dict | Missing = None, **kwargs) -> "ObjectModel":
         """
         Args:
             data (dict | Missing):
