@@ -20,3 +20,13 @@ Issues = "https://github.com/201st-Luka/PyClasher/issues"
 [tool.black]
 line-length = 120
 target-version = ["py38", "py39", "py310", "py311", "py312"]
+
+[tool.pytest.ini_options]
+console_output_style = "count"
+empty_parameter_set_mark = "fail_at_collect"
+faulthandler_timeout = 30
+junit_duration_report = "total"
+junit_family = "xunit2"
+junit_logging = "system-err"
+minversion = "8.0"
+plugins = ["pytest-asyncio>=0.23"]
