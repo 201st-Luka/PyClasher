@@ -24,10 +24,9 @@ def find_array_sub_definition(type_, definitions) -> str:
 
 
 def format_request_url(raw_url: str) -> str:
-    try:
-        start = raw_url.find("{")
-        end = raw_url.find("}") + 1
-    except ValueError:
+    start = raw_url.find("{")
+    end = raw_url.find("}") + 1
+    if start == -1 and end == 0:
         return raw_url
     else:
         return raw_url[:start] + camel_to_snake_case(raw_url[start:end]) + raw_url[end:]
