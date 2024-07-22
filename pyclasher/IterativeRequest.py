@@ -2,12 +2,10 @@
 ``IterativeRequest`` class
 """
 
-from asyncio import Future, get_running_loop
-
 from .Client import Client
 from .base import ArrayModel
 from .base.IRequest import IRequest
-from .exceptions import MISSING, NoClient
+from .exceptions import MISSING
 from .utils.RequestMode import RequestMode
 
 
@@ -62,34 +60,8 @@ class IterativeRequest[T](IRequest, ArrayModel[T]):
             InvalidClientId:
                 if the client id is invalid
         """
-        if client is None:
-            client = self.client
-            if client is MISSING and client is None:
-                raise NoClient
+        await super().request(client)
 
-        client = Client.check_client(client)
-
-        if get_running_loop() != client.event_loop:
-            raise RuntimeError("Client and request must run on the same event loop")
-
-        # create futures
-        future, status, error = Future(), Future(), Future()
-        request_url = self._make_request_url()
-
-        client.logger.debug(f"Requesting {self._request_id}")
-
-        # put request in queue
-        await client.queue.put((future, request_url, self.request_mode, self._body, status, error))
-
-        # wait and get data, status and error
-        self._items, req_status, req_error = await future, await status, await error
-
-        # raise error if status is not 200
-        if req_status != 200:
-            raise req_error
-        else:
-            self._items = self._items["items"]
-
-        client.logger.debug(f"Request {self._request_id} done")
+        self._items = self._data["items"]
 
         return self

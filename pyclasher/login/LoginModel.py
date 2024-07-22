@@ -5,11 +5,11 @@
 from .Auth import Auth
 from .Developer import Developer
 from .Status import Status
-from ..base import Model, ModelWrapper
+from ..base import ObjectModel, ModelWrapper
 
 
 @ModelWrapper(primary_attributes=None, exclude_annotations=None)
-class LoginModel(Model):
+class LoginModel(ObjectModel):
     status: Status
     session_expires_in_seconds: int
     auth: Auth

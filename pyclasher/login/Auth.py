@@ -2,10 +2,10 @@
 ``Auth`` class
 """
 
-from ..base.Model import Model
+from ..base.ObjectModel import ObjectModel
 
 
-class Auth(Model):
+class Auth(ObjectModel):
     uid: str
     token: str
     ua: str

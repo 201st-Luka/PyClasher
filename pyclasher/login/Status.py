@@ -2,10 +2,10 @@
 ``Status`` class
 """
 
-from ..base import Model
+from ..base import ObjectModel
 
 
-class Status(Model):
+class Status(ObjectModel):
     code: int
     message: str
     detail: str

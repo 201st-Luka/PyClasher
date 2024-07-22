@@ -4,14 +4,15 @@
 This class is used to create the request subclasses.
 """
 
-from abc import ABC, abstractmethod
+from asyncio import get_running_loop, Future
 from urllib.parse import quote, urlencode
 
+from ..exceptions import MISSING, NoClient
 from ..Client import Client
 from ..utils.RequestMode import RequestMode
 
 
-class IRequest(ABC):
+class IRequest:
     """
     Class for creating requests to the ClashOfClans API
 
@@ -30,6 +31,8 @@ class IRequest(ABC):
             the client or its client ID that is used to make the request
         _request_id_counter (int):
             the request id counter that is used and incremented for each request
+        _data (dict):
+            the response data of the request
     """
 
     _request_id_counter = 0
@@ -74,6 +77,9 @@ class IRequest(ABC):
         self.client = client if isinstance(client, Client) else Client.get_instance(client)
         """The client that is used to make the request"""
 
+        self._data = MISSING
+        """The response data of the request"""
+
     def _make_request_url(self) -> str:
         """
         Private method that returns the request url
@@ -90,7 +96,6 @@ class IRequest(ABC):
 
         return request_url
 
-    @abstractmethod
     async def request(self, client: Client | int | str = None) -> "IRequest":
         """
         Executes a request and makes the call to the ClashOfClans API
@@ -111,7 +116,36 @@ class IRequest(ABC):
             InvalidClientId:
                 if the client id is invalid
         """
-        ...
+        # check client
+        if client is None:
+            client = self.client
+            if client is MISSING and client is None:
+                raise NoClient
+
+        client = Client.check_client(client)
+
+        if get_running_loop() != client.event_loop:
+            raise RuntimeError("Client and request must run on the same event loop")
+
+        # create futures
+        future, status, error = Future(), Future(), Future()
+        request_url = self._make_request_url()
+
+        client.logger.debug(f"Requesting {self._request_id}")
+
+        # put request in queue
+        await client.queue.put((future, request_url, self.request_mode, self._body, status, error))
+
+        # wait and get data, status and error
+        self._data, req_status, req_error = await future, await status, await error
+
+        # raise error if status is not 200
+        if req_status != 200:
+            raise req_error
+
+        client.logger.debug(f"Request {self._request_id} done")
+
+        return self
 
     async def __aenter__(self) -> "IRequest":
         return await self.request()

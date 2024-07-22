@@ -2,10 +2,10 @@
 ``Developer`` class
 """
 
-from ..base import Model
+from ..base import ObjectModel
 
 
-class Developer(Model):
+class Developer(ObjectModel):
     id: str
     name: str
     game: str

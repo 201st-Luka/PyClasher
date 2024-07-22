@@ -1,3 +1,3 @@
 from .ArrayModel import ArrayModel
-from .Model import Model
+from .ObjectModel import ObjectModel
 from .ModelWrapper import ModelWrapper

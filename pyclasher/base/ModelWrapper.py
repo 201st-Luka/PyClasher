@@ -5,7 +5,7 @@
 from typing import TypeVar, Callable
 
 from .ArrayModel import ArrayModel
-from .Model import Model
+from .ObjectModel import ObjectModel
 from ..utils import snake_to_camel
 
 T = TypeVar("T", bound=type)
@@ -71,7 +71,7 @@ class ModelWrapper:
                 return getter
 
             try:
-                if issubclass(type_, Model):
+                if issubclass(type_, ObjectModel):
 
                     def getter(self_: T):
                         return type_(self_._get_data(key))

@@ -5,7 +5,7 @@
 from ..exceptions import MISSING, Missing, RequestNotDone
 
 
-class Model:
+class ObjectModel:
     """
     Abstract base class for API models
 
