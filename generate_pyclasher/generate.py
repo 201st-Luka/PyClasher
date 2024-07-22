@@ -88,6 +88,10 @@ def generate_definitions(yaml, generated_path: str):
     ) as custom_parents_file:
         custom_parents = load(custom_parents_file)["definitions"]
 
+    # load enum mapping
+    with open(join("generate_pyclasher", "json_data", "enum_mapping.json"), "r", encoding="utf-8") as enum_mapping_file:
+        enum_mapping = load(enum_mapping_file)
+
     # load jinja template
     jinja_template = Template(
         open(
@@ -146,7 +150,11 @@ def generate_definitions(yaml, generated_path: str):
                 if "type" in prop_value:
                     type_ = prop_value["type"]
 
-                    if type_ in definitions_matcher:
+                    if "enum" in prop_value:
+                        type_ = enum_mapping[prop_key][def_key]
+                        imports.setdefault("enums", {"import_level": 2, "imports": set()})["imports"].add(type_)
+
+                    elif type_ in definitions_matcher:
                         type_ = definitions_matcher[type_]
 
                     annotation["type"] = type_
@@ -263,10 +271,8 @@ def generate_paths(yaml, generated_path: str):
         join("generate_pyclasher", "json_data", "definitions_matcher.json"), "r", encoding="utf-8"
     ) as definitions_matcher_file:
         definitions_matcher = load(definitions_matcher_file)
-    with open(
-        join("generate_pyclasher", "json_data", "custom_paths.json"), "r", encoding="utf-8"
-    ) as custom_parents_file:
-        custom_parents = load(custom_parents_file)
+    with open(join("generate_pyclasher", "json_data", "custom_paths.json"), "r", encoding="utf-8") as custom_paths_file:
+        custom_paths = load(custom_paths_file)
     jinja_template = Template(
         open(join("generate_pyclasher", "jinja_templates", "path_template.py.jinja"), "r", encoding="utf-8").read()
     )
@@ -325,9 +331,9 @@ def generate_paths(yaml, generated_path: str):
                 case _:
                     raise Exception(f"Invalid parameter location for path {path_key}: {param}.")
 
-        for param in path_value[mode].get("parameters", []):
-            custom_paths = custom_parents["parameters"].get(param["name"], {})
-            class_methods = custom_paths.get("class_methods", {})
+        for param in (param for param in path_value[mode].get("parameters", []) if param["required"]):
+            custom_path = custom_paths["parameters"].get(param["name"], {})
+            class_methods = custom_path.get("class_methods", {})
             for c_m_name, c_m_def in class_methods.items():
                 kwargs_string = (
                     ", " + ", ".join((f"{kwarg['name']}={kwarg['name']}" for kwarg in kwargs)) if kwargs else ""
@@ -348,12 +354,14 @@ def generate_paths(yaml, generated_path: str):
                         "decorator": "classmethod",
                     }
                 )
-            if "imports" in custom_paths:
-                imports.extend(custom_paths["imports"])
+            if "imports" in custom_path:
+                imports.extend(custom_path["imports"])
 
-        if class_name in custom_parents["classes"]:
-            parameter_type_overrides = custom_parents["classes"][class_name].get("parameter_type_overrides", {})
+        custom_class = custom_paths["classes"].get(class_name, None)
+        if custom_class is not None:
+            parameter_type_overrides = custom_class.get("parameter_type_overrides", {})
             pto_args = parameter_type_overrides.get("args", {})
+            pto_kwargs = parameter_type_overrides.get("kwargs", {})
             for arg, types in pto_args.items():
                 index = 0
                 for i, a in enumerate(args):
@@ -361,6 +369,15 @@ def generate_paths(yaml, generated_path: str):
                         index = i
                         break
                 args[index]["type"] = " | ".join(types)
+            for kwarg, types in pto_kwargs.items():
+                index = 0
+                for i, k in enumerate(kwargs):
+                    if k["original_name"] == kwarg:
+                        index = i
+                        break
+                kwargs[index]["type"] = " | ".join(types)
+            new_imports = custom_class.get("imports", [])
+            imports.extend(new_imports)
 
         with open(join(path, tag, class_name + ".py"), "w", encoding="utf-8") as path_py:
             path_py.writelines(

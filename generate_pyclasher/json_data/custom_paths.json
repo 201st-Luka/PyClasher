@@ -39,6 +39,24 @@
           ]
         }
       }
+    },
+    "SearchClans": {
+      "parameter_type_overrides": {
+        "kwargs": {
+          "warFrequency": [
+            "WarFrequency"
+          ]
+        }
+      },
+      "imports": [
+        {
+          "module": "enums",
+          "import_level": 3,
+          "imports": [
+            "WarFrequency"
+          ]
+        }
+      ]
     }
   },
   "parameters": {
@@ -98,6 +116,36 @@
           "import_level": 3,
           "imports": [
             "BasePlayer"
+          ]
+        }
+      ]
+    },
+    "locationId": {
+      "class_methods": {
+        "from_location": {
+          "args": [
+            {
+              "name": "location",
+              "type": "Location",
+              "description": "The Location object to create the {class_name} object from."
+            }
+          ],
+          "description": "Create a new {class_name} request object from a Location object.",
+          "return": {
+            "type": "\"{class_name}\"",
+            "description": "The new {class_name} request object."
+          },
+          "body": [
+            "return {class_name}(location.id{kwargs_string})"
+          ]
+        }
+      },
+      "imports": [
+        {
+          "module": "definitions",
+          "import_level": 3,
+          "imports": [
+            "Location"
           ]
         }
       ]
