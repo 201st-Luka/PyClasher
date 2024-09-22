@@ -39,7 +39,7 @@ class Request(IRequest, ObjectModel):
         body: dict = None,
         kwargs: dict[str, str] = None,
         client: Client | int | str = None,
-        **url_kwargs: str,
+        **url_kwargs: str | int,
     ) -> None:
         """
         Args:

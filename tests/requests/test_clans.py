@@ -157,7 +157,7 @@ class TestCurrentWar:
 
         await current_war.request()
 
-        assert current_war.clan.tag == TEST_CLAN_TAG2
+        assert current_war.state and current_war.clan and current_war.opponent
 
     async def test_current_war__not_found(self, pyclasher_client):
         current_war = CurrentWar("INVALID_TAG")

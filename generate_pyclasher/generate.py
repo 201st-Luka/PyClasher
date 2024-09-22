@@ -424,6 +424,6 @@ def generate_api(yaml, generated_path: str):
     generate_paths(yaml, generated_path)
 
     with open(join(generated_path, "__init__.py"), "w", encoding="utf-8") as init_py:
-        init_py.write(f'"""\nGenerated API models, requests and responses\n"""\n\n\n')
+        init_py.write(f'"""\nGenerated API models, enums, requests and responses\n"""\n\n\n')
 
     print("Done.")

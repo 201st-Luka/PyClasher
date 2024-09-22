@@ -4,8 +4,7 @@
       "parameter_type_overrides": {
         "args": {
           "leagueId": [
-            "int",
-            "str"
+            "int"
           ]
         }
       }
@@ -14,8 +13,7 @@
       "parameter_type_overrides": {
         "args": {
           "leagueId": [
-            "int",
-            "str"
+            "int"
           ]
         }
       }
@@ -24,8 +22,7 @@
       "parameter_type_overrides": {
         "args": {
           "leagueId": [
-            "int",
-            "str"
+            "int"
           ]
         }
       }
@@ -34,8 +31,7 @@
       "parameter_type_overrides": {
         "args": {
           "leagueId": [
-            "int",
-            "str"
+            "int"
           ]
         }
       }
@@ -57,6 +53,15 @@
           ]
         }
       ]
+    },
+    "Location": {
+      "parameter_type_overrides": {
+        "args": {
+          "leagueId": [
+            "int"
+          ]
+        }
+      }
     }
   },
   "parameters": {

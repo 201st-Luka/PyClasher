@@ -20,6 +20,9 @@ class Missing:
     return_string = "MISSING"
     """The string that is returned when the ``str`` function is called on the ``MISSING`` object"""
 
+    def __bool__(self):
+        return False
+
     def __call__(self, *args, **kwargs) -> "Missing":
         return self
 

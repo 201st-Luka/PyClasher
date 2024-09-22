@@ -1,0 +1,26 @@
+{% macro method(decorator, name, self_cls, args, kwargs, return, description, body) %}
+{% if decorator %}@{{ decorator }}
+{% endif %}def {{ name }}(
+        {% if self_cls %}{{ self_cls }}{% if args or kwargs %},{% endif %}
+        {% endif %}{% for arg in args %}{{ arg['name'] }}: {{ arg['type'] }}{% if not loop.last and not kwargs %},{% endif %}
+        {% endfor %}{% for kwarg in kwargs %}{{ kwarg['name'] }}: {{ kwarg['type'] }} = {{ kwarg['default'] }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+) -> {{ return['type'] }}:
+    {% if description or args or kwargs or return %}"""{% if description %}
+    {{ description }}
+    {% endif %}
+    {% if args %}Args:
+        {% for arg in args %}{{ arg['name'] }} ({{ arg['type'] }}):
+            {{ arg['description'] }}
+{% endfor %}{% endif %}
+    {% if kwargs %}Keyword Args:
+        {% for kwarg in kwargs %}{{ kwarg['name'] }} ({{ kwarg['type'] }}):
+            {{ kwarg['description'] }}
+{% endfor %}{% endif %}
+    {% if return %}Returns:
+        {{ return['type'] }}:
+            {{ return['description'] }}
+    {% endif %}"""{% endif %}
+    {% for line in body %}{{ line }}
+    {% endfor %}
+{% endmacro %}
